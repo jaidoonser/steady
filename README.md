@@ -19,6 +19,6 @@ Steady is a self-help tool, not medical advice or treatment. If you're in crisis
 
 The app screen is `app/src/main/assets/index.html` (plain HTML/JS). The Kotlin in `app/src/main/java` handles reminders, the camera, voice recording, backups and support-line links.
 
-Official APKs are signed privately and published on the [Releases](https://github.com/jaidoonser/steady/releases) page. The signing key isn't in this repo.
+Official APKs are signed privately and published on the [download page](https://jaidoonser.github.io/steady/) (also listed under [Releases](https://github.com/jaidoonser/steady/releases)). The signing key isn't in this repo.
 
 Found a bug or have an idea? [Open an issue](https://github.com/jaidoonser/steady/issues).

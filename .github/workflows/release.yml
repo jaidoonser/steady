@@ -1,0 +1,28 @@
+name: List new version under Releases
+
+on:
+  push:
+    branches: [main]
+    paths: ['docs/version.json']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish release from docs/Steady.apk
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          V=$(python3 -c "import json;print(json.load(open('docs/version.json'))['version'])")
+          if gh release view "v$V" >/dev/null 2>&1; then echo "v$V already released"; exit 0; fi
+          cp docs/Steady.apk "Steady-$V.apk"
+          gh release create "v$V" docs/Steady.apk "Steady-$V.apk" \
+            --target "${{ github.sha }}" \
+            --title "Steady $V" \
+            --notes "Download **Steady.apk** on your Android phone and tap it to install. Already have Steady? Installing this over the top keeps all your data. Easiest way: https://jaidoonser.github.io/steady/" \
+            --latest
