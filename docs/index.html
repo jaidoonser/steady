@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Steady: small steps, most days</title>
+<meta name="description" content="A free, private Android app for daily habits, gentle reminders, mood check-ins and getting the tough stuff done. No account, no ads, nothing leaves your phone.">
+<meta property="og:title" content="Steady: small steps, most days">
+<meta property="og:description" content="A free, private Android app for daily habits, gentle reminders and getting the tough stuff done. No account, no ads, nothing leaves your phone.">
+<meta property="og:image" content="https://jaidoonser.github.io/steady/img/today.webp">
+<meta name="theme-color" content="#5E8C83">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 108 108'%3E%3Crect width='108' height='108' rx='26' fill='%235E8C83'/%3E%3Cpath fill='%23F4EBD0' d='M68,26a12,12 0 1,0 10,18a10,10 0 1,1 -10,-18z'/%3E%3Cpath fill='%23fff' d='M40,74C40,52 56,38 76,36C76,58 62,74 40,74z'/%3E%3C/svg%3E">
+<style>
+:root{--bg:#F2F6F4;--ink:#22302D;--muted:#5F716C;--line:#DCE6E2;--sage:#5E8C83;--sageSoft:#DDEBE7;--lav:#9C8FD0;--lavSoft:#ECE9F7;--card:#fff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:linear-gradient(180deg,#DCEBE6 0,#EAF2EF 360px,var(--bg) 760px) no-repeat,var(--bg);line-height:1.55;font-size:17px}
+.serif{font-family:"Noto Serif",Georgia,"Times New Roman",serif;font-weight:600}
+.wrap{max-width:1040px;margin:0 auto;padding:0 22px}
+header{display:flex;align-items:center;gap:12px;padding:22px 0}
+header .logo{width:44px;height:44px;border-radius:12px;flex:none}
+header b{font-size:21px}
+header nav{margin-left:auto;display:flex;gap:18px;font-size:15px}
+header nav a{color:var(--muted);text-decoration:none}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:30px 0 50px}
+.hero h1{font-size:clamp(40px,6vw,62px);line-height:1.05;margin:0 0 16px;letter-spacing:-.5px}
+.hero p.lead{font-size:20px;color:var(--muted);margin:0 0 26px;max-width:34em}
+.dl{display:inline-flex;align-items:center;gap:12px;background:var(--sage);color:#fff;text-decoration:none;padding:16px 26px;border-radius:16px;font-weight:700;font-size:18px;box-shadow:0 8px 24px rgba(94,140,131,.32)}
+.dl:hover{background:#4F7B72}
+.dl svg{width:24px;height:24px}
+.meta{font-size:14px;color:var(--muted);margin-top:12px}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.pill{background:#fff;border:1px solid var(--line);border-radius:99px;padding:6px 13px;font-size:14px;color:var(--muted)}
+.phone{width:min(300px,78vw);border-radius:34px;border:9px solid #1E2B28;box-shadow:0 30px 60px rgba(30,60,55,.25);display:block;margin:0 auto;background:#fff}
+section{padding:44px 0}
+h2{font-size:clamp(28px,4vw,38px);margin:0 0 10px}
+.sub{color:var(--muted);margin:0 0 28px;max-width:40em}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:var(--card);border-radius:20px;padding:22px;box-shadow:0 1px 3px rgba(30,70,62,.07)}
+.card .ic{font-size:30px}
+.card h3{margin:8px 0 6px;font-size:19px}
+.card p{margin:0;color:var(--muted);font-size:16px}
+.shots{display:flex;gap:18px;overflow-x:auto;padding:6px 4px 18px;scroll-snap-type:x mandatory}
+.shots figure{margin:0;flex:none;scroll-snap-align:start;text-align:center}
+.shots img{width:230px;border-radius:26px;border:7px solid #1E2B28;box-shadow:0 14px 30px rgba(30,60,55,.18);display:block;background:#fff}
+.shots figcaption{font-size:14px;color:var(--muted);margin-top:10px}
+.private{background:linear-gradient(135deg,#E4F0EC,#ECE9F7);border-radius:26px;padding:34px}
+.private ul{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:12px 28px}
+.private li{display:flex;gap:10px}
+.steps{counter-reset:s;display:grid;gap:14px;max-width:720px}
+.steps li{list-style:none;background:#fff;border-radius:18px;padding:16px 18px 16px 62px;position:relative}
+.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:16px;top:15px;width:32px;height:32px;border-radius:50%;background:var(--sageSoft);color:var(--sage);font-weight:800;display:grid;place-items:center}
+.steps b{display:block}
+.note{background:#fff;border-left:4px solid var(--lav);border-radius:12px;padding:14px 18px;color:var(--muted);font-size:15px;max-width:720px}
+details{background:#fff;border-radius:16px;padding:14px 18px;margin-bottom:10px;max-width:760px}
+summary{cursor:pointer;font-weight:650}
+details p{color:var(--muted);margin:10px 0 2px}
+footer{padding:40px 0 60px;color:var(--muted);font-size:14px;border-top:1px solid var(--line);margin-top:30px}
+footer a{color:var(--sage)}
+a{color:var(--sage)}
+@media (max-width:800px){
+  .hero{grid-template-columns:1fr;text-align:center;padding-top:10px}
+  .hero p.lead{margin-left:auto;margin-right:auto}
+  .pills{justify-content:center}
+  .grid{grid-template-columns:1fr}
+  .private ul{grid-template-columns:1fr}
+  header nav{display:none}
+  .private{padding:24px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <svg class="logo" viewBox="0 0 108 108" aria-hidden="true"><rect width="108" height="108" rx="26" fill="#5E8C83"/><path fill="#F4EBD0" d="M68,26a12,12 0 1,0 10,18a10,10 0 1,1 -10,-18z"/><path fill="#fff" d="M40,74C40,52 56,38 76,36C76,58 62,74 40,74z"/><path fill="#5E8C83" d="M43,72L72,40L73.5,41.3L44.5,73.3z"/><path fill="#CFE3DE" d="M30,80h48a2,2 0 0,1 0,4h-48a2,2 0 0,1 0,-4z"/><path fill="#CFE3DE" d="M38,88h32a2,2 0 0,1 0,4h-32a2,2 0 0,1 0,-4z"/></svg>
+  <b class="serif">Steady</b>
+  <nav><a href="#features">Features</a><a href="#private">Privacy</a><a href="#install">Install</a><a href="#faq">FAQ</a></nav>
+</header>
+
+<div class="hero">
+  <div>
+    <h1 class="serif">Small steps,<br>most days.</h1>
+    <p class="lead">A free, calm Android app for the stuff that keeps slipping: daily habits, gentle reminders that don't give up, and real help getting the tasks you've been dodging done.</p>
+    <a class="dl" href="https://github.com/jaidoonser/steady/releases/latest/download/Steady.apk" id="dl">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 20h14"/></svg>
+      Download for Android</a>
+    <div class="meta" id="ver">Free · No account · No ads · Android 8+</div>
+    <div class="pills"><span class="pill">🔒 Nothing leaves your phone</span><span class="pill">🌿 Built by one person, for himself first</span><span class="pill">💸 Free, forever</span></div>
+  </div>
+  <img class="phone" src="img/today.webp" alt="Steady's Today screen: mood check-in, today's mantra and a weekly progress ring" width="540" height="1169">
+</div>
+</div>
+
+<section id="features"><div class="wrap">
+  <h2 class="serif">Made for brains that need a nudge</h2>
+  <p class="sub">I built Steady because the usual to-do apps either nag like a drill sergeant or get ignored after a week. This one's gentle, but it keeps showing up.</p>
+  <div class="grid">
+    <div class="card"><div class="ic">🔔</div><h3>Reminders that don't give up</h3><p>If you haven't ticked it off, it nudges again every 30 minutes, kindly. Swipe it away and it still comes back. Snooze when you need to.</p></div>
+    <div class="card"><div class="ic">😬</div><h3>Get the tough stuff done</h3><p>Flag a task you're dreading. Steady helps you name what's hard, shrink it to one tiny first step, and do just 10 minutes. Stopping still counts as progress.</p></div>
+    <div class="card"><div class="ic">🧭</div><h3>Work through it</h3><p>On rough days, say the problem out loud three times, each time narrower. Then find one thing you can do, then breathe. Your recordings stay on your phone.</p></div>
+    <div class="card"><div class="ic">🙂</div><h3>Quick mood check-ins</h3><p>One tap a day. See your mood over the last 30 days, and spot what actually helps.</p></div>
+    <div class="card"><div class="ic">🌬️</div><h3>Mantras and breathing</h3><p>A mantra on your home screen every morning, and a guided breathing circle whenever you need a minute.</p></div>
+    <div class="card"><div class="ic">🎁</div><h3>Rewards for full weeks</h3><p>Make a ladder of treats. Every week you tick everything off, you unlock the next one. Save them up if you like.</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2 class="serif">Have a look</h2>
+  <div class="shots">
+    <figure><img src="img/today.webp" alt="Today screen" loading="lazy" width="540" height="1169"><figcaption>Your day at a glance</figcaption></figure>
+    <figure><img src="img/tough.webp" alt="Get it done timer on a tough task" loading="lazy" width="540" height="1169"><figcaption>Just 10 minutes on the tough one</figcaption></figure>
+    <figure><img src="img/work.webp" alt="Work through it, recording the problem" loading="lazy" width="540" height="1169"><figcaption>Say it, narrow it, solve it</figcaption></figure>
+    <figure><img src="img/mind.webp" alt="Mind tab with mood chart" loading="lazy" width="540" height="1169"><figcaption>Mood, mantras and calm</figcaption></figure>
+    <figure><img src="img/rewards.webp" alt="Rewards ladder" loading="lazy" width="540" height="1169"><figcaption>Treats for full weeks</figcaption></figure>
+  </div>
+</div></section>
+
+<section id="private"><div class="wrap">
+  <div class="private">
+    <h2 class="serif">Private by design</h2>
+    <p class="sub">Your headspace is your business. Steady doesn't have a server, so there's nowhere for your data to go.</p>
+    <ul>
+      <li>🔒 <span><b>Everything stays on your phone.</b> Tasks, moods, journal, voice notes. All of it.</span></li>
+      <li>🙅 <span><b>No account, no sign-up.</b> Open it and go.</span></li>
+      <li>🚫 <span><b>No ads, no tracking, no analytics.</b> It doesn't even need internet.</span></li>
+      <li>💾 <span><b>Your backups, your call.</b> Save a backup file wherever you like, and restore it on a new phone.</span></li>
+    </ul>
+  </div>
+</div></section>
+
+<section id="install"><div class="wrap">
+  <h2 class="serif">How to install</h2>
+  <p class="sub">Steady isn't on the Play Store (yet), so you install it straight from here. It takes about a minute.</p>
+  <ol class="steps">
+    <li><b>Tap "Download for Android" on your phone</b>Your browser downloads <i>Steady.apk</i>. If it warns that the file might be harmful, that's the standard message for any app from outside the Play Store. Choose Download anyway.</li>
+    <li><b>Open the file</b>Tap the download notification, or find Steady.apk in your Files app under Downloads.</li>
+    <li><b>Allow the install</b>Android will ask you to allow your browser or Files app to "install unknown apps". Turn it on, then go back. If Play Protect says it doesn't recognise the app, tap <i>More details</i> and then <i>Install anyway</i>.</li>
+    <li><b>Open Steady and set up</b>Enter your name, pick a few small habits to start with, and allow notifications so the reminders work.</li>
+  </ol>
+  <p class="note">Updating later? Download the new version and install it over the top. All your data stays.</p>
+</div></section>
+
+<section id="faq"><div class="wrap">
+  <h2 class="serif">Questions</h2>
+  <details><summary>Is it really free?</summary><p>Yes. No ads, no subscription, no "premium". I made it for myself and figured it might help someone else.</p></details>
+  <details><summary>Is it safe to install an app from outside the Play Store?</summary><p>It's reasonable to be careful. Steady's full source code is public on <a href="https://github.com/jaidoonser/steady">GitHub</a>, so anyone can see exactly what it does. It only asks for notifications, alarms (for on-time reminders), and the camera and microphone when you choose to use them.</p></details>
+  <details><summary>Does it work on iPhone?</summary><p>Not yet, sorry. It's Android only for now.</p></details>
+  <details><summary>What if I lose or change my phone?</summary><p>Go to Settings, then Backup, and save a backup file somewhere safe (Google Drive, email it to yourself, etc.). On the new phone, install Steady and choose Restore from backup.</p></details>
+  <details><summary>Is this a treatment for ADHD, anxiety or depression?</summary><p>No. Steady is a self-help tool for building habits and looking after yourself day to day. It's not medical advice and doesn't replace a GP, psychologist or medication. If you're struggling, please talk to someone. The Mind tab has free support lines for your country.</p></details>
+  <details><summary>I found a bug or have an idea</summary><p>Lovely. Open an issue on <a href="https://github.com/jaidoonser/steady/issues">GitHub</a> and I'll take a look.</p></details>
+</div></section>
+
+<div class="wrap"><footer>
+  <p><b>If you're in crisis right now,</b> please call your local emergency number or a crisis line. In Australia: Lifeline 13 11 14. Elsewhere: <a href="https://findahelpline.com">findahelpline.com</a>.</p>
+  <p>Steady is free and open source. <a href="https://github.com/jaidoonser/steady">Source code on GitHub</a> · <a href="https://github.com/jaidoonser/steady/releases">All versions</a></p>
+</footer></div>
+
+<script>
+// Show the latest version number under the download button
+fetch('https://api.github.com/repos/jaidoonser/steady/releases/latest').then(r=>r.ok?r.json():null).then(j=>{
+  if(!j||!j.tag_name)return;
+  const a=(j.assets||[]).find(x=>x.name==='Steady.apk');
+  const mb=a?(a.size/1048576).toFixed(1)+' MB · ':'';
+  document.getElementById('ver').textContent='Version '+j.tag_name.replace(/^v/,'')+' · '+mb+'Free · No account · No ads · Android 8+';
+}).catch(()=>{});
+</script>
+</body>
+</html>
