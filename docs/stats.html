@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Steady stats</title>
+<meta name="theme-color" content="#5E8C83">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 108 108'%3E%3Crect width='108' height='108' rx='26' fill='%235E8C83'/%3E%3Cpath fill='%23F4EBD0' d='M68,26a12,12 0 1,0 10,18a10,10 0 1,1 -10,-18z'/%3E%3Cpath fill='%23fff' d='M40,74C40,52 56,38 76,36C76,58 62,74 40,74z'/%3E%3C/svg%3E">
+<style>
+:root{--bg:#F2F6F4;--ink:#22302D;--muted:#5F716C;--line:#DCE6E2;--sage:#5E8C83;--sageSoft:#DDEBE7;--green:#4E9A78;--lav:#9C8FD0}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:linear-gradient(180deg,#DCEBE6 0,#EAF2EF 220px,var(--bg) 480px) no-repeat,var(--bg);min-height:100vh}
+.wrap{max-width:520px;margin:0 auto;padding:22px 18px 40px}
+.serif{font-family:"Noto Serif",Georgia,serif;font-weight:600}
+header{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+header svg{width:42px;height:42px;flex:none}
+header h1{font-size:24px;margin:0}
+header .sub{font-size:13px;color:var(--muted)}
+.refresh{margin-left:auto;background:#fff;border:0;border-radius:50%;width:44px;height:44px;font-size:20px;box-shadow:0 1px 3px rgba(30,70,62,.1);cursor:pointer}
+.refresh.spin{animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero{background:#fff;border-radius:24px;padding:24px;text-align:center;box-shadow:0 1px 3px rgba(30,70,62,.07);margin-bottom:14px}
+.big{font-size:76px;font-weight:800;line-height:1;letter-spacing:-2px}
+.lbl{color:var(--muted);margin-top:6px}
+.delta{display:inline-block;margin-top:12px;padding:6px 14px;border-radius:99px;font-weight:700;font-size:15px}
+.delta.up{background:#DEF0E6;color:var(--green)}
+.delta.same{background:#EDF2F0;color:var(--muted)}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
+.tile{background:#fff;border-radius:18px;padding:14px 10px;text-align:center;box-shadow:0 1px 3px rgba(30,70,62,.07);text-decoration:none;color:inherit}
+.tile b{display:block;font-size:26px}
+.tile span{font-size:12px;color:var(--muted)}
+.card{background:#fff;border-radius:20px;padding:16px 18px;box-shadow:0 1px 3px rgba(30,70,62,.07);margin-bottom:14px}
+.card h2{font-size:16px;margin:0 0 10px}
+.row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:15px}
+.row:last-child{border-bottom:0}
+.row .muted{color:var(--muted);font-size:13px}
+.issue{display:block;text-decoration:none;color:inherit;padding:9px 0;border-bottom:1px solid var(--line)}
+.issue:last-child{border-bottom:0}
+.issue small{display:block;color:var(--muted)}
+.foot{font-size:12px;color:var(--muted);text-align:center;line-height:1.6}
+.foot a{color:var(--sage)}
+.err{background:#F3E3E6;color:#8A3C4B;border-radius:14px;padding:12px 14px;font-size:14px;margin-bottom:14px;display:none}
+.spark{width:100%;height:70px;display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <svg viewBox="0 0 108 108" aria-hidden="true"><rect width="108" height="108" rx="26" fill="#5E8C83"/><path fill="#F4EBD0" d="M68,26a12,12 0 1,0 10,18a10,10 0 1,1 -10,-18z"/><path fill="#fff" d="M40,74C40,52 56,38 76,36C76,58 62,74 40,74z"/></svg>
+    <div><h1 class="serif">Steady stats</h1><div class="sub" id="when">Loading…</div></div>
+    <button class="refresh" id="rf" onclick="load()" aria-label="Refresh">↻</button>
+  </header>
+
+  <div class="err" id="err"></div>
+
+  <div class="hero">
+    <div class="big" id="total">–</div>
+    <div class="lbl">total downloads</div>
+    <div id="delta"></div>
+  </div>
+
+  <div class="grid">
+    <div class="tile"><b id="latest">–</b><span>this version</span></div>
+    <a class="tile" href="https://github.com/jaidoonser/steady/issues" target="_blank" rel="noopener"><b id="issues">–</b><span>feedback</span></a>
+    <a class="tile" href="https://github.com/jaidoonser/steady/stargazers" target="_blank" rel="noopener"><b id="stars">–</b><span>stars ⭐</span></a>
+  </div>
+
+  <div class="card" id="histCard" style="display:none">
+    <h2>Your checks</h2>
+    <svg class="spark" id="spark" viewBox="0 0 300 70" preserveAspectRatio="none"></svg>
+    <div class="row muted" style="border:0;padding-bottom:0"><span id="histFrom"></span><span id="histTo"></span></div>
+  </div>
+
+  <div class="card">
+    <h2>By version</h2>
+    <div id="versions"><div class="row muted">Loading…</div></div>
+  </div>
+
+  <div class="card">
+    <h2>Latest feedback</h2>
+    <div id="feedback"><div class="row muted">Loading…</div></div>
+  </div>
+
+  <p class="foot">Numbers come straight from GitHub each time you open this page.<br>
+  A download isn't always a new person: someone might grab it twice, or download an update.<br>
+  Tip: add this page to your home screen for one-tap checking.<br>
+  <a href="./">Steady download page</a> · <a href="https://github.com/jaidoonser/steady">GitHub</a></p>
+</div>
+
+<script>
+const API='https://api.github.com/repos/jaidoonser/steady';
+const KEY='steady_stats_history';
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function hist(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return []}}
+function saveHist(h){try{localStorage.setItem(KEY,JSON.stringify(h.slice(-200)))}catch(e){}}
+function ago(iso){const s=(Date.now()-new Date(iso).getTime())/1000;if(s<90)return 'just now';const m=s/60;if(m<60)return Math.round(m)+' min ago';const h=m/60;if(h<36)return Math.round(h)+' h ago';return Math.round(h/24)+' days ago'}
+function fmtDate(iso){const d=new Date(iso);return d.toLocaleDateString('en-AU',{day:'numeric',month:'short'})+' '+d.toLocaleTimeString('en-AU',{hour:'numeric',minute:'2-digit'})}
+async function get(path){const r=await fetch(API+path,{headers:{'Accept':'application/vnd.github+json'},cache:'no-store'});if(!r.ok){const e=new Error(r.status===403||r.status===429?'GitHub is limiting requests right now. Try again in a little while.':'Couldn\'t reach GitHub ('+r.status+').');throw e}return r.json()}
+async function load(){
+  const rf=document.getElementById('rf');rf.classList.add('spin');
+  const err=document.getElementById('err');err.style.display='none';
+  try{
+    const [rels,repo,issues]=await Promise.all([get('/releases?per_page=100'),get(''),get('/issues?state=all&per_page=5&sort=created')]);
+    let total=0;const vers=rels.map(r=>{const n=(r.assets||[]).reduce((a,x)=>a+(x.download_count||0),0);total+=n;return {tag:r.tag_name,n,date:r.published_at}});
+    const prevH=hist(),prev=prevH.length?prevH[prevH.length-1]:null;
+    document.getElementById('total').textContent=total.toLocaleString('en-AU');
+    document.getElementById('latest').textContent=vers.length?vers[0].n:0;
+    document.getElementById('stars').textContent=repo.stargazers_count;
+    document.getElementById('issues').textContent=issues.filter(i=>!i.pull_request).length===5?'5+':issues.filter(i=>!i.pull_request).length;
+    const d=document.getElementById('delta');
+    if(prev){const diff=total-prev.t;d.innerHTML=diff>0?`<span class="delta up">+${diff} since you last checked (${ago(prev.at)})</span>`:`<span class="delta same">No change since ${ago(prev.at)}</span>`}
+    else d.innerHTML='<span class="delta same">First check on this phone. Next time you\'ll see what\'s new.</span>';
+    const now=new Date().toISOString();
+    if(!prev||prev.t!==total||(Date.now()-new Date(prev.at).getTime())>3*3600e3){prevH.push({at:now,t:total});saveHist(prevH)}
+    const h=hist();
+    if(h.length>=2){
+      const W=300,H=70,P=6,min=Math.min(...h.map(x=>x.t)),max=Math.max(...h.map(x=>x.t)),t0=new Date(h[0].at).getTime(),t1=new Date(h[h.length-1].at).getTime(),sp=Math.max(t1-t0,1);
+      const pts=h.map(x=>[P+(new Date(x.at).getTime()-t0)/sp*(W-2*P),H-P-(max===min?0.5:(x.t-min)/(max-min))*(H-2*P)]);
+      document.getElementById('spark').innerHTML=`<polyline points="${pts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="#5E8C83" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>`+pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="#fff" stroke="#5E8C83" stroke-width="2" vector-effect="non-scaling-stroke"/>`).join('');
+      document.getElementById('histFrom').textContent=fmtDate(h[0].at)+' · '+h[0].t;
+      document.getElementById('histTo').textContent='now · '+h[h.length-1].t;
+      document.getElementById('histCard').style.display='block';
+    }
+    document.getElementById('versions').innerHTML=vers.length?vers.map(v=>`<div class="row"><span><b>${esc(v.tag)}</b> <span class="muted">· ${v.date?new Date(v.date).toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'}):''}</span></span><b>${v.n}</b></div>`).join(''):'<div class="row muted">No releases yet</div>';
+    const iss=issues.filter(i=>!i.pull_request);
+    document.getElementById('feedback').innerHTML=iss.length?iss.map(i=>`<a class="issue" href="${esc(i.html_url)}" target="_blank" rel="noopener"><b>${esc(i.title)}</b><small>${i.state==='open'?'🟢 open':'✓ closed'} · ${ago(i.created_at)} · ${i.comments} comment${i.comments===1?'':'s'}</small></a>`).join(''):'<div class="row muted">Nothing yet. When someone opens an issue on GitHub, it shows here.</div>';
+    document.getElementById('when').textContent='Updated '+new Date().toLocaleTimeString('en-AU',{hour:'numeric',minute:'2-digit'});
+  }catch(e){err.textContent=e.message||'Something went wrong.';err.style.display='block';document.getElementById('when').textContent='Couldn\'t update'}
+  rf.classList.remove('spin');
+}
+load();
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()});
+</script>
+</body>
+</html>
