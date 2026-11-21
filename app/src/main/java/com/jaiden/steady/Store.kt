@@ -7,12 +7,15 @@ import java.io.File
 object Store {
     val SAFE_PHOTO = Regex("[A-Za-z0-9_\\-]+\\.jpg")
     val SAFE_AUDIO = Regex("[A-Za-z0-9_\\-]+\\.m4a")
+    val SAFE_DOC = Regex("d[0-9]+_[0-9]+\\.[a-z0-9]{1,8}")
 
     fun dataFile(c: Context) = File(c.filesDir, "data.json")
 
     fun photoDir(c: Context): File = File(c.filesDir, "photos").apply { mkdirs() }
 
     fun audioDir(c: Context): File = File(c.filesDir, "audio").apply { mkdirs() }
+
+    fun docDir(c: Context): File = File(c.filesDir, "docs").apply { mkdirs() }
 
     @Synchronized
     fun load(c: Context): String {

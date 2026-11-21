@@ -8,8 +8,15 @@ class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         Reminders.ensureChannel(context)
         when (intent.action) {
-            Reminders.ACTION_FIRE -> Reminders.onFire(context, intent)
+            Reminders.ACTION_FIRE -> { Reminders.onFire(context, intent); Widgets.updateAll(context) }
             Reminders.ACTION_SNOOZE -> Reminders.onSnooze(context, intent)
+            Steps.ACTION_SAMPLE -> {
+                val pending = goAsync()
+                Steps.sample(context) {
+                    Steps.schedule(context)
+                    pending.finish()
+                }
+            }
         }
     }
 }
@@ -19,5 +26,8 @@ class BootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         Reminders.ensureChannel(context)
         Reminders.rescheduleAll(context)
+        Steps.schedule(context)
+        Steps.sample(context, null)
+        Widgets.updateAll(context)
     }
 }

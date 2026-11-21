@@ -62,26 +62,26 @@ object Reminders {
         return am.canScheduleExactAlarms()
     }
 
-    private fun ints(a: JSONArray?): Set<Int> {
+    internal fun ints(a: JSONArray?): Set<Int> {
         val s = HashSet<Int>()
         if (a != null) for (i in 0 until a.length()) s.add(a.optInt(i, -1))
         return s
     }
 
-    private fun strings(a: JSONArray?): List<String> {
+    internal fun strings(a: JSONArray?): List<String> {
         val l = ArrayList<String>()
         if (a != null) for (i in 0 until a.length()) l.add(a.optString(i))
         return l
     }
 
-    private fun parseTime(s: String): LocalTime? = try {
+    internal fun parseTime(s: String): LocalTime? = try {
         val p = s.split(":")
         LocalTime.of(p[0].trim().toInt(), p[1].trim().toInt())
     } catch (e: Exception) {
         null
     }
 
-    private fun doneKeys(root: JSONObject): Set<String> {
+    internal fun doneKeys(root: JSONObject): Set<String> {
         val done = HashSet<String>()
         val comps = root.optJSONArray("completions") ?: JSONArray()
         for (i in 0 until comps.length()) {
@@ -92,7 +92,7 @@ object Reminders {
     }
 
     /** Same rules as occurs() in index.html. */
-    private fun occurs(t: JSONObject, d: LocalDate, days: Set<Int>): Boolean {
+    internal fun occurs(t: JSONObject, d: LocalDate, days: Set<Int>): Boolean {
         val ds = d.toString()
         val start = t.optString("start", "")
         if (start.isNotEmpty() && ds < start) return false

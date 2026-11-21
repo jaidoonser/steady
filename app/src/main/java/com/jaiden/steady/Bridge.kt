@@ -12,7 +12,10 @@ class Bridge(private val a: MainActivity) {
     fun loadData(): String = Store.load(a)
 
     @JavascriptInterface
-    fun saveData(json: String) = Store.save(a, json)
+    fun saveData(json: String) {
+        Store.save(a, json)
+        Widgets.updateAll(a)
+    }
 
     @JavascriptInterface
     fun reschedule() = Reminders.rescheduleAll(a.applicationContext)
@@ -20,6 +23,26 @@ class Bridge(private val a: MainActivity) {
     @JavascriptInterface
     fun takePhoto(req: String) {
         a.runOnUiThread { a.startCamera(req) }
+    }
+
+    @JavascriptInterface
+    fun pickDocs(req: String) {
+        a.runOnUiThread { a.startPickDocs(req) }
+    }
+
+    @JavascriptInterface
+    fun openDoc(file: String, mime: String, name: String, share: Boolean) {
+        a.openDoc(file, mime, name, share)
+    }
+
+    @JavascriptInterface
+    fun deleteDoc(file: String) {
+        if (Store.SAFE_DOC.matches(file)) java.io.File(Store.docDir(a), file).delete()
+    }
+
+    @JavascriptInterface
+    fun pickImages(req: String) {
+        a.runOnUiThread { a.startPickImages(req) }
     }
 
     @JavascriptInterface
@@ -68,6 +91,20 @@ class Bridge(private val a: MainActivity) {
 
     @JavascriptInterface
     fun appVersion(): String = BuildConfig.VERSION_NAME
+
+    @JavascriptInterface
+    fun stepsStatus(): String = Steps.statusJson(a).toString()
+
+    @JavascriptInterface
+    fun stepsEnable(on: Boolean) {
+        a.runOnUiThread { a.enableSteps(on) }
+    }
+
+    /** Read the step sensor fresh (e.g. right when a walk starts), then call window.onSteps. */
+    @JavascriptInterface
+    fun stepsSample() {
+        a.runOnUiThread { Steps.sample(a) { a.js("window.onSteps && window.onSteps()") } }
+    }
 
     @JavascriptInterface
     fun startRecording(): String = a.startRec()

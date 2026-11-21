@@ -22,14 +22,14 @@ input,select,textarea{font:inherit;color:inherit}
 .top h1{font-size:26px;margin:0;font-weight:750;letter-spacing:-.3px}
 .top .sub{color:var(--muted);font-size:14px;margin-top:2px}
 .iconbtn{width:42px;height:42px;border-radius:50%;background:var(--card);display:grid;place-items:center;box-shadow:0 1px 3px rgba(30,70,62,.08)}
-.card{background:var(--card);border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(30,70,62,.07)}
+.card{background:var(--card);border-radius:20px;padding:15px;margin-bottom:12px;box-shadow:0 1px 3px rgba(30,70,62,.07)}
 .card h2{font-size:17px;margin:0 0 10px;font-weight:700}
 .row{display:flex;align-items:center;gap:12px}
 .between{justify-content:space-between}
 .muted{color:var(--muted)}
 .small{font-size:13px}
 .tiny{font-size:12px}
-.sec{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin:20px 4px 8px}
+.sec{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin:22px 4px 8px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 18px;border-radius:14px;background:var(--coral);color:#fff;font-weight:650;width:100%}
 .btn.sec2{background:var(--sunSoft);color:#4E4580}
 .btn.ghost{background:#E4EDEA;color:var(--ink)}
@@ -58,15 +58,21 @@ input,select,textarea{font:inherit;color:inherit}
 .dhead{font-size:11px;color:var(--muted);text-align:center;font-weight:650}
 .dhead.today{color:var(--coral)}
 /* task items */
-.item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:16px;background:var(--card);margin-bottom:10px;box-shadow:0 1px 3px rgba(30,70,62,.07);width:100%;text-align:left}
-.emo{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:23px;flex:none;background:var(--sunSoft)}
+.item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:16px;background:var(--card);margin-bottom:8px;box-shadow:0 1px 3px rgba(30,70,62,.07);width:100%;text-align:left}
+.emo{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;font-size:21px;flex:none;background:var(--sunSoft)}
 .item.done .emo{background:var(--greenSoft)}
 .item.missed .emo{background:var(--redSoft)}
 .item .grow{flex:1;min-width:0}
 .item .t1{font-weight:650}
 .item .t2{font-size:13px;color:var(--muted)}
 .thumb{width:44px;height:44px;border-radius:12px;object-fit:cover;flex:none;background:#eee}
-.banner{display:flex;gap:10px;align-items:center;padding:12px 14px;border-radius:16px;background:var(--coralSoft);color:#2F5049;margin-bottom:14px;font-size:14px;width:100%;text-align:left}
+.banner{display:flex;gap:10px;align-items:center;padding:12px 14px;border-radius:16px;background:var(--coralSoft);color:#2F5049;margin-bottom:12px;font-size:14px;width:100%;text-align:left}
+.hmantra{font-family:"Noto Serif",Georgia,serif;font-style:italic;color:#4F6C66;font-size:14.5px;margin-top:6px;line-height:1.35}
+.moodline{display:flex;align-items:center;gap:8px;background:var(--card);border-radius:16px;padding:6px 8px 6px 12px;margin-bottom:12px;box-shadow:0 1px 3px rgba(30,70,62,.07)}
+.ml-main{flex:1;display:flex;gap:10px;align-items:center;text-align:left;padding:4px 0;min-width:0}.ml-main b{font-weight:650;font-size:15px}
+.ml-note{flex:none;padding:8px 12px;border-radius:12px;background:#EEF5F2;font-size:13px;font-weight:700;color:var(--ink)}
+.moodcard{padding:12px 14px}.mc-q{font-weight:700;font-size:15px}.moodcard .moods{margin-top:8px}
+.foldbtn{display:block;width:100%;text-align:center;font-size:13px;font-weight:700;color:var(--coral);padding:10px 0 0;margin-top:8px;border-top:1px solid var(--line)}
 .banner.sun{background:var(--sunSoft);color:#4E4580}
 /* nav */
 nav{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.96);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:6px 0 calc(8px + env(safe-area-inset-bottom));z-index:5}
@@ -81,6 +87,58 @@ nav svg{width:24px;height:24px}
 .grab{width:42px;height:5px;border-radius:9px;background:var(--grey);margin:0 auto 12px}
 .sheet.noanim{animation:none}
 .sheet h3{margin:4px 0 14px;font-size:21px}
+.fgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:2px 0 10px}
+.fthumb{position:relative;aspect-ratio:1;border-radius:12px;overflow:hidden;background:#E4EDEA;padding:0;border:1px solid var(--line)}
+.fthumb img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.fthumb span{position:absolute;left:0;right:0;bottom:0;background:rgba(0,0,0,.55);color:#fff;font-size:11px;padding:3px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left}
+#viewer{position:fixed;inset:0;background:#111;z-index:60;display:flex;flex-direction:column}
+#viewer .vtop{display:flex;align-items:center;justify-content:space-between;color:#fff;padding:calc(10px + env(safe-area-inset-top)) 12px 10px;background:#1d2523}
+#viewer .vtop button{color:#fff;font-size:22px;padding:6px 12px;font-weight:700}
+#viewer .vimg{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;display:flex;align-items:flex-start;justify-content:center}
+#viewer .vimg img{width:100%;display:block;margin:auto}
+#viewer .vimg img.zoom{width:250%;max-width:none;margin:0}
+#viewer .vbar{background:#1d2523;padding:10px 12px calc(12px + env(safe-area-inset-bottom));display:flex;gap:8px;align-items:center}
+#viewer .vbar .inp{margin:0;flex:1;background:#2a3431;color:#fff;border-color:#3a4643}
+#viewer .vbar .btn{width:auto;margin:0;flex:none}
+.dayhead{display:flex;align-items:center;justify-content:space-between;margin:16px 0 10px}
+.moodcard .moods button{font-size:24px;padding:6px 0}
+.item.done .t1{color:#5D706B}.item.done{box-shadow:none;background:rgba(255,255,255,.65)}
+.dayhead button{width:42px;height:42px;border-radius:50%;background:#fff;border:1px solid var(--line);font-size:24px;line-height:1;color:var(--ink);font-weight:700}
+.dh-mid{text-align:center}.dh-mid b{display:block;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}.dh-mid span{font-size:15px;font-weight:600}
+.backtoday{display:block;margin:-2px auto 10px;padding:7px 14px;border-radius:999px;background:#E4EDEA;font-weight:700;font-size:14px;color:var(--ink)}
+@keyframes slideL{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
+@keyframes slideR{from{transform:translateX(-40px);opacity:0}to{transform:none;opacity:1}}
+.slide-l{animation:slideL .22s ease-out}.slide-r{animation:slideR .22s ease-out}
+.pbar{height:6px;border-radius:9px;background:#E4EDEA;overflow:hidden;margin:7px 0 5px}.pbar i{display:block;height:100%;background:var(--coral);border-radius:9px}
+.phead{display:block;width:100%;text-align:left;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:14px 0 4px}
+.pstep{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+.pchk{width:28px;height:28px;flex:none;border-radius:9px;border:2px solid var(--line);background:#fff;color:#fff;font-weight:800;font-size:16px;margin-top:1px}
+.pstep.on .pchk{background:var(--coral);border-color:var(--coral)}
+.ptext{flex:1;text-align:left;padding:3px 0;min-width:0}.ptext span{display:block}.ptext small{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+.pstep.on .ptext span{text-decoration:line-through;color:var(--muted)}
+.pnote{display:block;width:100%;text-align:left;border-top:1px solid var(--line);padding:10px 0;margin-top:10px}.pnote small{display:block;font-size:12px;color:var(--muted)}.pnote span{display:block;white-space:pre-wrap;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.docrow{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:12px;margin:0 0 8px;background:#fff}
+.docmain{flex:1;display:flex;align-items:center;gap:10px;text-align:left;padding:9px 10px;min-width:0}
+.docmain b{display:block;font-weight:650;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.docmain small{display:block;font-size:12px;color:var(--muted)}
+.docico{font-size:24px;flex:none}.docmore{flex:none;padding:8px 14px;font-size:20px;font-weight:800;color:var(--muted)}
+#docmenu{position:fixed;inset:0;z-index:70}#docmenu .dm-back{position:absolute;inset:0;background:rgba(20,30,28,.45)}
+#docmenu .dm-panel{position:absolute;left:0;right:0;bottom:0;background:var(--bg,#F2F6F5);border-radius:22px 22px 0 0;padding:18px 18px calc(18px + env(safe-area-inset-bottom));max-height:85vh;overflow:auto}
+.rorow{display:flex;align-items:center;gap:6px;padding:7px 0;border-bottom:1px solid var(--line);transition:background .3s}
+.rorow:last-child{border-bottom:0}.rorow .grow{flex:1;min-width:0}.rorow.moved .robtn{background:#fff}
+.rorow.rohead .grow{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.rorow.moved{background:#E4EDEA;border-radius:10px;margin:0 -8px;padding:7px 8px}
+.robtn{width:44px;height:40px;flex:none;border-radius:10px;background:#E4EDEA;font-size:15px;color:var(--ink)}.robtn:disabled{opacity:.3}
+.frpick{padding:12px 14px;border-radius:14px;background:#EEF5F2;margin:10px 0 6px}.frpick.focus{background:#ECE9F7}
+.frplan{display:flex;gap:12px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:#fff;margin-bottom:8px}
+.frnum{width:24px;height:24px;border-radius:50%;background:var(--coral);color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;flex:none}
+.banner.frban{background:#ECE9F7;color:var(--ink)}
+.frgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.frtile{display:flex;align-items:center;gap:9px;background:var(--card);border-radius:14px;padding:11px 12px;text-align:left;box-shadow:0 1px 3px rgba(30,70,62,.07);min-height:52px}
+.frtile span{font-size:20px;flex:none}.frtile b{font-size:14px;font-weight:650;line-height:1.2}.frtool{background:#fff}
+.frsig{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;padding:11px 12px;border:1px solid var(--line);border-radius:14px;background:#fff;margin-bottom:8px}
+.frsig.on{border-color:var(--coral);background:#EEF5F2}.frsig.on .pchk{background:var(--coral);border-color:var(--coral)}.frsig .pchk{display:flex;align-items:center;justify-content:center}
+.frlast{display:flex;align-items:center;gap:8px;margin:0 0 12px;font-weight:650}.frdots{margin-left:auto;display:flex;gap:4px}.frdots i{width:10px;height:10px;border-radius:50%;display:block}
+.editpill{float:right;margin:2px 0 6px 10px;padding:7px 12px;border-radius:999px;background:#E4EDEA;color:var(--ink);font-size:14px;font-weight:700}
 label.f{display:block;font-size:13px;font-weight:650;color:var(--muted);margin:14px 0 6px}
 .inp{width:100%;padding:12px 13px;border-radius:12px;border:1.5px solid var(--line);background:#fff;outline:none}
 .inp:focus{border-color:var(--sun)}
@@ -148,6 +206,22 @@ label.f{display:block;font-size:13px;font-weight:650;color:var(--muted);margin:1
 .toggle::after{content:"";position:absolute;width:24px;height:24px;border-radius:50%;background:#fff;top:3px;left:3px;transition:.15s}
 .toggle.on{background:var(--green)}
 .toggle.on::after{left:23px}
+.tools{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.tool{border-radius:20px;padding:14px;text-align:left;box-shadow:0 1px 3px rgba(30,70,62,.07)}
+.tool .big{font-size:28px}
+.tool b{display:block;margin-top:6px;font-size:15px}
+.seg{display:flex;gap:6px;overflow-x:auto;margin:2px -2px 10px;padding:2px;scrollbar-width:none}
+.seg::-webkit-scrollbar{display:none}
+.seg button{flex:none;padding:6px 11px;border-radius:99px;background:var(--bg);font-size:13px;font-weight:600;color:var(--muted)}
+.seg button.on{background:var(--coral);color:#fff}
+.jday{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:12px 2px 2px}
+.jrow{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;padding:9px 2px;border-bottom:1px solid var(--line)}
+.jrow:last-child{border-bottom:0}
+.jrow .ji{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;font-size:17px;flex:none;background:var(--sunSoft)}
+.jrow .jt{flex:1;min-width:0;font-size:14.5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.jrow .jk{font-size:11.5px;color:var(--muted);font-weight:600;margin-bottom:1px}
+.mrow{display:block;width:100%;text-align:left;padding:10px 2px;border-bottom:1px solid var(--line);font-size:16px}
+.mrow:last-child{border-bottom:0}
 </style>
 </head>
 <body>
@@ -182,7 +256,7 @@ function slotMin(s){const [h,m]=s.split(':').map(Number);return h*60+m}
 /* ---------- data ---------- */
 function defaultData(){return {version:1,onboarded:false,
   settings:{name:'',nagMinutes:30,nagMax:4,photoProof:false,photoOffFrom:null,vitdTarget:'',lastBackup:null,giver:''},
-  tasks:[],completions:[],records:[],appointments:[],rewards:[],rewardsEarned:[],rewardsFrom:null,rewardPlan:{},moods:[],mantras:[],journal:[],wt:[],tough:{}}}
+  tasks:[],completions:[],records:[],appointments:[],rewards:[],rewardsEarned:[],rewardsFrom:null,rewardPlan:{},moods:[],mantras:[],journal:[],wt:[],tough:{},walks:{},projects:[],fresh:{checks:[],entries:[],good:[],wants:[]}}}
 function load(){
   let raw=null;
   try{raw=BR?BR.loadData():localStorage.getItem('th_data')}catch(e){}
@@ -192,10 +266,16 @@ function load(){
   S.data.settings=Object.assign(defaultData().settings,(d&&d.settings)||{});
   if(!S.data.rewardPlan)S.data.rewardPlan={};
   if(!S.data.wt)S.data.wt=[];
+  if(!S.data.projects)S.data.projects=[];
+  frData();
   if(!S.data.tough)S.data.tough={};
+  if(!S.data.walks)S.data.walks={};
+  // keep a copy of step history in the data file so it's included in backups
+  try{if(BR&&BR.stepsStatus){const i=JSON.parse(BR.stepsStatus());if(i.hist){S.data.stepsHist=S.data.stepsHist||{};let ch=false;for(const k in i.hist){if((S.data.stepsHist[k]||0)<i.hist[k]){S.data.stepsHist[k]=i.hist[k];ch=true}}if(ch)BR.saveData(JSON.stringify(S.data))}}}catch(e){}
   for(const t of S.data.tasks){if(!t.repeat)t.repeat=t.days&&t.days.length===7?'daily':'weekly';if(!t.days)t.days=[];if(!t.start)t.start=todayK()}
 }
 function save(){
+  try{syncProjects()}catch(e){}
   const j=JSON.stringify(S.data);
   try{ if(BR){BR.saveData(j);BR.reschedule()} else localStorage.setItem('th_data',j) }
   catch(e){toast('Could not save: '+e)}
@@ -298,6 +378,98 @@ const PHC={};
 function photoSrc(id){if(!id)return '';if(PHC[id])return PHC[id];let v='';try{v=BR?(BR.loadPhoto(id)||''):(localStorage.getItem('th_photo_'+id)||'')}catch(e){}if(v)PHC[id]=v;return v}
 function deletePhoto(id){if(!id)return;delete PHC[id];try{BR?BR.deletePhoto(id):localStorage.removeItem('th_photo_'+id)}catch(e){}}
 
+/* ---------- task info: screenshots & photos kept on a task (shared by every day it repeats) ---------- */
+function filesBox(t){
+  const fs=t.files||[],ds=t.docs||[];
+  const btns=`<div class="row" style="gap:6px"><button class="btn ghost sm" style="flex:1;margin:0;padding-left:6px;padding-right:6px" onclick="addFiles('${t.id}')">🖼️ Gallery</button><button class="btn ghost sm" style="flex:1;margin:0;padding-left:6px;padding-right:6px" onclick="addFilePhoto('${t.id}')">📷 Photo</button><button class="btn ghost sm" style="flex:1;margin:0;padding-left:6px;padding-right:6px" onclick="addDocs('${t.id}')">📄 File</button></div>`;
+  const n=fs.length+ds.length;
+  if(!n)return `<label class="f">📎 Info, screenshots & files</label><div class="card" style="padding:10px 12px"><div class="tiny muted" style="padding:0 0 8px">Keep screenshots, receipts, PDFs or details you might need later.</div>${btns}</div>`;
+  return `<label class="f">📎 Info, screenshots & files · ${n}</label><div class="card" style="padding:10px 12px">${fs.length?`<div class="fgrid">${fs.map(f=>`<button class="fthumb" onclick="viewFile('${t.id}','${f.id}')"><img src="${photoSrc(f.photoId)}" alt="">${f.cap?`<span>${esc(f.cap)}</span>`:''}</button>`).join('')}</div>`:''}
+   ${ds.map(d=>`<div class="docrow"><button class="docmain" onclick="openDoc('${t.id}','${d.id}')"><span class="docico">${docIcon(d)}</span><span class="grow" style="min-width:0"><b>${esc(d.name)}</b><small>${fmtSize(d.size)}${d.at?' · added '+fmtDate(d.at.slice(0,10)):''}</small></span></button><button class="docmore" onclick="docMenu('${t.id}','${d.id}')" aria-label="More">⋯</button></div>`).join('')}
+   ${btns}</div>`;
+}
+function docIcon(d){const e=(d.name.split('.').pop()||'').toLowerCase();return e==='pdf'?'📕':['doc','docx','odt','rtf','pages'].includes(e)?'📘':['xls','xlsx','csv','ods','numbers'].includes(e)?'📗':['ppt','pptx','key'].includes(e)?'📙':['jpg','jpeg','png','heic','webp','gif'].includes(e)?'🖼️':['zip','rar','7z'].includes(e)?'🗜️':['mp3','m4a','wav'].includes(e)?'🎧':['mp4','mov'].includes(e)?'🎬':'📄'}
+function fmtSize(b){if(!(b>=0))return '';return b<1024?b+' B':b<1048576?Math.round(b/1024)+' KB':(b/1048576).toFixed(b<10485760?1:0)+' MB'}
+function addDocs(oid){
+  if(BR&&BR.pickDocs){BR.pickDocs('doc|'+oid+'|'+uid());return}
+  const inp=document.createElement('input');inp.type='file';inp.multiple=true;
+  inp.onchange=()=>{const list=[...inp.files].slice(0,10).map((f,n)=>({file:'d'+Date.now()+'_'+n+'.'+((f.name.split('.').pop()||'bin').toLowerCase()),name:f.name,size:f.size,mime:f.type||'application/octet-stream'}));if(list.length){toast('Files only open properly in the phone app');attachDocs(oid,list)}};
+  inp.click();
+}
+window.onDocsPicked=(req,json)=>{const p=String(req).split('|');let list=[];try{list=JSON.parse(json)}catch(e){}if(p[0]!=='doc'||!list.length)return;attachDocs(p[1],list)};
+function attachDocs(oid,list){
+  const o=owner(oid);if(!o){list.forEach(d=>{try{BR&&BR.deleteDoc(d.file)}catch(e){}});return}
+  o.docs=o.docs||[];const at=nowStamp();
+  list.forEach(d=>o.docs.push({id:uid(),file:d.file,name:d.name||'File',size:d.size,mime:d.mime||'application/octet-stream',at}));
+  save();sheetRefresh(oid);toast(list.length>1?list.length+' files added 📎':'File added 📎');
+}
+function findDoc(oid,did){const o=owner(oid);return o&&o.docs?o.docs.find(d=>d.id===did):null}
+function openDoc(oid,did,share){
+  const d=findDoc(oid,did);if(!d)return;
+  if(BR&&BR.openDoc){BR.openDoc(d.file,d.mime||'',d.name,!!share);return}
+  toast('Files open in the phone app');
+}
+let DM=null;
+function docMenu(oid,did){
+  const d=findDoc(oid,did);if(!d)return;DM={oid,did};
+  let v=document.getElementById('docmenu');if(!v){v=document.createElement('div');v.id='docmenu';document.body.appendChild(v)}
+  v.innerHTML=`<div class="dm-back" onclick="closeDocMenu()"></div><div class="dm-panel"><div class="row" style="gap:10px;margin-bottom:10px"><span style="font-size:28px">${docIcon(d)}</span><div class="grow" style="min-width:0"><b style="word-break:break-word">${esc(d.name)}</b><div class="tiny muted">${fmtSize(d.size)}</div></div></div>
+   <label class="f" style="margin-top:4px">Name</label><input class="inp" value="${esc(d.name)}" onchange="renameDoc(this.value)">
+   <div class="btns"><button class="btn" onclick="closeDocMenu();openDoc('${oid}','${did}')">Open it</button><button class="btn ghost" onclick="closeDocMenu();openDoc('${oid}','${did}',true)">Send it / save a copy</button><button class="btn danger" onclick="delDoc()">Delete file</button><button class="btn ghost" onclick="closeDocMenu()">Close</button></div></div>`;
+}
+function closeDocMenu(){DM=null;const v=document.getElementById('docmenu');if(v)v.remove()}
+function renameDoc(v){const d=findDoc(DM.oid,DM.did);v=(v||'').trim();if(!d||!v)return;const ext=(d.name.match(/\.[A-Za-z0-9]{1,8}$/)||[''])[0];if(ext&&!/\.[A-Za-z0-9]{1,8}$/.test(v))v+=ext;d.name=v;save();sheetRefresh(DM.oid);docMenu(DM.oid,DM.did)}
+function delDoc(){
+  const o=owner(DM.oid),d=findDoc(DM.oid,DM.did);if(!d)return;
+  if(!confirmTap('dd'+d.id,'Tap Delete again to remove it'))return;
+  try{BR&&BR.deleteDoc(d.file)}catch(e){}
+  o.docs=o.docs.filter(x=>x.id!==d.id);const oid=DM.oid;closeDocMenu();save();sheetRefresh(oid);toast('File deleted');
+}
+function dropDocs(o){(o.docs||[]).forEach(d=>{try{BR&&BR.deleteDoc(d.file)}catch(e){}})}
+function sheetRefresh(tid){
+  try{render()}catch(e){}
+  if(!S.sheetOpen)return;
+  if(STEP_REFRESH)STEP_REFRESH();
+  else if(G&&G.o.task.id===tid){if(GT){const el=document.getElementById('gdsteps');if(el)el.innerHTML=gdSteps()}else renderGD()}
+  else if(CF&&CF.o&&CF.o.task.id===tid)renderComplete();
+}
+function attachFiles(tid,ids){
+  const t=owner(tid);if(!t){ids.forEach(deletePhoto);return}
+  t.files=t.files||[];const at=dk(new Date())+'T'+pad(new Date().getHours())+':'+pad(new Date().getMinutes());
+  ids.forEach(id=>t.files.push({id:uid(),photoId:id,cap:'',at}));
+  save();sheetRefresh(tid);toast(ids.length>1?ids.length+' images added 📎':'Image added 📎');
+}
+function addFiles(tid){
+  if(BR&&BR.pickImages){BR.pickImages('att|'+tid+'|'+uid());return}
+  const inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.multiple=true;
+  inp.onchange=async()=>{const ids=[];for(const f of [...inp.files].slice(0,10)){const id=await new Promise(res=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');const sc=Math.min(1,1600/Math.max(img.width,img.height));c.width=Math.round(img.width*sc);c.height=Math.round(img.height*sc);const g=c.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,c.width,c.height);g.drawImage(img,0,0,c.width,c.height);const id='f'+uid();try{localStorage.setItem('th_photo_'+id,c.toDataURL('image/jpeg',.85));res(id)}catch(e){toast('Phone storage is full');res('')}};img.onerror=()=>res('');img.src=URL.createObjectURL(f)});if(id)ids.push(id)}if(ids.length)attachFiles(tid,ids)};
+  inp.click();
+}
+window.onImagesPicked=(req,json)=>{const p=String(req).split('|');let ids=[];try{ids=JSON.parse(json)}catch(e){}if(p[0]!=='att'||!ids.length)return;attachFiles(p[1],ids)};
+function addFilePhoto(tid){takePhoto(id=>attachFiles(tid,[id]))}
+let VW=null;
+function viewFile(tid,fid){
+  const t=owner(tid);if(!t||!t.files)return;const i=t.files.findIndex(f=>f.id===fid);if(i<0)return;
+  VW={tid,i,zoom:false};paintViewer();
+}
+function paintViewer(){
+  const t=owner(VW.tid),fs=(t&&t.files)||[];if(!fs.length)return closeViewer();
+  VW.i=Math.max(0,Math.min(VW.i,fs.length-1));const f=fs[VW.i];
+  let v=document.getElementById('viewer');if(!v){v=document.createElement('div');v.id='viewer';document.body.appendChild(v)}
+  v.innerHTML=`<div class="vtop"><button onclick="closeViewer()">✕</button><span class="small">${VW.i+1} of ${fs.length}${f.at?' · added '+fmtDate(f.at.slice(0,10)):''}</span><span><button ${VW.i?'':'style="opacity:.3"'} onclick="VW.i--;VW.zoom=false;paintViewer()">‹</button><button ${VW.i<fs.length-1?'':'style="opacity:.3"'} onclick="VW.i++;VW.zoom=false;paintViewer()">›</button></span></div>
+   <div class="vimg"><img class="${VW.zoom?'zoom':''}" src="${photoSrc(f.photoId)}" onclick="VW.zoom=!VW.zoom;this.classList.toggle('zoom',VW.zoom)"></div>
+   <div class="tiny" style="color:#9aa8a4;text-align:center;background:#1d2523;padding-top:6px">Tap the picture to zoom in, then drag to move around</div>
+   <div class="vbar"><input class="inp" value="${esc(f.cap||'')}" placeholder="Add a label (e.g. ABN application ref)" onchange="vwCap(this.value)"><button class="btn danger sm" onclick="vwDel()">Delete</button></div>`;
+}
+function vwCap(v){const t=owner(VW.tid);const f=t.files[VW.i];f.cap=v.trim();save();sheetRefresh(VW.tid)}
+function vwDel(){
+  const t=owner(VW.tid),f=t.files[VW.i];
+  if(!confirmTap('vf'+f.id,'Tap Delete again to remove it'))return;
+  deletePhoto(f.photoId);t.files.splice(VW.i,1);save();sheetRefresh(VW.tid);
+  if(!t.files.length)closeViewer();else paintViewer();
+}
+function closeViewer(){VW=null;const v=document.getElementById('viewer');if(v)v.remove()}
+
 /* ---------- sheet ---------- */
 function openSheet(html,onClose,keep){
   const ov=document.getElementById('ov');
@@ -307,13 +479,14 @@ function openSheet(html,onClose,keep){
   ov.classList.add('show');document.body.classList.add('noscroll');S.sheetOpen=true;S.onClose=onClose||null;
 }
 function closeSheet(){
+  try{STEP_REFRESH=null}catch(e){}
   if(typeof breathStop==='function')breathStop();
   const ov=document.getElementById('ov');ov.classList.remove('show');ov.innerHTML='';
   document.body.classList.remove('noscroll');S.sheetOpen=false;
   const f=S.onClose;S.onClose=null;if(f)f();
 }
 document.getElementById('ov').addEventListener('click',closeSheet);
-window.handleBack=()=>{if(S.sheetOpen){closeSheet();return true}if(S.data.onboarded&&S.tab!=='today'){go('today');return true}return false};
+window.handleBack=()=>{if(DM){closeDocMenu();return true}if(VW){closeViewer();return true}if(S.sheetOpen){closeSheet();return true}if(S.tab==='plan'&&S.proj){S.proj=null;render();return true}if(S.tab==='mind'&&S.mindView){S.mindView=null;render();return true}if(S.data.onboarded&&S.tab!=='today'){go('today');return true}return false};
 
 /* ---------- nav ---------- */
 const ICONS={
@@ -331,7 +504,7 @@ function renderNav(){
   const tabs=[['today','Today'],['cal','Calendar'],['rewards','Rewards'],['mind','Mind'],['plan','Plan']];
   nav.innerHTML=tabs.map(([k,l])=>`<button class="${S.tab===k?'on':''}" onclick="go('${k}')">${ICONS[k]}${l}</button>`).join('');
 }
-function go(t){S.tab=t;window.scrollTo(0,0);render()}
+function go(t){if(t==='today')S.dayOff=0;if(t==='plan'&&S.tab==='plan')S.proj=null;if(t==='mind'&&S.tab==='mind')S.mindView=null;S.tab=t;window.scrollTo(0,0);render()}
 function render(){
   renderNav();
   const app=document.getElementById('app');
@@ -375,7 +548,7 @@ function weekCard(){
   return `<div class="card"><div class="week">${ringSvg(pct)}<div><div class="small muted">This week</div><div class="wkmsg">${msg}</div><div class="small muted" style="margin-top:3px">${sub}</div>
     ${st>0?`<div class="small" style="margin-top:6px;font-weight:650">🔥 ${st}-day streak</div>`:''}
     ${(()=>{const nx=rewardFor(dk(w.ws)),got=S.data.rewardsEarned.find(e=>e.week===dk(w.ws));return got?`<div class="small" style="margin-top:6px">🎁 Earned: <b>${esc(got.name)}</b></div>`:nx&&dk(w.ws)>=S.data.rewardsFrom?`<button class="small" style="margin-top:6px;text-align:left;padding:0" onclick="go('rewards')">🎁 Hit 100% to unlock: <b>${esc(nx.name)}</b></button>`:''})()}</div></div>
-    ${rows?`<div class="track"><div class="trow"><div></div>${heads}</div>${rows}</div>`:''}</div>`;
+    ${rows?(S.data.settings.weekGrid?`<div class="track"><div class="trow"><div></div>${heads}</div>${rows}</div><button class="foldbtn" onclick="S.data.settings.weekGrid=false;save();render()">Hide each task ▴</button>`:`<button class="foldbtn" onclick="S.data.settings.weekGrid=true;save();render()">See each task this week ▾</button>`):''}</div>`;
 }
 function occItem(o,showDate){
   const s=status(o),t=o.task;
@@ -383,17 +556,25 @@ function occItem(o,showDate){
   const cls=s==='done'?'done':s==='missed'?'missed':'';
   const th=o.comp&&o.comp.photoId?photoSrc(o.comp.photoId):'';
   const tr=t.tough&&!o.comp?S.data.tough[t.id+'|'+o.date+'|'+o.slot]:null;
-  const sub=s==='done'?'Done at '+fmtTime(o.comp.at.slice(11,16))+(o.comp.late?' (late)':'')+(o.comp.tough?' · 💪 did the hard thing':''):(t.tough?'😬 '+(tr&&tr.mins?'Started · '+tr.mins+' min in · ':'Tough one · '):'')+(showDate?relDay(o.date)+' · ':'')+fmtTime(o.slot)+(t.notes?' · '+esc(t.notes):'');
+  const wk=!o.comp?walkFor(o):null;
+  if(wk){
+    const g=t.stepMode==='goal'?t.stepGoal:0;
+    return `<button class="item" onclick="tapOcc('${t.id}','${o.date}','${o.slot}')"><div class="emo">${esc(t.emoji)}</div>
+    <div class="grow"><div class="t1">${esc(t.name)}</div><div class="t2">🚶 Walking · <b data-walk="${esc(walkKey(o))}">${fmtN(walkSteps(wk))}</b> steps${g?' of '+fmtN(g):''}</div></div><span class="pill p-due">On the go</span></button>`;
+  }
+  const sub=s==='done'?'Done at '+fmtTime(o.comp.at.slice(11,16))+(o.comp.late?' (late)':'')+(o.comp.walk?' · 👣 '+fmtN(o.comp.walk.steps)+' steps':'')+(o.comp.tough?(o.comp.tough.partial?' · 🌿 did my bit':' · 💪 did the hard thing'):''):(t.tough?'😬 '+(tr&&tr.mins?'Started · '+tr.mins+' min in · ':'Tough one · '):'')+(t.tough&&t.steps&&t.steps.length?(nextStepOf(t)?'Next: '+esc(nextStepOf(t))+' · ':'All steps done 🎉 · '):'')+(showDate?relDay(o.date)+' · ':'')+((s==='upcoming'||s==='future')&&!showDate?'':fmtTime(o.slot))+(t.notes?' · '+esc(t.notes):'');
+  const sub2=sub.replace(/^( · )+|( · )+$/g,'').replace(/( · ){2,}/g,' · ');
   return `<button class="item ${cls}" onclick="tapOcc('${t.id}','${o.date}','${o.slot}')">
     ${th?`<img class="thumb" src="${th}">`:`<div class="emo">${esc(t.emoji)}</div>`}
-    <div class="grow"><div class="t1">${esc(t.name)}</div><div class="t2">${sub}</div></div>${lbl}</button>`;
+    <div class="grow"><div class="t1">${esc(t.name)}</div>${sub2?`<div class="t2">${sub2}</div>`:''}</div>${lbl}</button>`;
 }
 function viewToday(){
   const s=S.data.settings,h=new Date().getHours();
   const greet=h<12?'Good morning':h<17?'Good afternoon':'Good evening';
   const now=new Date();
-  let html=`<div class="wrap"><div class="top"><div><h1>${greet}${s.name?', '+esc(s.name):''}</h1><div class="sub">${DOWL[now.getDay()]} ${now.getDate()} ${MON[now.getMonth()]}</div></div>
+  let html=`<div class="wrap"><div class="top"><div><h1>${greet}${s.name?', '+esc(s.name):''}</h1><div class="sub">${DOWL[now.getDay()]} ${now.getDate()} ${MON[now.getMonth()]}</div><div class="hmantra">“${esc(todayMantra())}”</div></div>
     <button class="iconbtn" onclick="openSettings()" aria-label="Settings">${GEAR}</button></div>`;
+  html+=frBanner();
   try{ if(BR&&!BR.notificationsEnabled())html+=`<button class="banner" onclick="Android.requestNotifications()">🔔 <span><b>Reminders are switched off.</b> Tap to allow notifications so the app can nudge you.</span></button>`;
        else if(BR&&!BR.exactAlarmsAllowed())html+=`<button class="banner sun" onclick="Android.openExactAlarmSettings()">⏰ <span><b>Reminders may run late.</b> Tap and allow "Alarms &amp; reminders" for this app.</span></button>`; }catch(e){}
   if(photoPending())html+=`<button class="banner sun" onclick="openSettings()">📷 <span>Photo proof switches off tomorrow. Tap to keep it on.</span></button>`;
@@ -401,30 +582,54 @@ function viewToday(){
   if(S.data.completions.length>10&&(!lb||(Date.now()-parseDk(lb).getTime())>30*864e5))html+=`<button class="banner sun" onclick="openSettings()">💾 <span>${lb?'It\'s been a month since your last backup.':'You haven\'t made a backup yet.'} Tap to save one.</span></button>`;
   const pend=S.data.rewardsEarned.filter(e=>!e.givenAt);
   if(pend.length)html+=`<button class="banner sun" onclick="go('rewards')">🎁 <span><b>You've earned ${pend.length===1?esc(pend[0].name):pend.length+' rewards'}!</b> Go treat yourself.</span></button>`;
-  html+=moodCard()+mantraCard()+weekCard();
+  html+=moodCard();
   // yesterday's missed ones can still be done
+  const off=S.dayOff||0,dK=dk(addDays(now,off)),dd=parseDk(dK);
   const y=dk(addDays(now,-1));
-  const yMiss=occFor(y).filter(o=>!o.comp);
-  const tOcc=occFor(todayK());
-  html+=`<div class="sec">Today</div>`;
-  if(!tOcc.length)html+=`<div class="card empty">Nothing scheduled today. Rest is part of it too 🌿</div>`;
+  const yMiss=off===0?occFor(y).filter(o=>!o.comp):[];
+  const tOcc=occFor(dK);
+  const lab=off===0?'Today':off===1?'Tomorrow':off===-1?'Yesterday':DOWL[dd.getDay()];
+  html+=`<div class="dayhead" id="dayhead"><button onclick="shiftDay(-1)" aria-label="Previous day">‹</button><div class="dh-mid"><b>${lab}</b><span>${DOWL[dd.getDay()].slice(0,3)} ${dd.getDate()} ${MON[dd.getMonth()]}${off&&Math.abs(off)>1?' · '+(off>0?'in '+off+' days':Math.abs(off)+' days ago'):''}</span></div><button onclick="shiftDay(1)" aria-label="Next day">›</button></div>
+   ${off?`<button class="backtoday" onclick="shiftDay(0)">↩ Back to today</button>`:''}
+   <div id="daylist" class="${S.slideDir>0?'slide-l':S.slideDir<0?'slide-r':''}">`;
+  if(!tOcc.length)html+=`<div class="card empty">${off===0?'Nothing scheduled today. Rest is part of it too 🌿':off>0?'Nothing planned for '+(off===1?'tomorrow':'this day')+'. Enjoy the breather 🌿':'Nothing was planned this day.'}</div>`;
   const pending=tOcc.filter(o=>!o.comp),doneL=tOcc.filter(o=>o.comp);
   html+=pending.map(o=>occItem(o)).join('')+doneL.map(o=>occItem(o)).join('');
+  if(off<0&&tOcc.length)html+=`<div class="tiny muted" style="text-align:center;margin:4px 0 10px">${doneL.length} of ${tOcc.length} done that day</div>`;
+  html+=`</div>`;
+  if(off===0&&!s.swiped)html+=`<div class="tiny muted" style="text-align:center;margin:2px 0 6px">Swipe left or right to see other days</div>`;
   if(yMiss.length){html+=`<div class="sec">From yesterday · still time if you want</div>`+yMiss.map(o=>occItem(o,true)).join('')}
+  if(off===0)html+=`<div class="sec">This week</div>`+weekCard()+stepsTodayCard()+frTodayCard()+todayProjects();
   const ap=upcomingAppts().filter(a=>a.date<=dk(addDays(now,30)));
   if(ap.length){html+=`<div class="sec">Coming up</div>`+ap.slice(0,3).map(apptItem).join('')}
   return html+'</div>';
 }
-function tapOcc(tid,date,slot){
+function shiftDay(n){
+  const before=S.dayOff||0;if(!S.data.settings.swiped){S.data.settings.swiped=true;save()}
+  S.dayOff=n===0?0:Math.max(-60,Math.min(60,before+n));
+  if(S.dayOff===before)return;
+  S.slideDir=n===0?(before>0?-1:1):n;render();S.slideDir=0;
+  const h=document.getElementById('dayhead');if(h){const r=h.getBoundingClientRect();if(r.top<0||r.top>innerHeight*0.6)window.scrollTo({top:scrollY+r.top-12,behavior:'smooth'})}
+}
+(function(){let x0=null,y0=0,t0=0;
+  document.addEventListener('touchstart',e=>{const t=e.target;if(S.tab!=='today'||S.sheetOpen||e.touches.length>1||(t.closest&&t.closest('input,textarea,select,#viewer'))){x0=null;return}x0=e.touches[0].clientX;y0=e.touches[0].clientY;t0=Date.now()},{passive:true});
+  document.addEventListener('touchend',e=>{if(x0===null)return;const c=e.changedTouches[0],dx=c.clientX-x0,dy=c.clientY-y0;x0=null;
+    if(Date.now()-t0>800||Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*1.8)return;shiftDay(dx<0?1:-1)},{passive:true});
+})();
+function editPill(id){return `<button class="editpill" onclick="closeSheet();editTask('${id}')">✏️ Edit</button>`}
+function tapOcc(tid,date,slot,keep){
   const t=task(tid);if(!t)return;
+  STEP_REFRESH=null;
   const o={task:t,date,slot,comp:findComp(tid,date,slot)};
   if(o.comp)return openDone(o);
   if(canComplete(o)&&t.tough)return gdOpen(o);
   if(canComplete(o))return openComplete(o);
   const s=status(o);
-  openSheet(`<h3>${esc(t.emoji)} ${esc(t.name)}</h3><p class="muted">${relDay(date)} at ${fmtTime(slot)}</p>
+  openSheet(`${editPill(t.id)}<h3>${esc(t.emoji)} ${esc(t.name)}</h3><p class="muted">${relDay(date)} at ${fmtTime(slot)}</p>
+   ${stepsBox(t)}${filesBox(t)}
    <p>${s==='missed'?'This one was missed. You can only tick off today\'s and yesterday\'s tasks.':'This one isn\'t due yet. You can tick it off on the day.'}</p>
-   <div class="btns"><button class="btn ghost" onclick="closeSheet()">OK</button>${s!=='missed'?`<button class="btn ghost" onclick="editTask('${t.id}')">Edit this task</button>`:''}</div>`);
+   <div class="btns"><button class="btn ghost" onclick="closeSheet()">OK</button>${s!=='missed'?`<button class="btn ghost" onclick="editTask('${t.id}')">Edit this task</button>`:''}</div>`,null,keep);
+  STEP_REFRESH=()=>tapOcc(tid,date,slot,true);
 }
 
 /* ---------- Get it done (tough tasks) ---------- */
@@ -436,32 +641,61 @@ let G=null,GT=null;
 function gdKey(o){return o.task.id+'|'+o.date+'|'+o.slot}
 function gdRec(){return S.data.tough[G.key]}
 function gdOpen(o){
+  STEP_REFRESH=null;
   const key=gdKey(o);
   if(!S.data.tough[key])S.data.tough[key]={dread:0,reasons:[],first:'',steps:(o.task.steps||[]).map(()=>false),mins:0,after:0};
   const r=S.data.tough[key];
   while(r.steps.length<(o.task.steps||[]).length)r.steps.push(false);
+  const tk=o.task;if(r.steps.some(Boolean)&&tk.steps){tk.stepDone=tk.stepDone||{};r.steps.forEach((v,i)=>{if(v&&tk.steps[i])tk.stepDone[tk.steps[i]]=true});r.steps=r.steps.map(()=>false);save()}
   G={o,key,step:r.dread?1:0,mins:10};
   renderGD(false);
 }
 function gdSave(){save()}
-function gdSteps(){
-  const t=G.o.task,r=gdRec();if(!(t.steps&&t.steps.length))return '';
-  return `<label class="f">Your steps</label><div class="card" style="padding:6px 12px">${t.steps.map((st,i)=>`<button class="row" style="width:100%;text-align:left;padding:9px 0;gap:10px;${i<t.steps.length-1?'border-bottom:1px solid var(--line)':''}" onclick="gdTickStep(${i})"><span class="check" style="margin:0;${r.steps[i]?'background:var(--coral);border-color:var(--coral)':''}">${r.steps[i]?'✓':''}</span><span style="${r.steps[i]?'text-decoration:line-through;color:var(--muted)':''}">${esc(st)}</span></button>`).join('')}</div>`;
+/* steps live on the task, so ticks carry over from day to day until the list is done */
+function stepOn(t,i){return !!(t.stepDone&&t.stepDone[t.steps[i]])}
+function stepCount(t){return (t.steps||[]).filter((x,i)=>stepOn(t,i)).length}
+function nextStepOf(t){return (t.steps||[]).find((x,i)=>!stepOn(t,i))}
+let STEP_REFRESH=null;
+function toggleStep(tid,i){const t=task(tid);if(!t||!t.steps||!t.steps[i])return;t.stepDone=t.stepDone||{};const k=t.steps[i];if(t.stepDone[k])delete t.stepDone[k];else t.stepDone[k]=true;save();try{render()}catch(e){}
+  if(stepCount(t)===t.steps.length)toast('All steps done 🎉');
+  if(STEP_REFRESH)STEP_REFRESH();else if(G&&G.o.task.id===tid){if(GT){gdTimerPaint();const el=document.getElementById('gdsteps');if(el)el.innerHTML=gdSteps()}else renderGD()}}
+function resetSteps(tid){const t=task(tid);if(!t)return;t.stepDone={};save();try{render()}catch(e){}if(STEP_REFRESH)STEP_REFRESH();else if(G&&G.o.task.id===tid)renderGD()}
+function stepsRefresh(tid,focus){
+  sheetRefresh(tid);
+  if(focus){const el=document.getElementById('addstep');if(el)el.focus()}
 }
-function gdTickStep(i){const r=gdRec();r.steps[i]=!r.steps[i];gdSave();if(GT){gdTimerPaint();const el=document.getElementById('gdsteps');if(el)el.innerHTML=gdSteps()}else renderGD()}
+function addStep(tid){
+  const t=task(tid),el=document.getElementById('addstep');if(!t||!el)return;
+  const v=el.value.trim();if(!v)return el.focus();
+  t.steps=t.steps||[];
+  if(t.steps.includes(v)){toast('That step is already on the list');return}
+  if(t.steps.length>=25){toast('That\'s a lot of steps. Finish a few first 🌿');return}
+  t.steps.push(v);save();stepsRefresh(tid,true);
+}
+function stepsBox(t){
+  if(!t.tough&&!(t.steps&&t.steps.length))return '';
+  t.steps=t.steps||[];
+  const n=stepCount(t),all=t.steps.length&&n===t.steps.length;
+  const add=`<div class="row" style="gap:8px;padding:8px 0 4px${t.steps.length?';border-top:1px solid var(--line)':''}"><input class="inp" id="addstep" style="margin:0;flex:1" placeholder="${t.steps.length?'Add another step':'e.g. Renew ABN'}" enterkeyhint="done" onkeydown="if(event.key==='Enter'){event.preventDefault();addStep('${t.id}')}"><button class="btn ghost sm" style="width:auto;margin:0;flex:none" onclick="addStep('${t.id}')">+ Add</button></div>`;
+  if(!t.steps.length)return `<label class="f">Break it into small steps</label><div class="card" style="padding:6px 12px">${add}</div>`;
+  return `<label class="f">Your steps · ${n} of ${t.steps.length} done</label><div class="card" style="padding:6px 12px">${t.steps.map((st,i)=>{const on=stepOn(t,i);return `<button class="row" style="width:100%;text-align:left;padding:9px 0;gap:10px;${i<t.steps.length-1?'border-bottom:1px solid var(--line)':''}" onclick="toggleStep('${t.id}',${i})"><span class="check" style="margin:0;flex:none;${on?'background:var(--coral);border-color:var(--coral);color:#fff':''}">${on?'✓':''}</span><span style="${on?'text-decoration:line-through;color:var(--muted)':''}">${esc(st)}</span></button>`}).join('')}
+   ${all?`<div class="row between small" style="padding:8px 0 4px"><span>🎉 The whole list is done.</span><button class="btn ghost sm" style="width:auto;margin:0" onclick="resetSteps('${t.id}')">Start it again</button></div>`:''}${add}</div>`;
+}
+function gdSteps(){return stepsBox(G.o.task)+filesBox(G.o.task)}
 function renderGD(keep=true){
   if(!G)return;
   const t=G.o.task,r=gdRec(),st=G.step;
-  let h=`<h3>😬 ${esc(t.name)}</h3><div class="muted small" style="margin-top:-8px">Tough one · ${relDay(G.o.date)} · ${fmtTime(G.o.slot)}${r.mins?' · '+r.mins+' min done so far':''}</div>`;
+  let h=`${editPill(t.id)}<h3>😬 ${esc(t.name)}</h3><div class="muted small" style="margin-top:-8px">Tough one · ${relDay(G.o.date)} · ${fmtTime(G.o.slot)}${r.mins?' · '+r.mins+' min done so far':''}</div>`;
   if(st===0){
+    h+=gdSteps();
     h+=`<label class="f">How much are you dreading it?</label><div class="moods">${DREAD.map((e,i)=>`<button class="${r.dread===i+1?'on':''}" onclick="gdRec().dread=${i+1};gdSave();renderGD()">${e}</button>`).join('')}</div>
       <div class="row between tiny muted" style="margin-top:4px"><span>${DREAD_W[0]}</span><span>${DREAD_W[4]}</span></div>
       <label class="f">What's making it hard? (pick any)</label><div class="chips">${HARD.map(([k,l])=>`<button class="chip ${r.reasons.includes(k)?'on':''}" onclick="gdReason('${k}')">${l}</button>`).join('')}</div>
-      <div class="btns"><button class="btn" ${r.dread?'':'disabled'} onclick="G.step=1;renderGD(false)">Next</button><button class="btn ghost" onclick="closeSheet()">Not now</button></div>`;
+      <div class="btns"><button class="btn" ${r.dread?'':'disabled'} onclick="G.step=1;renderGD(false)">Next</button><button class="btn sec2" onclick="gdBit()">🌿 Done my bit for today</button><button class="btn ghost" onclick="closeSheet()">Not now</button></div>`;
   } else if(st===1){
     const tips=r.reasons.map(k=>HARD_TIP[k]).filter(Boolean);
-    const nextStep=(t.steps||[]).find((x,i)=>!r.steps[i]);
-    if(!r.first&&nextStep)r.first=nextStep;
+    const nextStep=nextStepOf(t);
+    if(nextStep&&(!r.first||(t.steps||[]).some((x,i)=>x===r.first&&stepOn(t,i)))){r.first=nextStep;gdSave()}
     h+=tips.length?`<div class="card" style="background:var(--sunSoft);margin-top:12px">${tips.map(x=>`<div class="small" style="padding:3px 0">💡 ${esc(x)}</div>`).join('')}</div>`:'';
     if(r.dread>=4)h+=`<button class="banner" style="margin:0 0 6px" onclick="wtStart()">🧭 <span><b>Feeling really stuck?</b> Work through what's bugging you first.</span></button>`;
     h+=`<div class="serif" style="font-size:19px;margin:14px 0 4px">Shrink it</div><p class="small" style="margin-top:0">What's the very first step? Make it small enough to do in 2 minutes.</p>
@@ -469,12 +703,17 @@ function renderGD(keep=true){
       ${gdSteps()}
       <label class="f">Now just do a little bit. How long?</label><div class="chips">${[5,10,15,25].map(m=>`<button class="chip ${G.mins===m?'on':''}" onclick="G.mins=${m};renderGD()">${m} min</button>`).join('')}</div>
       <div class="tiny muted" style="margin-top:6px">When the timer ends you're allowed to stop. Most of the time you'll keep going.</div>
-      <div class="btns"><button class="btn" onclick="gdStartTimer()">▶ Start ${G.mins} minutes</button><button class="btn ghost" onclick="G.step=3;renderGD(false)">It's already done ✓</button><button class="btn ghost" onclick="G.step=0;renderGD(false)">Back</button></div>`;
+      <div class="btns"><button class="btn" onclick="gdStartTimer()">▶ Start ${G.mins} minutes</button><button class="btn ghost" onclick="G.step=3;renderGD(false)">It's already done ✓</button><button class="btn ghost" onclick="gdBit()">🌿 Done my bit for today</button><button class="btn ghost" onclick="G.step=0;renderGD(false)">Back</button></div>`;
   } else if(st===2){
     h+=`<div style="text-align:center;margin-top:10px" id="gdring"></div>
       ${r.first?`<div class="card" style="text-align:center;margin-top:6px"><div class="tiny muted">First step</div><div class="serif" style="font-size:17px">${esc(r.first)}</div></div>`:''}
       <div id="gdsteps">${gdSteps()}</div>
       <div class="btns" id="gdbtns"></div>`;
+  } else if(st===4){
+    h+=`<div class="card" style="text-align:center;margin-top:10px;background:var(--sunSoft)"><div style="font-size:34px">🌿</div><div class="serif" style="font-size:19px">Today's bit, done</div><div class="small muted">You don't have to finish it all today. Showing up and moving it forward counts.${r.mins?' '+r.mins+' min on it today.':''}</div></div>
+      ${gdSteps()}
+      <label class="f">What did you get done? (optional)</label><input class="inp" value="${esc(G.bitNote||'')}" placeholder="e.g. Rang the insurance mob, waiting on a quote" oninput="G.bitNote=this.value">
+      <div class="btns"><button class="btn" onclick="gdBitSave()">Mark today done ✓</button><button class="btn ghost" onclick="G.step=G.back||0;renderGD(false)">Back</button></div>`;
   } else {
     h+=`<div class="serif" style="font-size:19px;margin:14px 0 4px">How was it, really?</div><p class="small" style="margin-top:0">Compared with how much you were dreading it.</p>
       <div class="moods">${DREAD.map((e,i)=>`<button class="${r.after===i+1?'on':''}" onclick="gdRec().after=${i+1};gdSave();renderGD()">${e}</button>`).join('')}</div>
@@ -505,18 +744,32 @@ function gdTimerPaint(){
   if(!left&&!GT.doneBeep){GT.doneBeep=true;try{navigator.vibrate&&navigator.vibrate([300,150,300])}catch(e){}}
   const key=left?'run':'end';
   if(btns&&btns.dataset.k!==key){btns.dataset.k=key;
-    btns.innerHTML=left?`<button class="btn ghost" onclick="gdStop('done')">It's done ✓</button><button class="btn ghost" onclick="gdStop('pause')">Stop for now</button>`
-      :`<button class="btn" onclick="gdStop('done')">It's done ✓</button><button class="btn sec2" onclick="gdMore()">Keep going, 10 more</button><button class="btn ghost" onclick="gdStop('pause')">Stop for now (that's progress)</button>`;}
+    btns.innerHTML=left?`<button class="btn ghost" onclick="gdStop('done')">It's done ✓</button><button class="btn ghost" onclick="gdStop('bit')">🌿 Done my bit for today</button><button class="btn ghost" onclick="gdStop('pause')">Stop for now</button>`
+      :`<button class="btn" onclick="gdStop('done')">It's done ✓</button><button class="btn sec2" onclick="gdStop('bit')">🌿 Done my bit for today</button><button class="btn ghost" onclick="gdMore()">Keep going, 10 more</button><button class="btn ghost" onclick="gdStop('pause')">Stop for now, come back later</button>`;}
 }
 function gdLog(){const r=gdRec();r.mins=(r.mins||0)+gdElapsedMin();if(GT){clearInterval(GT.iv);GT=null}gdSave()}
 function gdMore(){gdLog();G.mins=10;gdStartTimer()}
 function gdStop(how){
   gdLog();
   if(how==='done'){G.step=3;renderGD(false);return}
+  if(how==='bit'){G.back=1;G.step=4;renderGD(false);return}
   const r=gdRec();G=null;closeSheet();render();
   toast(r.mins?`${r.mins} min done. That's real progress. Pick it up again later.`:'No worries. Come back to it when you\'re ready.');
 }
 function gdOnClose(){if(GT&&G)gdLog();if(GT){clearInterval(GT.iv);GT=null}}
+function gdBit(){G.back=G.step;G.step=4;renderGD(false)}
+function gdBitSave(){
+  const r=gdRec(),o=G.o,t=o.task,note=(G.bitNote||'').trim();
+  const summary={before:r.dread||0,after:0,mins:r.mins||0,reasons:r.reasons.slice(),partial:true};
+  G=null;closeSheet();
+  if(photoRequired(o.date)||t.type==='exercise'){openComplete(o);CF.tough=summary;CF.note=note;renderComplete();return}
+  const n=new Date();
+  S.data.completions.push({id:uid(),taskId:t.id,date:o.date,slot:o.slot,at:dk(n)+'T'+pad(n.getHours())+':'+pad(n.getMinutes())+':'+pad(n.getSeconds()),photoId:null,note,late:o.date<todayK()||undefined,tough:summary});
+  delete S.data.tough[gdKey(o)];
+  save();render();
+  const nx=nextStepOf(t);
+  toast(nx?'Done for today 🌿 Next up: '+nx:'Done for today 🌿');
+}
 function gdFinish(){
   const r=gdRec(),o=G.o;
   const summary={before:r.dread||3,after:r.after||3,mins:r.mins||0,reasons:r.reasons.slice()};
@@ -529,9 +782,10 @@ function gdFinish(){
   save();render();toast('You did the hard thing 💪');
 }
 function toughStats(){
-  const cs=S.data.completions.filter(c=>c.tough);if(!cs.length)return null;
-  const avg=k=>cs.reduce((a,c)=>a+c.tough[k],0)/cs.length;
-  return {n:cs.length,before:avg('before'),after:avg('after'),mins:cs.reduce((a,c)=>a+(c.tough.mins||0),0)};
+  const all=S.data.completions.filter(c=>c.tough);if(!all.length)return null;
+  const cs=all.filter(c=>!c.tough.partial&&c.tough.before&&c.tough.after);
+  const avg=k=>cs.length?cs.reduce((a,c)=>a+c.tough[k],0)/cs.length:0;
+  return {n:cs.length,bits:all.length-cs.length,before:avg('before'),after:avg('after'),mins:all.reduce((a,c)=>a+(c.tough.mins||0),0)};
 }
 
 /* ---------- complete flow ---------- */
@@ -550,8 +804,10 @@ function renderComplete(){
   const o=CF.o,t=o.task,needPhoto=photoRequired(o.date),isEx=t.type==='exercise';
   const late=o.date<todayK();
   const ph=CF.photoId?photoSrc(CF.photoId):'';
-  let html=`<h3>${esc(t.emoji)} ${esc(t.name)}</h3>
+  let html=`${editPill(t.id)}<h3>${esc(t.emoji)} ${esc(t.name)}</h3>
    <div class="muted small" style="margin-top:-8px">${relDay(o.date)} · ${fmtTime(o.slot)}${late?' · late':''}${t.notes?' · '+esc(t.notes):''}</div>`;
+  if(t.tool==='freshfollow'&&t.sess)html+=`<button class="btn sec2" style="margin-top:14px" onclick="closeSheet();openFresh();frFollow('${t.sess}')">✨ Do the follow-up now</button><div class="tiny muted" style="text-align:center;margin-top:6px">Finishing it ticks this off for you.</div>`;
+  if(t.tool==='fresh')html+=`<button class="btn sec2" style="margin-top:14px" onclick="closeSheet();openFresh();frCheck()">✨ Do the check now</button><div class="tiny muted" style="text-align:center;margin-top:6px">Doing the check ticks this off for you.</div>`;
   if(t.type==='mantra'){
     const ms=mantraList(),i=((CF.mi??todayMantraIdx())%ms.length+ms.length)%ms.length;CF.mi=i;
     html+=`<div class="card" style="margin-top:14px;padding:6px 10px"><div class="mantra">“${esc(ms[i])}”</div>
@@ -562,10 +818,12 @@ function renderComplete(){
     html+=`<button class="banner ${md&&md.score<=2?'':'sun'}" style="margin:14px 0 0" onclick="wtStart(CF.o)">🧭 <span><b>Feeling down?</b> Work through it first, then breathe.</span></button>`;
     html+=breathWidget('cf');
   }
+  const wkOn=walkCounting(t),wk=wkOn?walkFor(o):null;
+  if(wkOn)html+=walkCard(o,wk);
   if(needPhoto){
     html+=`<label class="f">Proof photo</label>`+(ph?`<img class="photo-big" src="${ph}"><button class="btn ghost sm" onclick="cfPhoto()">Retake photo</button>`
       :`<button class="btn sec2" style="padding:22px" onclick="cfPhoto()">📷 Take proof photo</button><div class="tiny muted" style="margin-top:6px">${t.type==='exercise'?'e.g. a gym selfie or the weights':t.type==='move'?'e.g. the view on your walk':'Something that shows you did it'}</div>`);
-  } else if(t.type==='move'||t.type==='exercise'||t.type==='other'||t.type==='connect'){
+  } else if(!['mind','mantra','breathe'].includes(t.type)){
     html+=ph?`<label class="f">Photo</label><img class="photo-big" src="${ph}">`:`<button class="btn ghost sm" style="margin-top:14px" onclick="cfPhoto()">📷 Add a photo (optional)</button>`;
   }
   if(isEx){
@@ -579,10 +837,13 @@ function renderComplete(){
        <button class="x" onclick="CF.workout.splice(${i},1);renderComplete()">×</button></div>`).join('')}
      <button class="btn ghost sm" onclick="CF.workout.push({ex:'',sets:'',reps:'',kg:''});renderComplete()">+ Add exercise</button>`;
   }
-  if(CF.tough)html+=`<div class="card" style="margin-top:14px;text-align:center"><div class="small muted">Dread before → how it really was</div><div style="font-size:30px;margin:4px 0">${DREAD[CF.tough.before-1]} → ${DREAD[CF.tough.after-1]}</div><div class="small">${CF.tough.after<CF.tough.before?'Not as bad as it seemed.':'Tough, and you did it anyway.'} 💪</div></div>`;
+  if(CF.tough&&CF.tough.partial)html+=`<div class="card" style="margin-top:14px;text-align:center"><div style="font-size:26px">🌿</div><div class="small">Today's bit, done. Moving it forward counts.</div></div>`;
+  else if(CF.tough)html+=`<div class="card" style="margin-top:14px;text-align:center"><div class="small muted">Dread before → how it really was</div><div style="font-size:30px;margin:4px 0">${DREAD[CF.tough.before-1]} → ${DREAD[CF.tough.after-1]}</div><div class="small">${CF.tough.after<CF.tough.before?'Not as bad as it seemed.':'Tough, and you did it anyway.'} 💪</div></div>`;
+  html+=filesBox(t);
   html+=`<label class="f">Note (optional)</label><input class="inp" value="${esc(CF.note)}" placeholder="${t.type==='mind'?'Write it here…':'How did it feel?'}" oninput="CF.note=this.value">
-   <div class="btns"><button class="btn" ${needPhoto&&!CF.photoId?'disabled':''} onclick="cfSave()">${needPhoto&&!CF.photoId?'Take a photo to finish':'Mark complete ✓'}</button>
-   <button class="btn ghost" onclick="closeSheet()">Not yet</button></div>`;
+   <div class="btns"><button class="btn" ${needPhoto&&!CF.photoId?'disabled':''} onclick="cfSave()">${needPhoto&&!CF.photoId?'Take a photo to finish':wk?'Finish walk ✓':'Mark complete ✓'}</button>
+   <button class="btn ghost" onclick="closeSheet()">${wk?'Keep walking':'Not yet'}</button>
+   ${wk?`<button class="small muted" style="text-decoration:underline;margin-top:4px" onclick="walkCancel()">Cancel this walk</button>`:''}</div>`;
   openSheet(html,null,true);
 }
 function cfPhoto(){
@@ -595,22 +856,28 @@ function cfSave(){
   const w=(CF.workout||[]).filter(x=>String(x.ex).trim()).map(x=>({ex:String(x.ex).trim(),sets:x.sets,reps:x.reps,kg:x.kg}));
   const n=new Date();
   const at=dk(n)+'T'+pad(n.getHours())+':'+pad(n.getMinutes())+':'+pad(n.getSeconds());
-  S.data.completions.push({id:uid(),taskId:o.task.id,date:o.date,slot:o.slot,at,photoId:CF.photoId,note:CF.note.trim(),workout:w.length?w:undefined,late:o.date<todayK()||undefined,tough:CF.tough||undefined});
-  const wasTough=!!CF.tough;if(wasTough)delete S.data.tough[o.task.id+'|'+o.date+'|'+o.slot];
+  const wk=walkFor(o);let walk;
+  if(wk){walk={steps:walkSteps(wk),mins:walkMins(wk)};if(o.task.stepMode==='goal'&&o.task.stepGoal)walk.goal=o.task.stepGoal;delete S.data.walks[walkKey(o)]}
+  S.data.completions.push({id:uid(),taskId:o.task.id,date:o.date,slot:o.slot,at,photoId:CF.photoId,note:CF.note.trim(),workout:w.length?w:undefined,late:o.date<todayK()||undefined,tough:CF.tough||undefined,walk});
+  const wasTough=!!CF.tough,CF0p=!!(CF.tough&&CF.tough.partial);if(wasTough)delete S.data.tough[o.task.id+'|'+o.date+'|'+o.slot];
   CF.saved=true;save();CF=null;closeSheet();render();
-  if(wasTough){toast('You did the hard thing 💪');return}
+  if(wasTough){toast(CF0p?'Done for today 🌿':'You did the hard thing 💪');return}
+  if(walk){toast('Walk done: '+fmtN(walk.steps)+' steps'+(walk.goal&&walk.steps>=walk.goal?' 🎉':' 🌿'));return}
   const w2=weekStats();
   toast(w2.done>=w2.total&&w2.total?'That\'s the whole week done 🌿':['Nice one ✓','Small step, done 🌿','Ticked off ✓','Good on you 🌊'][Math.floor(Math.random()*4)]);
 }
-function openDone(o){
+function openDone(o,keep){
   const c=o.comp,t=o.task,ph=c.photoId?photoSrc(c.photoId):'';
-  openSheet(`<h3>${esc(t.emoji)} ${esc(t.name)}</h3>
+  openSheet(`${editPill(t.id)}<h3>${esc(t.emoji)} ${esc(t.name)}</h3>
    <div class="muted small" style="margin-top:-8px">${relDay(o.date)} · planned ${fmtTime(o.slot)} · done ${fmtDate(c.at.slice(0,10))} ${fmtTime(c.at.slice(11,16))}${c.late?' (late)':''}</div>
-   ${ph?`<img class="photo-big" src="${ph}">`:'<p class="muted">No photo for this one.</p>'}
+   ${c.walk?walkDoneCard(c.walk):''}
+   ${ph?`<img class="photo-big" src="${ph}">`:c.walk?'':'<p class="muted">No photo for this one.</p>'}
    ${c.workout?`<div class="card" style="padding:12px">${c.workout.map(w=>`<div class="row between small" style="padding:4px 0"><b>${esc(w.ex)}</b><span class="muted">${esc(w.sets||'-')}×${esc(w.reps||'-')} ${w.kg?'@ '+esc(w.kg)+'kg':''}</span></div>`).join('')}</div>`:''}
    ${c.note?`<p>“${esc(c.note)}”</p>`:''}
+   ${stepsBox(t)}${filesBox(t)}
    <div class="btns"><button class="btn ghost" onclick="closeSheet()">Close</button>
-   ${o.date>=dk(addDays(new Date(),-1))?`<button class="btn danger" onclick="undoComp('${c.id}')">Undo – mark not done</button>`:''}</div>`);
+   ${o.date>=dk(addDays(new Date(),-1))?`<button class="btn danger" onclick="undoComp('${c.id}')">Undo – mark not done</button>`:''}</div>`,null,keep);
+  STEP_REFRESH=()=>openDone(o,true);
 }
 function undoComp(id){
   if(!confirmTap('undo'+id,'Tap again to undo'))return;
@@ -1043,7 +1310,10 @@ function supportCard(){
   const c=country(),h=HELP[c];
   let html=`<div class="sec row between"><span>Need to talk to someone?</span><button class="tiny" style="color:var(--coral);text-transform:none;letter-spacing:0;font-weight:700" onclick="pickCountry()">${h.flag} ${esc(h.name)} · change</button></div>`;
   if(h.lines.length){
-    html+=`<div class="card help">${h.lines.map(([n,d,num,link])=>`<a href="${link}"><span><b style="color:var(--ink)">${esc(n)}</b><div class="tiny muted">${esc(d)}</div></span><b style="white-space:nowrap;margin-left:8px">${esc(num)}</b></a>`).join('')}</div>
+    const row=([n,d,num,link])=>`<a href="${link}"><span><b style="color:var(--ink)">${esc(n)}</b><div class="tiny muted">${esc(d)}</div></span><b style="white-space:nowrap;margin-left:8px">${esc(num)}</b></a>`;
+    const L=h.lines,mid=L.slice(1,-1);
+    html+=`<div class="card help">${row(L[0])}${S.helpOpen||mid.length<2?mid.map(row).join(''):''}${L.length>1?row(L[L.length-1]):''}
+      ${mid.length>=2?`<button class="foldbtn" style="border:0;margin-top:0" onclick="S.helpOpen=${S.helpOpen?'false':'true'};render()">${S.helpOpen?'Fewer numbers ▴':mid.length+' more support lines ▾'}</button>`:''}</div>
       <div class="tiny muted" style="margin:0 4px 10px">Tap a line to call or text. Talking to a mate or your GP counts too.</div>`;
   } else {
     html+=`<div class="card help"><a href="https://findahelpline.com"><span><b style="color:var(--ink)">Find a helpline</b><div class="tiny muted">Free, confidential support lines in your country</div></span><b>Open ›</b></a>
@@ -1079,10 +1349,10 @@ function moodNote(){
 }
 function moodCard(){
   const m=moodFor(todayK());
-  return `<div class="card"><div class="row between"><h2 style="margin:0">How are you feeling?</h2>${m?`<button class="small muted" style="text-decoration:underline" onclick="moodNote()">${m.note?'edit note':'add a note'}</button>`:''}</div>
-    <div class="moods" style="margin-top:10px">${MOODS.map((e,i)=>`<button class="${m&&m.score===i+1?'on':''}" onclick="setMood(${i+1})" aria-label="${MOOD_WORDS[i]}">${e}</button>`).join('')}</div>
-    ${m&&m.score<=2?`<button class="banner sun" style="margin:12px 0 0" onclick="wtStart()">🧭 <span><b>Tough day? Work through it.</b> Say it, narrow it down, find one thing to do, then breathe.</span></button>
-      <button class="small" style="margin-top:8px;text-align:left;padding:0;color:var(--coral)" onclick="go('mind')">Or see who you can talk to →</button>`:''}</div>`;
+  if(m&&!S.moodOpen)return `<div class="moodline"><button class="ml-main" onclick="S.moodOpen=true;render()"><span style="font-size:24px">${MOODS[m.score-1]}</span><span><b>Feeling ${MOOD_WORDS[m.score-1].toLowerCase()} today</b><span class="tiny muted" style="display:block">${m.note?esc(m.note.slice(0,60))+(m.note.length>60?'…':''):'Tap to change'}</span></span></button><button class="ml-note" onclick="moodNote()">${m.note?'✏️':'+ note'}</button></div>
+    ${m.score<=2?`<button class="banner sun" onclick="wtStart()">🧭 <span><b>Tough day? Work through it.</b> Say it, narrow it down, find one thing to do, then breathe.</span></button>`:''}`;
+  return `<div class="card moodcard"><div class="row between"><div class="mc-q">How are you feeling?</div>${m?`<button class="tiny muted" onclick="S.moodOpen=false;render()">Done</button>`:''}</div>
+    <div class="moods">${MOODS.map((e,i)=>`<button class="${m&&m.score===i+1?'on':''}" onclick="S.moodOpen=false;setMood(${i+1})" aria-label="${MOOD_WORDS[i]}">${e}</button>`).join('')}</div></div>`;
 }
 function mantraCard(){
   return `<div class="card" style="background:linear-gradient(135deg,#FFFFFF,#EEF5F2)"><div class="small muted">Today's mantra</div><div class="mantra" style="padding:10px 4px 4px;font-size:20px">“${esc(todayMantra())}”</div></div>`;
@@ -1125,45 +1395,76 @@ function moodChart(){
   return s+'</svg>';
 }
 function avgMood(fromK,toK){const ms=S.data.moods.filter(m=>m.date>=fromK&&m.date<=toK);return ms.length?ms.reduce((a,m)=>a+m.score,0)/ms.length:null}
+/* journal: check-in notes, journal entries and work-throughs in one timeline */
+const JKIND={mood:'Check-in',journal:'Journal',wt:'Worked through'};
+function journalItems(kind){
+  const out=[];
+  if(kind==='all'||kind==='mood')S.data.moods.filter(m=>m.note).forEach(m=>out.push({kind:'mood',date:m.date,sort:m.at||m.date,icon:MOODS[m.score-1],text:esc(m.note),tap:`viewCheckin('${m.date}')`}));
+  if(kind==='all'||kind==='journal')S.data.journal.forEach(j=>out.push({kind:'journal',date:j.date,sort:j.date+'T99'+j.id,icon:'✍️',text:esc(j.text),tap:`editJournal('${j.id}')`}));
+  if(kind==='all'||kind==='wt')S.data.wt.forEach(w=>{const prob=w.rounds[2].text||w.rounds[1].text||w.rounds[0].text,sol=w.sol.text,voice=w.rounds.some(r=>r.audioId)||w.sol.audioId;
+    out.push({kind:'wt',date:w.date,sort:w.at,icon:'🧭',extra:(voice?' · 🎙️':'')+(w.done?'':' · unfinished'),text:sol?'<b>Plan:</b> '+esc(sol):prob?esc(prob):'Voice notes',tap:`wtView('${w.id}')`})});
+  return out.sort((a,b)=>b.date.localeCompare(a.date)||String(b.sort).localeCompare(String(a.sort)));
+}
+function journalRows(items){
+  let html='',last='';
+  for(const it of items){
+    if(it.date!==last){html+=`<div class="jday">${relDay(it.date)}</div>`;last=it.date}
+    html+=`<button class="jrow" onclick="${it.tap}"><div class="ji">${it.icon}</div><div style="flex:1;min-width:0"><div class="jk">${JKIND[it.kind]}${it.extra||''}</div><div class="jt">${it.text}</div></div></button>`;
+  }
+  return html;
+}
+function journalCard(){
+  const k=S.jf||'all',items=journalItems(k),counts={mood:journalItems('mood').length,journal:S.data.journal.length,wt:S.data.wt.length};
+  const tabs=[['all','All'],['mood','Check-ins'],['journal','Journal'],['wt','Worked through']].filter(([x])=>x==='all'||counts[x]);
+  const SHOW=3;
+  return `<div class="card"><div class="row between"><h2 style="margin:0">📓 Journal</h2><button class="btn sm" onclick="editJournal(null)">+ Write</button></div>
+    ${tabs.length>2?`<div class="seg" style="margin-top:12px">${tabs.map(([x,l])=>`<button class="${k===x?'on':''}" onclick="S.jf='${x}';render()">${l}</button>`).join('')}</div>`:'<div style="height:6px"></div>'}
+    ${items.length?journalRows(items.slice(0,SHOW)):`<div class="small muted" style="padding:10px 2px">Nothing here yet. Notes from your mood check-ins, journal entries and work-throughs all land here.</div>`}
+    ${items.length>SHOW?`<button class="btn ghost sm" style="width:100%;margin-top:10px" onclick="openJournalAll()">See all ${items.length}</button>`:''}</div>`;
+}
+function openJournalAll(){
+  const k=S.jf||'all',items=journalItems(k);
+  openSheet(`<h3>📓 ${k==='all'?'Journal':JKIND[k]}</h3>${journalRows(items)}<div class="btns"><button class="btn ghost" onclick="closeSheet()">Close</button></div>`);
+}
+function viewCheckin(date){
+  const m=moodFor(date);if(!m)return;
+  openSheet(`<h3>${MOODS[m.score-1]} ${relDay(m.date)}</h3><div class="muted small" style="margin-top:-8px">Feeling ${MOOD_WORDS[m.score-1].toLowerCase()}${m.at?' · '+fmtTime(m.at.slice(11,16)):''}</div>
+   <p style="white-space:pre-wrap">${esc(m.note)}</p>
+   <div class="btns"><button class="btn ghost" onclick="closeSheet()">Close</button>${date===todayK()?`<button class="btn ghost" onclick="moodNote()">Edit note</button>`:''}</div>`);
+}
 function viewMind(){
+  if(S.mindView==='fresh')return viewFresh();
   const ws=weekStart(new Date()),thisA=avgMood(dk(ws),todayK()),lastA=avgMood(dk(addDays(ws,-7)),dk(addDays(ws,-1)));
-  let html=`<div class="wrap"><div class="top"><div><h1>Mind</h1><div class="sub">Mood, mantras, journal and calm</div></div></div>`;
-  html+=`<button class="card row" style="width:100%;text-align:left;background:linear-gradient(135deg,#E4F0EC,#ECE9F7)" onclick="openBreathe()"><div style="font-size:34px">🌬️</div><div class="grow"><div style="font-weight:700">Breathe for a minute</div><div class="small muted">Guided box breathing, any time you need it</div></div><span class="muted">›</span></button>`;
-  html+=`<button class="card row" style="width:100%;text-align:left;background:linear-gradient(135deg,#ECE9F7,#E4F0EC)" onclick="wtStart()"><div style="font-size:34px">🧭</div><div class="grow"><div style="font-weight:700">Work through it</div><div class="small muted">Something on your mind? Say it, narrow it down, solve it, breathe.</div></div><span class="muted">›</span></button>`;
+  let html=`<div class="wrap"><div class="top"><div><h1>Mind</h1><div class="sub">Mood, journal and calm</div></div></div>`;
+  // quick tools
+  html+=`<div class="tools"><button class="tool" style="background:linear-gradient(135deg,#E4F0EC,#ECE9F7)" onclick="openBreathe()"><div class="big">🌬️</div><b>Breathe</b><div class="tiny muted">A guided minute</div></button>
+    <button class="tool" style="background:linear-gradient(135deg,#ECE9F7,#E4F0EC)" onclick="wtStart()"><div class="big">🧭</div><b>Work through it</b><div class="tiny muted">Say it, narrow it, solve it</div></button></div>
+    <button class="tool" style="width:100%;margin:-4px 0 14px;display:flex;gap:12px;align-items:center;background:linear-gradient(135deg,#FFF6E3,#E4F0EC)" onclick="openFresh()"><div class="big">✨</div><div class="grow"><b>Fresh eyes</b><div class="tiny muted">Catch yourself getting used to the good stuff${frDueWants().length?' · <b>'+frDueWants().length+' cool-off ready</b>':''}</div></div><span class="muted">›</span></button>`;
+  // mood
   html+=`<div class="card"><h2>Mood · last 30 days</h2>${moodChart()}
     ${thisA!==null?`<div class="stat" style="margin-top:10px"><div><b>${MOODS[Math.round(thisA)-1]}</b><span class="small muted">this week</span></div><div><b>${lastA!==null?MOODS[Math.round(lastA)-1]:'–'}</b><span class="small muted">last week</span></div></div>`:''}</div>`;
-  const notes=S.data.moods.filter(m=>m.note).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5);
-  if(notes.length)html+=`<div class="sec">Recent check-ins</div>`+notes.map(m=>`<div class="item" style="cursor:default"><div class="emo" style="background:var(--sunSoft)">${MOODS[m.score-1]}</div><div class="grow"><div class="t2">${relDay(m.date)}</div><div>${esc(m.note)}</div></div></div>`).join('');
-  const W=[...S.data.wt].sort((a,b)=>b.at.localeCompare(a.at));
-  if(W.length)html+=`<div class="sec">Worked through</div>`+W.slice(0,8).map(w=>{const prob=w.rounds[2].text||w.rounds[1].text||w.rounds[0].text,sol=w.sol.text;
-    const voice=w.rounds.some(r=>r.audioId)||w.sol.audioId;
-    return `<button class="item" onclick="wtView('${w.id}')"><div class="emo" style="background:var(--sunSoft)">🧭</div><div class="grow"><div class="t2">${relDay(w.date)}${voice?' · 🎙️':''}${w.done?'':' · unfinished'}</div>
-      <div style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${sol?'<b>Plan:</b> '+esc(sol):prob?esc(prob):'Voice notes'}</div></div></button>`}).join('');
-  const ts=toughStats();
-  if(ts)html+=`<div class="sec">Tough tasks</div><div class="card"><div class="stat"><div><b>${ts.n}</b><span class="small muted">hard things done</span></div><div><b>${DREAD[Math.round(ts.before)-1]} → ${DREAD[Math.round(ts.after)-1]}</b><span class="small muted">dread vs reality</span></div></div>
-    <div class="small" style="margin-top:10px">${ts.after<ts.before?`On average you expect them to be <b>${ts.before.toFixed(1)}/5</b> bad and they turn out <b>${ts.after.toFixed(1)}/5</b>. The dread is usually worse than the job.`:'They\'ve been genuinely tough, and you\'ve still been getting them done.'}</div></div>`;
+  // journal timeline
+  html+=journalCard();
   // mantras
-  html+=`<div class="sec">My mantras</div>`;
-  if(!S.data.mantras.length)html+=`<div class="tiny muted" style="margin:0 4px 8px">Using a few starter mantras until you add your own. One shows on Today each day.</div>`;
-  html+=(S.data.mantras.length?S.data.mantras.map(m=>`<button class="item" onclick="editMantra('${m.id}')"><div class="emo">🗣️</div><div class="grow serif" style="font-size:16px">“${esc(m.text)}”</div></button>`).join('')
-    :DEFAULT_MANTRAS.map(t=>`<div class="item" style="cursor:default;opacity:.75"><div class="emo">🗣️</div><div class="grow serif" style="font-size:16px">“${esc(t)}”</div></div>`).join(''));
-  html+=`<button class="btn ghost" onclick="editMantra(null)">+ Add a mantra</button>`;
-  // journal
-  const J=[...S.data.journal].sort((a,b)=>b.date.localeCompare(a.date)||b.id.localeCompare(a.id));
-  html+=`<div class="sec">Journal</div>`+J.slice(0,20).map(j=>`<button class="item" onclick="editJournal('${j.id}')"><div class="emo" style="background:var(--sunSoft)">✍️</div><div class="grow"><div class="t2">${fmtDate(j.date)}</div><div style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${esc(j.text)}</div></div></button>`).join('')
-    +`<button class="btn ghost" onclick="editJournal(null)">+ New entry</button>`;
-  // appointments
-  const up=upcomingAppts();
-  html+=`<div class="sec">Appointments</div>${up.map(apptItem).join('')}<button class="btn ghost" style="margin-bottom:6px" onclick="editAppt(null)">+ Add appointment</button>`;
-  // workouts (only if used)
+  const mlist=S.data.mantras.length?S.data.mantras:DEFAULT_MANTRAS.map(t=>({id:'',text:t}));
+  html+=`<div class="card"><div class="row between"><h2 style="margin:0">🗣️ My mantras</h2><button class="btn sm sec2" onclick="editMantra(null)">+ Add</button></div>
+    <div class="tiny muted" style="margin:8px 2px 2px">${S.data.mantras.length?'Today\'s, from your '+mlist.length:'Using a few starters until you add your own'}. One shows on Today each day.</div>
+    <div class="mrow serif" style="font-size:17px">“${esc(todayMantra())}”</div>
+    ${S.mantraOpen?mlist.map(m=>m.id?`<button class="mrow serif" onclick="editMantra('${m.id}')">“${esc(m.text)}”</button>`:`<div class="mrow serif" style="opacity:.7">“${esc(m.text)}”</div>`).join('')+`<button class="foldbtn" onclick="S.mantraOpen=false;render()">Hide ▴</button>`
+      :`<button class="foldbtn" onclick="S.mantraOpen=true;render()">${S.data.mantras.length?'See and edit all '+mlist.length:'See the starters'} ▾</button>`}</div>`;
+  // progress: tough tasks + gym, only if used
+  const ts=toughStats();
   const wc=S.data.completions.filter(c=>{const t=task(c.taskId);return t&&t.type==='exercise'});
+  if(ts||wc.length)html+=`<div class="sec">Your progress</div>`;
+  if(ts)html+=`<div class="card"><h2>😬 Tough tasks</h2><div class="stat"><div><b>${ts.n}</b><span class="small muted">hard things done</span></div>${ts.bits?`<div><b>${ts.bits}</b><span class="small muted">days I did my bit</span></div>`:''}${ts.n?`<div><b>${DREAD[Math.round(ts.before)-1]} → ${DREAD[Math.round(ts.after)-1]}</b><span class="small muted">dread vs reality</span></div>`:''}</div>
+    ${ts.n?`<div class="small" style="margin-top:10px">${ts.after<ts.before?`On average you expect them to be <b>${ts.before.toFixed(1)}/5</b> bad and they turn out <b>${ts.after.toFixed(1)}/5</b>. The dread is usually worse than the job.`:'They\'ve been genuinely tough, and you\'ve still been getting them done.'}</div>`:`<div class="small" style="margin-top:10px">Chipping away counts. Keep showing up.</div>`}</div>`;
   if(wc.length){
     const prog={};
     wc.slice().sort((a,b)=>a.date.localeCompare(b.date)).forEach(c=>(c.workout||[]).forEach(w=>{const kg=Number(w.kg);if(!w.ex||isNaN(kg)||!kg)return;(prog[w.ex]=prog[w.ex]||[]).push(kg)}));
     const rows=Object.entries(prog).map(([ex,a])=>`<div class="row between small" style="padding:7px 0;border-bottom:1px solid var(--line)"><b>${esc(ex)}</b><span>${a[0]!==a[a.length-1]?`<span class="muted">${a[0]} → </span>`:''}<b>${a[a.length-1]}kg</b></span></div>`).join('');
-    html+=`<div class="sec">Gym</div><div class="card"><div class="stat"><div><b>${wc.filter(c=>c.date.startsWith(todayK().slice(0,7))).length}</b><span class="small muted">this month</span></div><div><b>${wc.length}</b><span class="small muted">all time</span></div></div>${rows?`<div style="margin-top:10px">${rows}</div>`:''}</div>`;
+    html+=`<div class="card"><h2>🏋️ Gym</h2><div class="stat"><div><b>${wc.filter(c=>c.date.startsWith(todayK().slice(0,7))).length}</b><span class="small muted">this month</span></div><div><b>${wc.length}</b><span class="small muted">all time</span></div></div>${rows?`<div style="margin-top:10px">${rows}</div>`:''}</div>`;
   }
-  // support
+  // support (appointments live on the Plan tab and Today)
   html+=supportCard();
   return html+'</div>';
 }
@@ -1191,6 +1492,141 @@ function saveJournal(){if(!JE.text.trim()){toast('Write something first');return
   save();closeSheet();render();toast('Saved')}
 function delJournal(id){if(!confirmTap('dj'+id,'Tap again to delete'))return;S.data.journal=S.data.journal.filter(j=>j.id!==id);save();closeSheet();render()}
 
+/* ---------- steps ---------- */
+let STEPS_AFTER=null;
+function stepsInfo(){if(!BR||!BR.stepsStatus)return S.demoSteps||{available:false};try{return JSON.parse(BR.stepsStatus())}catch(e){return {available:false}}}
+function stepsOnNow(){const i=stepsInfo();return !!(i.available&&i.enabled&&i.permission)}
+function stepsToday(){const i=stepsInfo();return i.enabled?(i.today||0):0}
+function stepsHist(){const i=stepsInfo(),h=Object.assign({},S.data.stepsHist||{});for(const k in (i.hist||{}))h[k]=Math.max(h[k]||0,i.hist[k]);if(i.enabled)h[todayK()]=i.today||0;return h}
+function fmtN(n){return Math.round(n||0).toLocaleString('en-AU')}
+function kFmt(n){return n>=1000?(Math.round(n/100)/10)+'k':String(n)}
+/* turn the step counter on (asks for "Physical activity" permission the first time), then run after() */
+function stepsOn(after){
+  if(!BR||!BR.stepsEnable){toast('Step counting works in the app on your phone');return}
+  if(stepsOnNow()){if(after)after();return}
+  STEPS_AFTER=after||null;BR.stepsEnable(true);
+}
+window.onStepsEnabled=()=>{const f=STEPS_AFTER;STEPS_AFTER=null;if(f)f();else if(!S.sheetOpen)render();window.onSteps()};
+
+/* walks: a "move" task with step counting on. Start walk → count → Finish walk */
+function walkCounting(t){return t.type==='move'&&!!t.stepMode&&(stepsInfo().available||!BR)}
+function walkKey(o){return o.task.id+'|'+o.date+'|'+o.slot}
+function walkFor(o){return (S.data.walks||{})[walkKey(o)]||null}
+function walkSteps(w){
+  if(!w||w.base==null)return 0;
+  const td=todayK();
+  if(w.day===td)return Math.max(0,stepsToday()-w.base);
+  const h=stepsHist();let n=Math.max(0,(h[w.day]||0)-w.base),d=dk(addDays(parseDk(w.day),1)),guard=0;
+  while(d<=td&&guard++<8){n+=d===td?stepsToday():(h[d]||0);d=dk(addDays(parseDk(d),1))}
+  return n;
+}
+function walkMins(w){const a=new Date(w.start.replace(' ','T'));return Math.max(0,Math.round((Date.now()-a.getTime())/60000))}
+function walkStart(){
+  if(!CF)return;const o=CF.o;
+  stepsOn(()=>{
+    if(!stepsOnNow()){renderComplete();return}
+    S.data.walks[walkKey(o)]={start:nowStamp()+':'+pad(new Date().getSeconds()),day:todayK(),base:BR&&BR.stepsSample?null:stepsToday()};
+    save();
+    if(BR&&BR.stepsSample)BR.stepsSample();
+    if(CF)renderComplete();render();
+    toast('Walk started. Pop your phone in your pocket 🚶');
+  });
+}
+function walkCancel(){
+  if(!CF)return;
+  if(!confirmTap('wc','Tap again to cancel the walk'))return;
+  delete S.data.walks[walkKey(CF.o)];save();renderComplete();render();
+}
+function walkBar(n,g){return `<div style="height:10px;border-radius:9px;background:var(--line);margin-top:10px;overflow:hidden"><div id="wkBar" style="height:100%;width:${Math.min(100,n/g*100)}%;background:${n>=g?'var(--green)':'var(--coral)'};border-radius:9px;transition:width .4s"></div></div>`}
+function walkGoalTxt(n,g){return n>=g?'<b style="color:var(--green)">Goal reached 🎉</b>':fmtN(g-n)+' to go'}
+function walkCard(o,w){
+  const t=o.task,g=t.stepMode==='goal'?t.stepGoal:0;
+  if(!w)return `<div class="card" style="margin-top:14px;text-align:center">
+    <div style="font-size:30px">👣</div><div style="font-weight:700;margin-top:2px">${g?'Goal: '+fmtN(g)+' steps':'Count this walk'}</div>
+    <div class="tiny muted" style="margin:4px 0 12px">Tap start, put your phone in your pocket and go. Steps keep counting with the screen off.</div>
+    <button class="btn" onclick="walkStart()">▶ Start walk</button></div>`;
+  const n=walkSteps(w),mins=walkMins(w);
+  return `<div class="card" style="margin-top:14px">
+    <div class="row between"><div class="small muted">🚶 Walking since ${fmtTime(w.start.slice(11,16))}</div><div class="small muted" id="wkMins">${mins} min</div></div>
+    <div style="margin-top:4px"><span id="wkNow" style="font-size:40px;font-weight:800">${w.base==null?'…':fmtN(n)}</span> <span class="muted">steps</span></div>
+    ${g?walkBar(n,g)+`<div class="small muted" style="margin-top:6px" id="wkTxt">${walkGoalTxt(n,g)} · goal ${fmtN(g)}</div>`:`<div class="small muted" style="margin-top:2px">Just counting. Every step counts 🌿</div>`}</div>`;
+}
+function walkDoneCard(w){
+  const hit=w.goal&&w.steps>=w.goal;
+  return `<div class="card" style="padding:12px;text-align:center"><div style="font-size:28px;font-weight:800">👣 ${fmtN(w.steps)} <span class="small muted" style="font-weight:400">steps</span></div>
+    <div class="small muted">${[w.mins?w.mins+' min':'',w.goal?'goal '+fmtN(w.goal)+(hit?' ✓':''):''].filter(Boolean).join(' · ')}</div></div>`;
+}
+/* live updates from the phone's step sensor */
+window.onSteps=()=>{
+  let ch=false;
+  for(const k in (S.data.walks||{})){const w=S.data.walks[k];if(w.base==null){w.base=stepsToday();ch=true}}
+  if(ch)save();
+  document.querySelectorAll('[data-walk]').forEach(el=>{const w=S.data.walks[el.dataset.walk];if(w)el.textContent=fmtN(walkSteps(w))});
+  const st=document.getElementById('stToday');if(st)st.textContent=fmtN(stepsToday());
+  if(CF&&S.sheetOpen){
+    const w=walkFor(CF.o);const a=document.getElementById('wkNow');
+    if(w&&a){const n=walkSteps(w),t=CF.o.task,g=t.stepMode==='goal'?t.stepGoal:0;
+      a.textContent=fmtN(n);
+      const m=document.getElementById('wkMins');if(m)m.textContent=walkMins(w)+' min';
+      if(g){const b=document.getElementById('wkBar');if(b){b.style.width=Math.min(100,n/g*100)+'%';b.style.background=n>=g?'var(--green)':'var(--coral)'}
+        const x=document.getElementById('wkTxt');if(x)x.innerHTML=walkGoalTxt(n,g)+' · goal '+fmtN(g);
+        if(n>=g&&!w.hit){w.hit=true;save();toast('🎉 Step goal reached! Keep going or finish up')}}
+    }
+  }
+};
+setInterval(()=>{if(CF&&S.sheetOpen&&walkFor(CF.o)){const m=document.getElementById('wkMins');if(m)m.textContent=walkMins(walkFor(CF.o))+' min'}},30000);
+
+/* task editor option */
+function teStepsCard(){
+  const i=stepsInfo();if(BR&&!i.available)return '';
+  const on=!!TE.stepMode,goal=TE.stepMode==='goal';
+  return `<div class="card" style="margin-top:12px;padding:12px 14px"><div class="row between"><div><b>👣 Count steps</b><div class="tiny muted">Tap "Start walk" when you head out and your phone counts the steps.</div></div><button class="toggle ${on?'on':''}" onclick="teSteps()"></button></div>
+   ${on?`<div class="chips" style="margin-top:10px"><button class="chip ${!goal?'on':''}" onclick="TE.stepMode='count';renderTE()">Just count</button><button class="chip ${goal?'on':''}" onclick="TE.stepMode='goal';TE.stepGoal=TE.stepGoal||3000;renderTE()">Set a goal</button></div>
+     ${goal?`<label class="f">Steps per walk</label><input class="inp" inputmode="numeric" value="${esc(TE.stepGoal||'')}" oninput="TE.stepGoal=parseInt(this.value)||''">
+       <div class="chips" style="margin-top:8px">${[1000,2000,3000,5000,8000,10000].map(v=>`<button class="chip ${TE.stepGoal===v?'on':''}" onclick="TE.stepGoal=${v};renderTE()">${fmtN(v)}</button>`).join('')}</div>
+       <div class="tiny muted" style="margin-top:6px">Rough guide: 1,000 steps is about 10 minutes of walking.</div>`
+      :`<div class="tiny muted" style="margin-top:6px">No target. Just see how much you do.</div>`}`:''}</div>`;
+}
+function teSteps(){
+  if(TE.stepMode){TE.stepMode=null;renderTE();return}
+  TE.stepMode='count';renderTE();
+  if(BR&&!stepsOnNow())stepsOn(()=>{if(!stepsOnNow())TE.stepMode=null;if(TE)renderTE()});
+}
+
+/* Today card + history sheet */
+function stepsTodayCard(){
+  if(!stepsOnNow())return '';
+  const h=stepsHist(),n=stepsToday();
+  const days=[];for(let k=6;k>=0;k--){const d=dk(addDays(new Date(),-k));days.push(h[d]||0)}
+  const mx=Math.max(1,...days);
+  const bars=days.map((v,i)=>`<div style="flex:1;height:${Math.max(4,v/mx*26)}px;border-radius:4px;background:${i===6?'var(--coral)':'var(--coralSoft)'}"></div>`).join('');
+  return `<button class="item" onclick="openStepsSheet()"><div class="emo" style="background:#EEF5F2">👣</div><div class="grow"><div class="t1"><span id="stToday">${fmtN(n)}</span> steps today</div><div class="t2">Tap for the last few weeks</div></div>
+    <div style="display:flex;gap:3px;align-items:flex-end;width:84px;height:28px">${bars}</div></button>`;
+}
+function openStepsSheet(){
+  const h=stepsHist(),days=[];for(let k=6;k>=0;k--){const d=dk(addDays(new Date(),-k));days.push([d,h[d]||0])}
+  const W=320,H=150,P=14,top=22,bot=22,bw=(W-P*2)/7,max=Math.max(1000,...days.map(x=>x[1]))*1.1;
+  const y=v=>H-bot-(v/max)*(H-top-bot);
+  let svg=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;margin-top:8px">`;
+  days.forEach(([d,v],idx)=>{const x=P+idx*bw+bw*.18,w=bw*.64,yy=y(v),isT=d===todayK();
+    svg+=`<rect x="${x}" y="${yy}" width="${w}" height="${Math.max(0,H-bot-yy)}" rx="6" fill="${isT?'#5E8C83':'#B9D3CD'}"/>`;
+    if(v)svg+=`<text x="${x+w/2}" y="${yy-5}" text-anchor="middle" font-size="10" font-weight="700" fill="#22302D">${kFmt(v)}</text>`;
+    svg+=`<text x="${x+w/2}" y="${H-6}" text-anchor="middle" font-size="11" fill="${isT?'#5E8C83':'#6C7D78'}" font-weight="${isT?700:400}">${DOW[parseDk(d).getDay()][0]}</text>`});
+  svg+='</svg>';
+  const past=Object.entries(h).filter(([d,v])=>d<todayK()&&v>0).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,7).map(x=>x[1]);
+  const avg=past.length?past.reduce((a,b)=>a+b,0)/past.length:null,best=Math.max(0,...Object.values(h));
+  const walks=S.data.completions.filter(c=>c.walk).sort((a,b)=>b.at.localeCompare(a.at)).slice(0,5);
+  openSheet(`<h3>👣 Steps</h3><div><span style="font-size:32px;font-weight:800">${fmtN(stepsToday())}</span> <span class="muted">today</span></div>${svg}
+    <div class="stat" style="margin-top:6px"><div><b>${avg!==null?fmtN(avg):'–'}</b><span class="small muted">daily average</span></div><div><b>${best?kFmt(best):'–'}</b><span class="small muted">best day</span></div></div>
+    ${walks.length?`<div class="sec">Recent walks</div>`+walks.map(c=>{const t=task(c.taskId);return `<div class="row between small" style="padding:8px 2px;border-bottom:1px solid var(--line)"><span>${esc(t?t.emoji+' '+t.name:'Walk')} · ${relDay(c.date)}</span><b>${fmtN(c.walk.steps)}${c.walk.goal&&c.walk.steps>=c.walk.goal?' ✓':''}</b></div>`}).join(''):''}
+    <div class="tiny muted" style="margin-top:12px">Counted by your phone's built-in step counter, only while it's on you. Nothing leaves your phone.</div>
+    <div class="btns"><button class="btn ghost" onclick="closeSheet()">Close</button></div>`);
+}
+function stepsSettingsCard(){
+  const i=stepsInfo();if(!i.available)return '';const on=stepsOnNow();
+  return `<div class="card"><h2>👣 Step counter</h2><div class="row between"><div><b>${on?'Counting steps':'Off'}</b><div class="tiny muted">Uses your phone's built-in step counter, with barely any battery. Turn on "Count steps" on a walk task to count each walk. Nothing leaves your phone.</div></div><button class="toggle ${on?'on':''}" onclick="${on?'BR.stepsEnable(false);closeSheet()':'stepsOn(()=>{if(S.sheetOpen)openSettings();render()})'}"></button></div></div>`;
+}
+
 /* ---------- Plan ---------- */
 const TEMPLATES=[
  {name:'Walk outside',emoji:'🚶',type:'move',repeat:'daily',days:[0,1,2,3,4,5,6],times:['17:30'],notes:'Phone in your pocket'},
@@ -1202,24 +1638,588 @@ const TEMPLATES=[
  {name:'Gym',emoji:'🏋️',type:'exercise',repeat:'weekly',days:[1,3,5],times:['05:30'],notes:''},
  {name:'In bed by 10:30',emoji:'😴',type:'other',repeat:'daily',days:[0,1,2,3,4,5,6],times:['22:00'],notes:''}
 ];
-const TYPES=[['move','🚶 Move'],['mind','🧘 Mind'],['mantra','🗣️ Mantra'],['breathe','🌬️ Breathing'],['connect','📞 Connect'],['exercise','🏋️ Gym'],['other','✨ Other']];
+const TYPES=[['move','🚶 Move'],['mind','🧘 Mind'],['mantra','🗣️ Mantra'],['breathe','🌬️ Breathing'],['connect','📞 Connect'],['exercise','🏋️ Gym'],
+ ['work','💼 Work'],['business','🚀 Side hustle'],['admin','🧾 Money & admin'],['home','🏠 Home & jobs'],['study','📚 Learning'],['health','🩺 Health'],['selfcare','🛁 Self-care'],['fun','🎸 Fun & hobbies'],['other','✨ Other']];
+const TYPE_EMO={move:'🚶',mind:'🧘',mantra:'🗣️',breathe:'🌬️',connect:'📞',exercise:'🏋️',work:'💼',business:'🚀',admin:'🧾',home:'🏠',study:'📚',health:'🩺',selfcare:'🛁',fun:'🎸',other:'✨'};
+const ICON_GROUPS=[
+ ['Mind & body',['🚶','🗣️','🌬️','🙏','🧘','📵','😴','☀️','🌿','💧','🏋️','🏃','🚴','🏊','🥗','🍎','💊','🩺','🦷','🛁']],
+ ['Work & business',['💼','💻','🔨','🪚','🧰','🏗️','📐','🦺','📋','📝','✍️','📧','📞','🗂️','📊','🚀','🤝','📣','🧑‍💼','⏰']],
+ ['Money & admin',['💰','🧾','🏦','💳','📑','🗳️','📮','🪪']],
+ ['Home & life',['🏠','🧹','🧺','🛒','🍳','🚗','🔧','🪴','🐶','🗑️','🧽','🛠️']],
+ ['Learning',['📚','🎓','🧠','📖','🎧','🗺️']],
+ ['People & fun',['❤️','👨‍👩‍👧','🎉','☕','🎸','🎨','🎮','🎬','🏖️','🏄','🎣','⚽','📷','✨','🎯','✅']]];
+function toggleIcons(){S.moreIcons=!S.moreIcons;renderTE()}
+function customEmoji(v){v=(v||'').trim();if(!v)return;const seg=(window.Intl&&Intl.Segmenter)?[...new Intl.Segmenter().segment(v)].map(x=>x.segment):[...v];TE.emoji=seg[0];renderTE()}
+function pickType(k){const prev=TYPE_EMO[TE.type];if(!TE.emoji||TE.emoji===prev||TE.emoji==='✨')TE.emoji=TYPE_EMO[k]||TE.emoji;TE.type=k;renderTE()}
 function viewPlan(){
   const live=S.data.tasks.filter(t=>!t.end);
   const act=live.filter(t=>t.active&&!isFinished(t)),paused=live.filter(t=>!t.active&&!isFinished(t)),fin=live.filter(t=>isFinished(t));
   const rep=act.filter(t=>t.repeat!=='none'),once=act.filter(t=>t.repeat==='none').sort((a,b)=>a.start.localeCompare(b.start));
   const it=t=>`<button class="item" onclick="editTask('${t.id}')" style="${t.active&&!isFinished(t)?'':'opacity:.6'}"><div class="emo">${esc(t.emoji)}</div><div class="grow"><div class="t1">${esc(t.name)}</div>
-    <div class="t2">${scheduleSummary(t)} · ${t.times.map(fmtTime).join(', ')}</div></div><span class="muted">›</span></button>`;
+    <div class="t2">${scheduleSummary(t).replace(/^One-off · /,'')} · ${t.times.map(fmtTime).join(', ')}</div></div><span class="muted">›</span></button>`;
   const unused=TEMPLATES.filter(tp=>!live.some(t=>t.name.toLowerCase()===tp.name.toLowerCase()&&!isFinished(t)));
-  return `<div class="wrap"><div class="top"><div><h1>My plan</h1><div class="sub">Pick what to do, which days and when</div></div></div>
-   ${rep.length||once.length?'':'<div class="card empty">No tasks yet. Add one below.</div>'}
-   ${rep.length?`<div class="sec" style="margin-top:6px">Repeating</div>${rep.map(it).join('')}`:''}
-   ${once.length?`<div class="sec">One-off</div>${once.map(it).join('')}`:''}
-   <button class="btn" style="margin-top:4px" onclick="editTask(null)">+ New task</button>
-   ${unused.length?`<div class="sec">Quick add</div><div class="chips">${unused.map(tp=>`<button class="chip" onclick="editTask(null,'${esc(tp.name)}')">${tp.emoji} ${esc(tp.name)}</button>`).join('')}</div>`:''}
-   ${paused.length?`<div class="sec">Paused</div>${paused.map(it).join('')}`:''}
-   <div class="sec">Appointments</div>${upcomingAppts().map(apptItem).join('')}
-   <button class="btn ghost" onclick="editAppt(null)">+ Add appointment</button>
-   ${fin.length?`<div class="sec">Finished</div>${fin.slice(-10).map(it).join('')}`:''}</div>`;
+  if(S.planSeg==='projects'&&S.proj&&proj(S.proj))return viewProject(proj(S.proj));
+  const seg=`<div class="chips" style="margin:0 0 12px"><button class="chip ${S.planSeg!=='projects'?'on':''}" onclick="S.planSeg='tasks';render()">📋 Tasks</button><button class="chip ${S.planSeg==='projects'?'on':''}" onclick="S.planSeg='projects';S.proj=null;render()">📓 Projects${(S.data.projects||[]).filter(p=>!p.archived).length?' · '+(S.data.projects||[]).filter(p=>!p.archived).length:''}</button></div>`;
+  if(S.planSeg==='projects')return `<div class="wrap"><div class="top"><div><h1>My plan</h1><div class="sub">Workbooks for the bigger things</div></div></div>${seg}${viewProjects()}</div>`;
+  return `<div class="wrap"><div class="top"><div><h1>My plan</h1><div class="sub">Pick what to do, which days and when</div></div></div>${seg}
+   <div class="row" style="gap:8px"><button class="btn" style="flex:1;margin:0;white-space:nowrap" onclick="editTask(null)">+ New task</button><button class="btn ghost" style="flex:1;margin:0;white-space:nowrap" onclick="editAppt(null)">+ Appointment</button></div>
+   ${unused.length?(S.qaOpen?`<div class="chips" style="margin-top:10px">${unused.map(tp=>`<button class="chip" onclick="editTask(null,'${esc(tp.name)}')">${tp.emoji} ${esc(tp.name)}</button>`).join('')}</div><button class="foldbtn" style="border:0" onclick="S.qaOpen=false;render()">Hide ideas ▴</button>`:`<button class="foldbtn" style="border:0" onclick="S.qaOpen=true;render()">Quick add ideas ▾</button>`):''}
+   ${rep.length||once.length?'':'<div class="card empty" style="margin-top:12px">No tasks yet. Tap + New task to add one.</div>'}
+   ${rep.length?`<div class="sec">Repeating · ${rep.length}</div>${rep.map(it).join('')}`:''}
+   ${once.length?`<div class="sec">One-off · ${once.length}</div>${once.map(it).join('')}`:''}
+   ${upcomingAppts().length?`<div class="sec">Appointments</div>${upcomingAppts().map(apptItem).join('')}`:''}
+   ${paused.length?`<div class="sec">Paused · ${paused.length}</div>${paused.map(it).join('')}`:''}
+   ${fin.length?(S.finOpen?`<div class="sec">Finished</div>${fin.slice(-15).reverse().map(it).join('')}<button class="foldbtn" style="border:0" onclick="S.finOpen=false;render()">Hide finished ▴</button>`:`<button class="foldbtn" style="border:0;margin-top:14px" onclick="S.finOpen=true;render()">Finished · ${fin.length} ▾</button>`):''}</div>`;
+}
+/* ---------- Projects: workbooks for bigger things, worked through step by step ---------- */
+const PROJ_EMO=['🚀','💼','🔨','🏠','💰','🎓','💪','🧠','🌿','✈️','🎯','❤️','🎸','📓'];
+const PROJ_TPL={
+ business:{name:'Start a side business',emoji:'🚀',why:'',items:[
+  ['h','Get set up'],['s','Register an ABN / business number'],['s','Check what licences and insurance I need'],['s','Get insurance quotes'],['s','Open a separate bank account'],
+  ['h','Get ready'],['s','Work out my rates and pricing'],['s','Make a quote / invoice template'],['s','List the tools and gear I need'],
+  ['h','Find the work'],['s','Make a Facebook page or simple website'],['s','Tell friends and family I\'m taking jobs'],['s','Ask for a review after each job'],
+  ['h','First job'],['s','Land the first job'],['s','Do it, invoice it, get paid']]},
+ job:{name:'Find a new job',emoji:'💼',why:'',items:[
+  ['h','Get ready'],['s','Update my CV'],['s','Write a cover letter I can tweak'],['s','List the roles and companies I want'],
+  ['h','Apply'],['s','Apply for 3 jobs'],['s','Follow up on applications'],
+  ['h','Interviews'],['s','Prep answers for common questions'],['s','Do the interview'],['s','Send a thank-you']]},
+ blank:{name:'',emoji:'📓',why:'',items:[]}
+};
+function proj(id){return (S.data.projects||[]).find(p=>p.id===id)}
+function owner(id){return task(id)||proj(id)}
+function pSteps(p){return p.items.filter(i=>i.kind==='s')}
+function pNext(p){return pSteps(p).find(i=>!i.done)}
+function pPct(p){const s=pSteps(p);return s.length?Math.round(100*s.filter(i=>i.done).length/s.length):0}
+function syncProjects(){
+  for(const p of S.data.projects||[])for(const it of p.items){
+    if(it.kind!=='s'||it.done||!it.taskId||it.manualOff)continue;
+    const c=S.data.completions.filter(c=>c.taskId===it.taskId);
+    const t=task(it.taskId);
+    if(c.length&&(!t||t.repeat==='none')){it.done=true;it.doneAt=c[c.length-1].at.slice(0,10)}
+  }
+}
+function openProj(id){S.tab='plan';S.planSeg='projects';S.proj=id;window.scrollTo(0,0);render()}
+function projCard(p){
+  const s=pSteps(p),d=s.filter(i=>i.done).length,nx=pNext(p),pc=pPct(p);
+  return `<button class="item" style="align-items:flex-start" onclick="openProj('${p.id}')"><div class="emo">${esc(p.emoji)}</div><div class="grow"><div class="t1">${esc(p.name)}</div>
+   <div class="pbar"><i style="width:${pc}%"></i></div>
+   <div class="t2">${s.length?d+' of '+s.length+' steps':'No steps yet'}${nx?' · Next: '+esc(nx.text):s.length?' · All done 🎉':''}</div></div><span class="muted">›</span></button>`;
+}
+function viewProjects(){
+  const ps=S.data.projects||[],act=ps.filter(p=>!p.archived),arc=ps.filter(p=>p.archived);
+  return `${act.length?act.map(projCard).join(''):`<div class="card" style="text-align:center"><div style="font-size:34px">📓</div><div class="serif" style="font-size:19px;margin:4px 0">Projects are your workbooks</div><div class="small muted">For bigger things like starting a business or a renovation. Break it into steps, keep notes and screenshots, and work through it at your own pace. No reminders unless you want them.</div></div>`}
+   <button class="btn" style="margin-top:4px" onclick="newProj()">+ New project</button>
+   ${arc.length?`<div class="sec">Finished & shelved</div>${arc.map(p=>`<div style="opacity:.65">${projCard(p)}</div>`).join('')}`:''}`;
+}
+let PE=null;
+function newProj(){PE={id:null,name:'',emoji:'🚀',why:'',tpl:'blank'};renderPE()}
+function editProj(id){const p=proj(id);PE={id,name:p.name,emoji:p.emoji,why:p.why||'',archived:!!p.archived};renderPE()}
+function renderPE(keep=true){
+  const isNew=!PE.id;
+  openSheet(`<h3>${isNew?'New project':'Edit project'}</h3>
+   ${isNew?`<label class="f">Start from</label><div class="chips">${[['blank','📓 Blank page'],['business','🚀 Side business'],['job','💼 Job hunt']].map(([k,l])=>`<button class="chip ${PE.tpl===k?'on':''}" onclick="pickTpl('${k}')">${l}</button>`).join('')}</div>
+     ${PE.tpl!=='blank'?`<div class="tiny muted" style="margin-top:6px">Comes with starter steps you can change, delete or add to.</div>`:''}`:''}
+   <label class="f">Project name</label><input class="inp" value="${esc(PE.name)}" placeholder="e.g. Weekend side business" oninput="PE.name=this.value">
+   <label class="f">Icon</label><div class="emopick">${PROJ_EMO.map(e=>`<button class="${PE.emoji===e?'on':''}" onclick="PE.emoji='${e}';renderPE()">${e}</button>`).join('')}</div>
+   <label class="f">Why does this matter to me? (optional)</label><textarea class="inp" rows="3" placeholder="e.g. Extra income so we can get ahead, and work I enjoy" oninput="PE.why=this.value">${esc(PE.why)}</textarea>
+   <div class="btns"><button class="btn" onclick="saveProj()">${isNew?'Create project':'Save'}</button>
+   ${!isNew?`<button class="btn ghost" onclick="archiveProj('${PE.id}')">${PE.archived?'📂 Bring it back':'🗄️ Finished / shelve it'}</button><button class="btn danger" onclick="delProj('${PE.id}')">Delete project</button>`:`<button class="btn ghost" onclick="closeSheet()">Cancel</button>`}</div>`,null,keep);
+}
+function pickTpl(k){PE.tpl=k;const t=PROJ_TPL[k];if(!PE.name.trim()||Object.values(PROJ_TPL).some(x=>x.name&&x.name===PE.name))PE.name=t.name;PE.emoji=t.emoji;renderPE()}
+function saveProj(){
+  const name=PE.name.trim();if(!name){toast('Give it a name');return}
+  S.data.projects=S.data.projects||[];
+  if(PE.id){const p=proj(PE.id);p.name=name;p.emoji=PE.emoji;p.why=PE.why.trim()}
+  else{
+    const tp=PROJ_TPL[PE.tpl]||PROJ_TPL.blank;
+    const p={id:uid(),name,emoji:PE.emoji,why:PE.why.trim(),created:todayK(),items:tp.items.map(([k,t])=>({id:uid(),kind:k,text:t,done:false})),notes:[],files:[]};
+    S.data.projects.push(p);S.proj=p.id;S.tab='plan';S.planSeg='projects';
+  }
+  PE=null;save();closeSheet();window.scrollTo(0,0);render();
+}
+function archiveProj(id){const p=proj(id);p.archived=!p.archived;save();closeSheet();if(p.archived){S.proj=null;toast('Moved to Finished & shelved')}render()}
+function delProj(id){
+  if(!confirmTap('dp'+id,'Tap again to delete the whole project'))return;
+  const p=proj(id);(p.files||[]).forEach(f=>deletePhoto(f.photoId));dropDocs(p);
+  for(const t of S.data.tasks)if(t.project===id)delete t.project;
+  S.data.projects=S.data.projects.filter(x=>x.id!==id);S.proj=null;save();closeSheet();render();toast('Project deleted');
+}
+function viewProject(p){
+  const s=pSteps(p),d=s.filter(i=>i.done).length,nx=pNext(p),pc=pPct(p);
+  const linked=S.data.tasks.filter(t=>t.project===p.id&&!t.end);
+  let n=0;const RO=S.reorder===p.id;
+  const rows=RO?p.items.map((it,ix)=>`<div class="rorow ${it.kind==='h'?'rohead':''} ${S.lastMoved===it.id?'moved':''}"><span class="grow">${it.kind==='h'?'':(it.done?'✓ ':'')}${esc(it.text)}</span>
+     <button class="robtn" ${ix?'':'disabled'} onclick="moveQuick('${p.id}','${it.id}',-1)" aria-label="Move up">▲</button><button class="robtn" ${ix<p.items.length-1?'':'disabled'} onclick="moveQuick('${p.id}','${it.id}',1)" aria-label="Move down">▼</button></div>`).join('')
+   :p.items.map((it,ix)=>{
+    if(it.kind==='h')return `<button class="phead" onclick="openPItem('${p.id}','${it.id}')">${esc(it.text)}</button>`;
+    n++;const t=it.taskId?task(it.taskId):null;
+    const sched=t&&!it.done&&!isFinished(t)?`📅 ${t.repeat==='none'?relDay(t.start):scheduleSummary(t)} ${fmtTime(t.times[0])}`:'';
+    return `<div class="pstep ${it.done?'on':''}"><button class="pchk" onclick="togglePItem('${p.id}','${it.id}')" aria-label="Tick">${it.done?'✓':''}</button>
+     <button class="ptext" onclick="openPItem('${p.id}','${it.id}')"><span>${esc(it.text)}</span>${sched||it.note||it.done&&it.doneAt?`<small>${[sched,it.note?'📝 note':'',it.done&&it.doneAt?'Done '+fmtDate(it.doneAt):''].filter(Boolean).join(' · ')}</small>`:''}</button></div>`;
+  }).join('');
+  const notes=(p.notes||[]).slice().reverse();
+  return `<div class="wrap"><div class="row between" style="margin:4px 0 6px"><button class="backtoday" style="margin:0" onclick="S.proj=null;render()">‹ Projects</button><button class="editpill" style="float:none;margin:0" onclick="editProj('${p.id}')">✏️ Edit</button></div>
+   <div class="top" style="margin-top:6px"><div><h1>${esc(p.emoji)} ${esc(p.name)}</h1>${p.archived?'<div class="sub">Finished / shelved</div>':''}</div></div>
+   ${p.why?`<div class="card" style="background:var(--sunSoft)"><div class="tiny muted">🎯 Why this matters</div><div style="margin-top:4px">${esc(p.why)}</div></div>`:''}
+   <div class="card"><div class="row between"><b>${s.length?d+' of '+s.length+' steps done':'Add your first step below'}</b><span class="muted">${s.length?pc+'%':''}</span></div><div class="pbar" style="height:9px"><i style="width:${pc}%"></i></div>
+    ${nx?`<div class="small muted" style="margin-top:10px">Next step</div><div class="serif" style="font-size:18px;margin:2px 0 10px">${esc(nx.text)}</div>
+      <div class="row" style="gap:8px"><button class="btn sm" style="flex:1;margin:0" onclick="togglePItem('${p.id}','${nx.id}')">✓ Done it</button><button class="btn ghost sm" style="flex:1;margin:0" onclick="stepToTask('${p.id}','${nx.id}')">📅 Schedule it</button></div>`
+     :s.length?`<div style="margin-top:10px">🎉 Every step is done. Huge effort.${p.archived?'':` <button class="backtoday" style="display:inline-block;margin:6px 0 0" onclick="archiveProj('${p.id}')">Mark project finished</button>`}</div>`:''}</div>
+   <div class="row between" style="margin:20px 4px 8px"><div class="sec" style="margin:0">Steps</div>${p.items.length>1?`<button class="backtoday" style="margin:0" onclick="S.reorder=${RO?'null':`'${p.id}'`};S.lastMoved=null;render()">${RO?'✓ Done':'↕ Reorder'}</button>`:''}</div>
+   ${RO?`<div class="tiny muted" style="margin:-2px 4px 8px">Use ▲ ▼ to put things in the order they need to happen.</div><div class="card" style="padding:6px 12px">${rows}</div>
+     <button class="btn" style="margin-top:4px" onclick="S.reorder=null;S.lastMoved=null;render()">✓ Done reordering</button>`:`
+   <div class="card" style="padding:6px 12px">${rows||'<div class="tiny muted" style="padding:8px 0">Break it down. What\'s the very first thing to do?</div>'}
+    <div class="row" style="gap:8px;padding:10px 0 6px;${p.items.length?'border-top:1px solid var(--line)':''}"><input class="inp" id="paddstep" style="margin:0;flex:1" placeholder="Add a step" enterkeyhint="done" onkeydown="if(event.key==='Enter'){event.preventDefault();addPItem('${p.id}','s')}"><button class="btn ghost sm" style="width:auto;margin:0;flex:none" onclick="addPItem('${p.id}','s')">+ Add</button></div>
+    <button class="tiny" style="color:var(--coral);font-weight:700;padding:4px 0 8px" onclick="addPItem('${p.id}','h')">+ Add a heading (to split it into stages)</button></div>`}
+   <div class="sec">📝 Notes & progress</div>
+   <div class="card"><textarea class="inp" id="pnote" rows="3" style="margin:0" placeholder="Ideas, phone numbers, what you got done, what you learned…"></textarea>
+    <button class="btn ghost sm" style="margin:8px 0 0" onclick="addPNote('${p.id}')">Add note</button>
+    ${notes.map(x=>`<button class="pnote" onclick="openPNote('${p.id}','${x.id}')"><small>${fmtDate(x.at.slice(0,10))}${x.at.length>10?' · '+fmtTime(x.at.slice(11,16)):''}</small><span>${esc(x.text)}</span></button>`).join('')}</div>
+   ${filesBox(p)}
+   <div class="sec">Linked tasks</div>
+   ${linked.map(t=>`<button class="item" onclick="editTask('${t.id}')"><div class="emo">${esc(t.emoji)}</div><div class="grow"><div class="t1">${esc(t.name)}</div><div class="t2">${scheduleSummary(t)} · ${t.times.map(fmtTime).join(', ')}</div></div><span class="muted">›</span></button>`).join('')}
+   <div class="tiny muted" style="margin:0 4px 8px">${linked.length?'These reminders are part of this project.':'Want a reminder to chip away at it? Link a task.'}</div>
+   <div class="row" style="gap:8px"><button class="btn ghost sm" style="flex:1;margin:0" onclick="linkTaskPick('${p.id}')">🔗 Link a task</button><button class="btn ghost sm" style="flex:1;margin:0" onclick="newTaskFor('${p.id}')">+ New task</button></div>
+   <div style="height:20px"></div></div>`;
+}
+function addPItem(pid,kind){
+  const p=proj(pid);
+  if(kind==='h'){openSheet(`<h3>Add a heading</h3><div class="small muted">Headings split your steps into stages, like "Get set up" or "Find the work". It goes at the bottom, and you can move it after.</div>
+     <input class="inp" id="phd" placeholder="e.g. Get set up" style="margin-top:12px" onkeydown="if(event.key==='Enter')savePHead('${pid}')"><div class="btns"><button class="btn" onclick="savePHead('${pid}')">Add heading</button><button class="btn ghost" onclick="closeSheet()">Cancel</button></div>`);
+    setTimeout(()=>{const e=document.getElementById('phd');if(e)e.focus()},250);return}
+  const el=document.getElementById('paddstep');const v=(el&&el.value||'').trim();if(!v){if(el)el.focus();return}
+  p.items.push({id:uid(),kind:'s',text:v,done:false});save();render();
+  const e2=document.getElementById('paddstep');if(e2)e2.focus();
+}
+function savePHead(pid){const v=(document.getElementById('phd').value||'').trim();if(!v)return;proj(pid).items.push({id:uid(),kind:'h',text:v});save();closeSheet();render()}
+function togglePItem(pid,iid){
+  const p=proj(pid),it=p.items.find(i=>i.id===iid);if(!it)return;
+  it.done=!it.done;if(it.done){it.doneAt=todayK();delete it.manualOff}else{delete it.doneAt;if(it.taskId)it.manualOff=true}
+  save();render();
+  if(it.done){const nx=pNext(p);toast(nx?'Nice one ✓ Next: '+nx.text:pSteps(p).length?'Every step done 🎉':'Done ✓')}
+  if(S.sheetOpen&&PI&&PI.iid===iid)openPItem(pid,iid,true);
+}
+let PI=null;
+function openPItem(pid,iid,keep){
+  const p=proj(pid),ix=p.items.findIndex(i=>i.id===iid),it=p.items[ix];if(!it)return;PI={pid,iid};
+  const t=it.taskId?task(it.taskId):null;const head=it.kind==='h';
+  openSheet(`<h3>${head?'Heading':'Step'}</h3>
+   <label class="f">${head?'Heading':'What needs doing'}</label><input class="inp" value="${esc(it.text)}" onchange="pItemSet('${pid}','${iid}','text',this.value)">
+   ${head?'':`<label class="f">Notes for this step (optional)</label><textarea class="inp" rows="4" placeholder="Phone numbers, links, what to say, what you found out…" onchange="pItemSet('${pid}','${iid}','note',this.value)">${esc(it.note||'')}</textarea>
+   ${t&&!t.end?`<div class="card" style="margin-top:12px"><div class="small">📅 Scheduled as a task: <b>${t.repeat==='none'?relDay(t.start):scheduleSummary(t)} at ${fmtTime(t.times[0])}</b></div><button class="btn ghost sm" style="margin:8px 0 0" onclick="closeSheet();editTask('${t.id}')">Change the reminder</button></div>`:''}`}
+   <label class="f">Move it</label><div class="row" style="gap:8px"><button class="btn ghost sm" style="flex:1;margin:0" ${ix?'':'disabled'} onclick="movePItem('${pid}','${iid}',-1)">▲ Up</button><button class="btn ghost sm" style="flex:1;margin:0" ${ix<p.items.length-1?'':'disabled'} onclick="movePItem('${pid}','${iid}',1)">▼ Down</button></div>
+   <div class="btns">${head?'':`<button class="btn" onclick="togglePItem('${pid}','${iid}')">${it.done?'Untick it':'✓ Done it'}</button>${t&&!t.end?'':`<button class="btn ghost" onclick="stepToTask('${pid}','${iid}')">📅 Schedule it as a task</button>`}`}
+   <button class="btn ghost" onclick="closeSheet()">Close</button><button class="btn danger" onclick="delPItem('${pid}','${iid}')">Delete ${head?'heading':'step'}</button></div>`,()=>{PI=null},keep);
+}
+function pItemSet(pid,iid,k,v){const it=proj(pid).items.find(i=>i.id===iid);if(!it)return;v=v.trim();if(k==='text'&&!v)return;if(k==='note'&&!v)delete it.note;else it[k]=v;save();render()}
+function moveQuick(pid,iid,d){
+  const p=proj(pid),i=p.items.findIndex(x=>x.id===iid),j=i+d;if(i<0||j<0||j>=p.items.length)return;
+  const y=document.querySelector('.rorow.moved');const before=y?y.getBoundingClientRect().top:null;
+  [p.items[i],p.items[j]]=[p.items[j],p.items[i]];S.lastMoved=iid;save();render();
+  const el=document.querySelector('.rorow.moved');if(el){const r=el.getBoundingClientRect();if(r.top<80||r.bottom>innerHeight-110)window.scrollBy({top:r.top-innerHeight/2,behavior:'smooth'})}
+}
+function movePItem(pid,iid,d){const p=proj(pid),i=p.items.findIndex(x=>x.id===iid),j=i+d;if(j<0||j>=p.items.length)return;[p.items[i],p.items[j]]=[p.items[j],p.items[i]];save();render();openPItem(pid,iid,true)}
+function delPItem(pid,iid){if(!confirmTap('dpi'+iid,'Tap again to delete'))return;const p=proj(pid);p.items=p.items.filter(i=>i.id!==iid);save();closeSheet();render()}
+function stepToTask(pid,iid){
+  const p=proj(pid),it=p.items.find(i=>i.id===iid);if(!it)return;
+  closeSheet();editTask(null);
+  Object.assign(TE,{name:it.text,emoji:p.emoji,repeat:'none',start:dk(addDays(new Date(),1)),days:[addDays(new Date(),1).getDay()],project:pid,notes:p.name});
+  window.__afterTask=()=>{const t=S.data.tasks[S.data.tasks.length-1];if(t&&t.project===pid){it.taskId=t.id;delete it.manualOff;save();render()}};
+  renderTE();
+}
+function newTaskFor(pid){const p=proj(pid);editTask(null);Object.assign(TE,{emoji:p.emoji,project:pid});if(['🚀','💼','🔨'].includes(p.emoji))TE.type='business';renderTE()}
+function linkTaskPick(pid){
+  const ts=S.data.tasks.filter(t=>!t.end&&t.project!==pid);
+  openSheet(`<h3>Link a task</h3><div class="small muted" style="margin-bottom:10px">Pick a task that's part of this project. It keeps its reminders, it'll just show up here too.</div>
+   ${ts.length?ts.map(t=>`<button class="item" onclick="linkTask('${pid}','${t.id}')"><div class="emo">${esc(t.emoji)}</div><div class="grow"><div class="t1">${esc(t.name)}</div><div class="t2">${scheduleSummary(t)}${t.project&&proj(t.project)?' · in '+esc(proj(t.project).name):''}</div></div></button>`).join(''):'<div class="card empty">No other tasks to link.</div>'}
+   <div class="btns"><button class="btn ghost" onclick="closeSheet()">Cancel</button></div>`);
+}
+function linkTask(pid,tid){const t=task(tid);t.project=pid;save();closeSheet();render();toast('Linked 🔗')}
+function addPNote(pid){
+  const el=document.getElementById('pnote'),v=(el.value||'').trim();if(!v){el.focus();return}
+  const p=proj(pid);p.notes=p.notes||[];p.notes.push({id:uid(),at:nowStamp(),text:v});save();render();toast('Note added 📝');
+}
+function openPNote(pid,nid){
+  const p=proj(pid),x=p.notes.find(n=>n.id===nid);
+  openSheet(`<h3>Note</h3><div class="tiny muted">${fmtDate(x.at.slice(0,10))}</div><textarea class="inp" id="pnedit" rows="7" style="margin-top:8px">${esc(x.text)}</textarea>
+   <div class="btns"><button class="btn" onclick="savePNote('${pid}','${nid}')">Save</button><button class="btn ghost" onclick="closeSheet()">Close</button><button class="btn danger" onclick="delPNote('${pid}','${nid}')">Delete note</button></div>`);
+}
+function savePNote(pid,nid){const x=proj(pid).notes.find(n=>n.id===nid),v=document.getElementById('pnedit').value.trim();if(!v)return;x.text=v;save();closeSheet();render()}
+function delPNote(pid,nid){if(!confirmTap('dpn'+nid,'Tap again to delete'))return;const p=proj(pid);p.notes=p.notes.filter(n=>n.id!==nid);save();closeSheet();render()}
+function todayProjects(){
+  const ps=(S.data.projects||[]).filter(p=>!p.archived);if(!ps.length)return '';
+  return `<div class="sec">Projects</div>`+ps.map(p=>{const nx=pNext(p),pc=pPct(p);return `<button class="item" onclick="openProj('${p.id}')"><div class="emo">${esc(p.emoji)}</div><div class="grow"><div class="t1">${esc(p.name)}</div><div class="t2">${nx?'Next: '+esc(nx.text):pSteps(p).length?'All steps done 🎉':'Add your first step'}</div></div><span class="pill p-up">${pc}%</span></button>`}).join('');
+}
+/* ---------- Fresh eyes: catching hedonic adaptation and seeing the good stuff again ---------- */
+const FR_SIGNS=[
+ ['meh','Things that used to make me happy feel a bit "meh" now'],
+ ['when','I keep thinking "I\'ll be happy when I get ___"'],
+ ['compare','I\'ve been comparing what I\'ve got with what others have'],
+ ['buy','I\'ve been itching to buy, upgrade or chase something new'],
+ ['missing','I\'ve mostly been noticing what\'s missing or annoying'],
+ ['bg','The good people and things in my life feel like background']];
+const FR_EX={
+ subtract:{emo:'🫥',name:'Imagine it gone',sub:'Picture life without something good',intro:'Research found that picturing a good thing never having happened lifts people more than just listing what they\'re grateful for. It sounds grim, but it works.',
+  steps:[['Pick something good in your life','A person, your health, your home, your job, a skill, a mate. Anything.','pick'],
+   ['Imagine it never happened. What would an ordinary day look like without it?','Be specific. Morning, work, evenings, weekends.','long'],
+   ['What would you miss most?','','long'],
+   ['Now come back. It\'s here. What do you notice about it now?','','long']]},
+ pastme:{emo:'🕰️',name:'Past me wanted this',sub:'Remember when you wished for it',intro:'A lot of what feels normal now is something an older version of you hoped for, saved for or worked hard to get.',
+  steps:[['What\'s something you\'ve got now that you once really wanted or worked for?','A job, a home, a relationship, a skill, a ute, living where you live.','pick'],
+   ['What was life like before you had it?','','long'],
+   ['What did past you think it would feel like to have it?','','long'],
+   ['What\'s one way to enjoy it like that again this week?','','short']]},
+ savour:{emo:'🍵',name:'Savour it',sub:'Two slow minutes with something good',intro:'Rushing through good moments is how they fade. Slowing down for even two minutes makes them land properly.',
+  steps:[['What are you going to savour?','A coffee, the view, a shower, a song, a hug, the drive home, food.','short'],
+   ['Go and do it slowly. Put the phone down for 2 minutes. Then come back and write 3 small details you noticed.','Sights, sounds, smells, tastes, how it felt.','long'],
+   ['How did it feel compared to usual?','','short']]},
+ lasttime:{emo:'⌛',name:'The last time',sub:'Do something like it\'s the last time',intro:'When people imagine they\'re doing something for the last time (like before moving away), they enjoy it much more. You can borrow that feeling on purpose.',
+  steps:[['Pick something you do all the time that\'s actually good','A walk, dinner with someone, your morning coffee, time with a person, a place you go.','pick'],
+   ['Imagine this was the very last time you\'d ever get to do it. What would you pay attention to?','','long'],
+   ['Next time you do it, what\'s one thing you\'ll make sure you notice?','','short']]},
+ reconnect:{emo:'💚',name:'Find the good in it again',sub:'For something good you\'ve been down about',intro:'Sometimes the good things in life are exactly what we end up feeling flat or frustrated about. That doesn\'t make them less good. This helps you be honest about it, then find your way back to what you value.',
+  steps:[['What\'s on your mind?','A person, your job, your home, your health, anything good that\'s been getting you down.','pick'],
+   ['What\'s been getting you down about it lately?','Be honest. Getting it out of your head helps.','long'],
+   ['What would you genuinely miss if it was gone?','','long'],
+   ['Think of a good moment with it. What happened?','Big or small, recent or long ago.','long'],
+   ['What\'s one small thing you could do or notice today to reconnect with it?','','short']]},
+ shake:{emo:'🔀',name:'Shake it up',sub:'Put some newness back in',intro:'We get used to things fastest when they\'re exactly the same every time. A small change makes your brain notice them again.',
+  steps:[['Pick something good that\'s turned into routine','A walk, date night, a hobby, the gym, how you spend Sundays.','pick'],
+   ['How could you do it differently? New place, new time, new person, new way.','','long'],
+   ['When will you try it?','','short']]}
+};
+let FE=null;
+function frData(){S.data.fresh=S.data.fresh||{checks:[],entries:[],good:[],wants:[]};const f=S.data.fresh;['checks','entries','good','wants','sessions'].forEach(k=>{if(!Array.isArray(f[k]))f[k]=[]});return f}
+function openFresh(){S.tab='mind';S.mindView='fresh';window.scrollTo(0,0);render()}
+function frDueWants(){return frData().wants.filter(w=>w.status==='waiting'&&dk(addDays(parseDk(w.added),w.days))<=todayK())}
+function frTickTask(){
+  const t=S.data.tasks.find(x=>x.tool==='fresh'&&!x.end&&x.active);if(!t)return;
+  const o=occFor(todayK()).find(o=>o.task.id===t.id&&!o.comp);if(!o)return;
+  S.data.completions.push({id:uid(),taskId:t.id,date:o.date,slot:o.slot,at:nowStamp()+':00',photoId:null,note:'Fresh eyes'});
+}
+function viewFresh(){
+  const f=frData(),last=f.checks[f.checks.length-1],due=frDueWants();
+  const good=f.good,focus=f.focus&&good.find(g=>g.id===f.focus),pick=focus||(good.length?good[(Math.floor(Date.now()/864e5)+(S.frShuf||0))%good.length]:null);
+  const letGo=f.wants.filter(w=>w.status==='letgo'),saved=letGo.reduce((a,w)=>a+(Number(w.price)||0),0);
+  let h=`<div class="wrap"><div class="row between" style="margin:4px 0 6px"><button class="backtoday" style="margin:0" onclick="S.mindView=null;render()">‹ Mind</button></div>
+   <div class="top" style="margin-top:6px"><div><h1>✨ Fresh eyes</h1><div class="sub">Catch yourself getting used to the good stuff</div></div></div>`;
+  if(!S.frHideIntro&&!f.checks.length&&!f.entries.length)h+=`<div class="card" style="background:var(--sunSoft)"><div class="small"><b>What's going on?</b> Our brains get used to good things. The new job, the house, the people we love, all slowly fade into the background, and we start chasing the next thing to feel good again. It's called <b>hedonic adaptation</b>, and everyone does it.<br><br>The fix usually isn't getting more. It's noticing what you've already got, on purpose. This is a place to catch the slide and practise that.</div><button class="backtoday" style="margin:10px 0 0" onclick="S.frHideIntro=true;render()">Got it</button></div>`;
+  h+=frSessCard();
+  // the check
+  h+=`<div class="card"><div class="row between"><h2 style="margin:0">🔍 Am I sliding?</h2>${last?`<span class="tiny muted">Last: ${relDay(last.at.slice(0,10))}</span>`:''}</div>
+   <div class="small muted" style="margin:6px 0 10px">A one-minute check to spot it early.</div>
+   ${last?`<div class="frlast">${frVerdict(last.score).emo} ${frVerdict(last.score).short}${f.checks.length>1?`<span class="frdots">${f.checks.slice(-8).map(c=>`<i style="background:${c.score>=4?'#D9A6B0':c.score>=2?'#E8D7A8':'#A9CDBF'}"></i>`).join('')}</span>`:''}</div>`:''}
+   <button class="btn" style="margin:0" onclick="frCheck()">${last?'Check in again':'Start the check'}</button></div>`;
+  // cool-off due
+  if(due.length)h+=due.map(w=>`<button class="item" style="background:#FFF7E6" onclick="frDecide('${w.id}')"><div class="emo">⏳</div><div class="grow"><div class="t1">Cool-off's up: ${esc(w.text)}</div><div class="t2">Do you still want it? Tap to decide</div></div><span class="muted">›</span></button>`).join('');
+  // exercises
+  h+=`<div class="sec">See it fresh again</div><div class="frgrid">${Object.entries(FR_EX).map(([k,e])=>`<button class="frtile" onclick="frStart('${k}')"><span>${e.emo}</span><b>${e.name}</b></button>`).join('')}
+   <button class="frtile" onclick="frWant()"><span>🛒</span><b>Want it? Wait.</b></button></div>`;
+  // good stuff
+  h+=`<div class="card"><div class="row between"><h2 style="margin:0">💚 Don't take for granted</h2><button class="btn sm sec2" style="margin:0" onclick="frGood(null)">+ Add</button></div>
+   ${pick?`<div class="frpick ${focus?'focus':''}"><div class="tiny muted">${focus?'📌 On your mind':'Today, notice'}</div><div class="serif" style="font-size:20px;margin:2px 0 10px">${esc(pick.text)}</div>
+     <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn sm" style="width:auto;margin:0" onclick="frItem('${pick.id}')">Spend a minute on it</button>${!focus&&good.length>1?`<button class="btn ghost sm" style="width:auto;margin:0" onclick="S.frShuf=(S.frShuf||0)+1;render()">🎲 Another</button>`:''}${focus?`<button class="btn ghost sm" style="width:auto;margin:0" onclick="frFocus(null)">Unpin</button>`:''}</div></div>`:''}
+   ${good.length?`<div class="chips" style="margin-top:10px">${(S.goodOpen?good:good.slice(0,8)).map(g=>`<button class="chip" onclick="frItem('${g.id}')">${f.focus===g.id?'📌 ':''}${esc(g.text)}</button>`).join('')}${good.length>8?`<button class="chip" style="border-style:dashed" onclick="S.goodOpen=${S.goodOpen?'false':'true'};render()">${S.goodOpen?'Show less':'+'+(good.length-8)+' more'}</button>`:''}</div>`:`<div class="tiny muted" style="margin-top:8px">The people, things and bits of life you never want to stop noticing. Add as many as you like. One shows up here each day, or pin one that's on your mind.</div>`}</div>`;
+  // want list
+  const waiting=f.wants.filter(w=>w.status==='waiting');
+  if(f.wants.length)h+=`<div class="card"><h2>🛒 Want list</h2>
+   ${waiting.map(w=>{const left=Math.ceil((parseDk(dk(addDays(parseDk(w.added),w.days)))-parseDk(todayK()))/864e5);return `<button class="mrow" onclick="frDecide('${w.id}')"><b>${esc(w.text)}</b>${w.price?` · $${w.price.toLocaleString()}`:''}<span class="tiny muted" style="display:block">${left>0?left+' day'+(left===1?'':'s')+' to go':'Ready to decide'}</span></button>`}).join('')}
+   ${letGo.length?`<div class="small" style="margin-top:10px">🙌 You've let <b>${letGo.length}</b> urge${letGo.length===1?'':'s'} pass${saved?` and kept <b>$${saved.toLocaleString()}</b> in your pocket`:''}.</div>`:''}
+   ${f.wants.filter(w=>w.status==='kept').length?`<div class="tiny muted" style="margin-top:6px">Still wanted after waiting: ${f.wants.filter(w=>w.status==='kept').map(w=>esc(w.text)).join(', ')}</div>`:''}</div>`;
+  const past=f.sessions.filter(x=>!x.active).slice().reverse();
+  if(past.length)h+=`<div class="sec">Past focuses</div>`+past.slice(0,3).map(x=>`<button class="item" onclick="frSessView('${x.id}')"><div class="emo">📌</div><div class="grow"><div class="t1">${esc(x.topic)}</div><div class="t2">${fmtDate(x.at.slice(0,10))}${x.follow?' · follow-up: '+['','worse','same','a bit better','much better'][x.follow.feel]:''}</div></div><span class="muted">›</span></button>`).join('');
+  // history
+  const frRow=e=>{const d=FR_EX[e.kind];return d?`<button class="item" onclick="frView('${e.id}')"><div class="emo">${d.emo}</div><div class="grow"><div class="t1">${d.name}${e.subject?': '+esc(e.subject):''}</div><div class="t2">${fmtDate(e.at.slice(0,10))}${e.feel?' · '+['','Same as before','Bit better','Heaps better'][e.feel]:''}</div></div><span class="muted">›</span></button>`:''};
+  if(f.entries.length)h+=`<div class="sec">What you've written</div>`+f.entries.slice().reverse().slice(0,3).map(frRow).join('')+(f.entries.length>3?`<button class="btn ghost sm" style="width:100%;margin:0 0 8px" onclick="frAllEntries()">See all ${f.entries.length}</button>`:'');
+  // reminder
+  const ft=S.data.tasks.find(x=>x.tool==='fresh'&&!x.end);
+  h+=ft?`<button class="item" style="margin-top:14px" onclick="editTask('${ft.id}')"><div class="emo" style="background:#EEF5F2">📅</div><div class="grow"><div class="t1">Weekly check-in</div><div class="t2">${scheduleSummary(ft)} at ${fmtTime(ft.times[0])} · tap to change</div></div></button>`
+   :`<div class="card" style="margin-top:14px"><div class="small">It's easy to miss something you can't feel happening. A weekly nudge helps.</div><button class="btn ghost sm" style="margin:10px 0 0" onclick="frAddTask()">📅 Add a weekly check-in</button></div>`;
+  return h+'<div style="height:20px"></div></div>';
+}
+function frVerdict(n){
+  if(n<=1)return {emo:'🟢',short:'Seeing things clearly',long:'You\'re noticing the good stuff. Nice. Keep doing what you\'re doing.'};
+  if(n<=3)return {emo:'🟡',short:'A bit of a slide',long:'A few signs you\'re getting used to the good things. Totally normal. One quick exercise can reset it.'};
+  return {emo:'🔴',short:'Sliding',long:'Lots of signs the good stuff has faded into the background. It\'s not that life got worse, your brain just stopped noticing. Let\'s do one exercise now.'};
+}
+function frSuggest(sig){
+  if(sig.includes('buy')||sig.includes('when'))return sig.includes('buy')?'want':'pastme';
+  if(sig.includes('bg'))return 'subtract';
+  if(sig.includes('missing'))return 'savour';
+  if(sig.includes('compare'))return 'pastme';
+  if(sig.includes('meh'))return 'shake';
+  return 'subtract';
+}
+let FC=null;
+function frCheck(){FC={sig:[]};renderFC()}
+function renderFC(keep){
+  openSheet(`<h3>🔍 Am I sliding?</h3><div class="small muted" style="margin-top:-6px">Tap any that have been true lately. Be honest, nobody else sees this.</div>
+   <div style="margin-top:12px">${FR_SIGNS.map(([k,l])=>`<button class="frsig ${FC.sig.includes(k)?'on':''}" onclick="frSig('${k}')"><span class="pchk">${FC.sig.includes(k)?'✓':''}</span><span>${l}</span></button>`).join('')}</div>
+   <div class="btns"><button class="btn" onclick="frCheckDone()">See what it means</button><button class="btn ghost" onclick="closeSheet()">Cancel</button></div>`,null,keep);
+}
+function frSig(k){const i=FC.sig.indexOf(k);if(i>=0)FC.sig.splice(i,1);else FC.sig.push(k);renderFC(true)}
+function frCheckDone(){
+  const f=frData(),n=FC.sig.length;f.checks.push({at:nowStamp(),score:n,sig:FC.sig.slice()});frTickTask();save();
+  const v=frVerdict(n),cur=frActive();
+  openSheet(`<div style="text-align:center;font-size:44px;margin-top:6px">${v.emo}</div><h3 style="text-align:center">${v.short}</h3>
+   <p class="small" style="text-align:center">${v.long.replace(' Let\'s do one exercise now.','').replace(' One quick exercise can reset it.','')}</p>
+   <div class="card" style="margin-top:12px"><div class="serif" style="font-size:18px">${n?'Let\'s pick one thing to work on this week':'Want to pick a focus for the week anyway?'}</div>
+    <div class="small muted" style="margin:4px 0 12px">Choose the one area you're feeling it most, work through two short exercises on it, and set a reminder that sits on Today all week. I'll check in a couple of days later.${cur?` This replaces your current focus (<b>${esc(cur.topic)}</b>).`:''}</div>
+    <button class="btn" style="margin:0" onclick="frSessStart()">${n?'Let\'s do it (about 10 min)':'Pick a focus'}</button></div>
+   <div class="btns"><button class="btn ghost" onclick="closeSheet();render()">${n?'Not right now':'Done'}</button></div>`,()=>render(),true);
+}
+function frStart(kind,gid){
+  const g=gid?frData().good.find(x=>x.id===gid):null;
+  FE={kind,step:-1,ans:[],subject:'',feel:0,from:0};
+  if(g){FE.ans[0]=g.text;FE.subject=g.text;FE.from=1}
+  renderFE();
+}
+function renderFE(keep=true){
+  const d=FR_EX[FE.kind],good=frData().good;
+  if(FE.step===-1)return openSheet(`${FE.sess?`<div class="tiny muted">✨ ${esc(FE.subject)} · exercise ${FE.n} of ${FE.of}</div>`:''}<h3>${d.emo} ${d.name}</h3><p class="small">${d.intro}</p><div class="tiny muted">${d.steps.length-FE.from} short questions · about 3 minutes</div>
+    ${FE.from?`<div class="frpick" style="margin-top:10px"><div class="tiny muted">About</div><b>${esc(FE.subject)}</b></div>`:''}
+    <div class="btns"><button class="btn" onclick="FE.step=FE.from;renderFE()">Let's go</button><button class="btn ghost" onclick="closeSheet()">Not now</button></div>`,null,keep);
+  if(FE.step>=d.steps.length){
+    return openSheet(`<h3>${d.emo} Nice work</h3><p class="small">Did that change how you see it, even a little?</p>
+     <div class="chips">${[[1,'😐 Same as before'],[2,'🙂 Bit better'],[3,'😊 Heaps better']].map(([v,l])=>`<button class="chip ${FE.feel===v?'on':''}" onclick="FE.feel=${v};renderFE()">${l}</button>`).join('')}</div>
+     ${FE.kind==='shake'||FE.kind==='lasttime'||FE.kind==='savour'?`<div class="small muted" style="margin-top:12px">Want a reminder to actually do it?</div><label class="row" style="gap:10px;margin-top:6px"><input type="checkbox" ${FE.task?'checked':''} onchange="FE.task=this.checked"> <span class="small">📅 Make it a task for tomorrow</span></label>`:''}
+     <div class="btns"><button class="btn" onclick="frSave()">${FE.sess?(FE.n<FE.of?'Next exercise':'Next'):'Save it'}</button></div>`,null,keep);
+  }
+  const [q,hint,kindF]=d.steps[FE.step],v=FE.ans[FE.step]||'';
+  openSheet(`<div class="tiny muted">${d.emo} ${d.name} · ${FE.step+1-FE.from} of ${d.steps.length-FE.from}${FE.from?" · "+esc(FE.subject):""}</div><h3 style="margin-top:6px">${q}</h3>${hint?`<div class="small muted" style="margin-top:-8px">${hint}</div>`:''}
+   ${kindF==='pick'&&good.length?`<div class="chips" style="margin-top:10px">${good.map(g=>`<button class="chip ${v===g.text?'on':''}" onclick="FE.ans[${FE.step}]=this.dataset.v;renderFE()" data-v="${esc(g.text)}">${esc(g.text)}</button>`).join('')}</div>`:''}
+   ${kindF==='long'?`<textarea class="inp" id="feans" rows="5" style="margin-top:10px" oninput="FE.ans[${FE.step}]=this.value">${esc(v)}</textarea>`:`<input class="inp" id="feans" style="margin-top:10px" value="${esc(v)}" placeholder="${kindF==='pick'&&good.length?'or type something else':''}" oninput="FE.ans[${FE.step}]=this.value" onkeydown="if(event.key==='Enter')frNext()">`}
+   <div class="btns"><button class="btn" onclick="frNext()">${FE.step===d.steps.length-1?'Finish':'Next'}</button><button class="btn ghost" onclick="${FE.step>FE.from?'FE.step--;renderFE()':FE.from?'FE.step=-1;renderFE()':'closeSheet()'}">${FE.step>FE.from||FE.from?'Back':'Cancel'}</button></div>`,null,keep);
+  setTimeout(()=>{const e=document.getElementById('feans');if(e&&!e.value)e.focus()},200);
+}
+function frNext(){
+  const d=FR_EX[FE.kind];const v=(FE.ans[FE.step]||'').trim();
+  if(!v){toast(FE.step===0?'Pop something in first':'Even a few words is fine');return}
+  if(FE.step===0)FE.subject=v;FE.step++;renderFE();
+}
+function frSave(){
+  const f=frData(),d=FR_EX[FE.kind],eid=uid();
+  f.entries.push({id:eid,at:nowStamp(),kind:FE.kind,subject:FE.subject.slice(0,60),feel:FE.feel,qa:d.steps.map((s,i)=>[s[0],(FE.ans[i]||'').trim()])});
+  frTickTask();
+  if(FE.task){const tm=addDays(new Date(),1),txt=FE.kind==='shake'?'Try it differently: '+FE.subject:FE.kind==='lasttime'?'Notice it like it\'s the last time: '+FE.subject:'Savour: '+FE.subject;
+    S.data.tasks.push({id:uid(),name:txt.slice(0,70),emoji:FR_EX[FE.kind].emo,type:'mind',repeat:'none',start:dk(tm),days:[tm.getDay()],every:2,until:'',times:['18:00'],notes:(FE.ans[FE.kind==='shake'?1:FE.kind==='lasttime'?2:0]||'').slice(0,80),active:true});
+    try{BR&&BR.reschedule&&BR.reschedule()}catch(e){}}
+  if(FE.sess&&FS){const tk=FE.task;FS.done.push(eid);FE=null;save();if(tk)toast('Added to tomorrow\'s list 🌿');frSessRun();return}
+  const fe=FE;FE=null;save();closeSheet();S.tab='mind';S.mindView='fresh';render();toast(fe.task?'Saved, and it\'s on tomorrow\'s list 🌿':'Saved 🌿');
+}
+function frAllEntries(){const f=frData();openSheet(`<h3>What you've written</h3>${f.entries.slice().reverse().map(e=>{const d=FR_EX[e.kind];return d?`<button class="item" onclick="frView('${e.id}')"><div class="emo">${d.emo}</div><div class="grow"><div class="t1">${d.name}${e.subject?': '+esc(e.subject):''}</div><div class="t2">${fmtDate(e.at.slice(0,10))}</div></div></button>`:''}).join('')}<div class="btns"><button class="btn ghost" onclick="closeSheet()">Close</button></div>`)}
+function frView(id){
+  const e=frData().entries.find(x=>x.id===id);if(!e)return;const d=FR_EX[e.kind];
+  openSheet(`<h3>${d.emo} ${d.name}</h3><div class="tiny muted" style="margin-top:-8px">${fmtDate(e.at.slice(0,10))}</div>
+   ${e.qa.map(([q,a])=>`<div class="small muted" style="margin-top:12px">${q}</div><div style="white-space:pre-wrap">${esc(a)}</div>`).join('')}
+   <div class="btns"><button class="btn ghost" onclick="closeSheet()">Close</button><button class="btn danger" onclick="frDel('${id}')">Delete</button></div>`);
+}
+function frDel(id){if(!confirmTap('fd'+id,'Tap again to delete'))return;const f=frData();f.entries=f.entries.filter(x=>x.id!==id);save();closeSheet();render()}
+function frItem(id){
+  const f=frData(),g=f.good.find(x=>x.id===id);if(!g)return;const pinned=f.focus===id;
+  openSheet(`<div class="tiny muted">💚 Don't take for granted</div><h3 style="margin-top:4px">${esc(g.text)}</h3>
+   <div class="btns" style="margin-top:6px"><button class="btn" onclick="closeSheet();frStart('reconnect','${id}')">💚 I've been down about this</button>
+   <button class="btn sec2" onclick="closeSheet();frStart('subtract','${id}')">🫥 Imagine it gone</button>
+   <button class="btn ghost" onclick="closeSheet();frStart('lasttime','${id}')">⌛ The last time</button>
+   <button class="btn ghost" onclick="frFocus(${pinned?'null':`'${id}'`})">${pinned?'📌 Unpin it':'📌 Pin it (keep it on my mind)'}</button>
+   <button class="btn ghost" onclick="frGood('${id}')">✏️ Edit</button><button class="btn danger" onclick="frGoodDel('${id}')">Remove</button></div>`);
+}
+function frFocus(id){const f=frData();if(id)f.focus=id;else delete f.focus;save();closeSheet();render();toast(id?'Pinned. It\'ll stay up top until you unpin it 📌':'Unpinned')}
+function frGood(id){
+  const g=id?frData().good.find(x=>x.id===id):null;
+  openSheet(`<h3>${g?'Edit':'Don\'t take these for granted'}</h3><div class="small muted" style="margin-top:-6px">${g?'A person, a thing, a bit of everyday life.':'Add as many as you like, <b>one per line</b>. People, things, bits of everyday life.'}</div>
+   ${g?`<input class="inp" id="frg" style="margin-top:12px" value="${esc(g.text)}" onkeydown="if(event.key==='Enter')frGoodSave('${id}')">`:`<textarea class="inp" id="frg" rows="7" style="margin-top:12px" placeholder="Morning coffee on the deck\nMy health\nLiving near the beach\nA job that pays the bills"></textarea>`}
+   <div class="btns"><button class="btn" onclick="frGoodSave('${id||''}')">Save</button>${g?`<button class="btn danger" onclick="frGoodDel('${id}')">Remove</button>`:`<button class="btn ghost" onclick="closeSheet()">Cancel</button>`}</div>`);
+  setTimeout(()=>{const e=document.getElementById('frg');if(e)e.focus()},250);
+}
+function frGoodSave(id){
+  const v=document.getElementById('frg').value.trim();if(!v)return;const f=frData();
+  if(id){f.good.find(x=>x.id===id).text=v.split('\n')[0].trim();save();closeSheet();render();return}
+  const have=new Set(f.good.map(g=>g.text.toLowerCase()));let n=0;
+  for(const line of v.split('\n').map(x=>x.replace(/^[\s•\-*\d.)]+/,'').trim()).filter(Boolean)){if(have.has(line.toLowerCase()))continue;have.add(line.toLowerCase());f.good.push({id:uid(),text:line.slice(0,120)});n++}
+  save();closeSheet();render();toast(n?(n===1?'Added 💚':n+' things added 💚'):'Those are already on your list');
+}
+function frGoodDel(id){const f=frData();if(f.focus===id)delete f.focus;f.good=f.good.filter(x=>x.id!==id);save();closeSheet();render()}
+let FW=null;
+function frWant(){FW={text:'',price:'',days:7};renderFW()}
+function renderFW(keep){
+  openSheet(`<h3>🛒 Want it? Wait.</h3><p class="small">Chasing the next new thing is how the treadmill keeps going. Pop it on the list and wait a bit. If you still want it after the cool-off, great, go for it with a clear head.</p>
+   <label class="f">What do you want?</label><input class="inp" value="${esc(FW.text)}" placeholder="e.g. New phone, a bigger telly, new boots" oninput="FW.text=this.value">
+   <label class="f">Roughly how much? (optional)</label><input class="inp" inputmode="decimal" value="${esc(FW.price)}" placeholder="$" oninput="FW.price=this.value.replace(/[^0-9.]/g,'')">
+   <label class="f">Cool-off</label><div class="chips">${[[3,'3 days'],[7,'1 week'],[14,'2 weeks'],[30,'30 days']].map(([d,l])=>`<button class="chip ${FW.days===d?'on':''}" onclick="FW.days=${d};renderFW(true)">${l}</button>`).join('')}</div>
+   <div class="btns"><button class="btn" onclick="frWantSave()">Start the cool-off</button><button class="btn ghost" onclick="closeSheet()">Cancel</button></div>`,null,keep);
+}
+function frWantSave(){
+  const t=FW.text.trim();if(!t){toast('What is it you want?');return}
+  frData().wants.push({id:uid(),text:t,price:FW.price?Number(FW.price):0,added:todayK(),days:FW.days,status:'waiting'});
+  save();closeSheet();render();toast('On the list. Check back in '+(FW.days===7?'a week':FW.days+' days')+' ⏳');
+}
+function frDecide(id){
+  const w=frData().wants.find(x=>x.id===id);if(!w)return;const days=Math.round((parseDk(todayK())-parseDk(w.added))/864e5);
+  const ready=days>=w.days;
+  openSheet(`<h3>⏳ ${esc(w.text)}</h3><div class="small muted" style="margin-top:-8px">Added ${relDay(w.added)}${w.price?' · $'+w.price.toLocaleString():''} · ${days} day${days===1?'':'s'} ago</div>
+   <p>${ready?'The cool-off\'s done. Honestly, do you still want it as much as when you added it?':'Still cooling off. You can decide early if you\'re sure.'}</p>
+   <div class="btns"><button class="btn" onclick="frWantSet('${id}','letgo')">🙌 Nah, let it go</button><button class="btn sec2" onclick="frWantSet('${id}','kept')">Yes, I still want it</button>
+   ${ready?`<button class="btn ghost" onclick="frWantSet('${id}','more')">Give it another week</button>`:''}<button class="btn ghost" onclick="closeSheet()">Close</button>
+   <button class="btn danger" onclick="frWantSet('${id}','del')">Remove from list</button></div>`);
+}
+function frWantSet(id,st){
+  const f=frData(),w=f.wants.find(x=>x.id===id);if(!w)return;
+  if(st==='del')f.wants=f.wants.filter(x=>x.id!==id);
+  else if(st==='more')w.days+=7;
+  else{w.status=st;w.decided=todayK()}
+  save();closeSheet();render();
+  toast(st==='letgo'?(w.price?'Nice. $'+w.price.toLocaleString()+' stays in your pocket 💪':'Nice one, urge passed 💪'):st==='kept'?'Fair enough. You waited and still want it, that\'s a clear-headed choice 👍':st==='more'?'Another week it is ⏳':'Removed');
+}
+function frAddTask(){
+  const t={id:uid(),name:'Fresh eyes check-in',emoji:'✨',type:'mind',tool:'fresh',repeat:'weekly',start:todayK(),days:[0],every:2,until:'',times:['18:00'],notes:'Am I getting used to the good stuff?',active:true};
+  S.data.tasks.push(t);save();try{BR&&BR.reschedule&&BR.reschedule()}catch(e){}render();toast('Weekly check-in added: Sundays 6pm. Change it any time 📅');
+}
+function frTodayCard(){
+  const due=frDueWants();if(!due.length)return '';
+  return due.map(w=>`<button class="item" style="background:#FFF7E6" onclick="openFresh();frDecide('${w.id}')"><div class="emo">⏳</div><div class="grow"><div class="t1">Cool-off's up: ${esc(w.text)}</div><div class="t2">Still want it? Tap to decide</div></div></button>`).join('');
+}
+/* ---------- Fresh eyes focus sessions: one topic a week, worked through, reminded daily, followed up ---------- */
+const FR_TOPICS=['My job / work','My partner','My home','Money & stuff','My health','Mates & family','Free time','Where I live'];
+const FR_SIGMAP={meh:['shake','savour'],when:['pastme'],compare:['pastme','subtract'],buy:['pastme'],missing:['reconnect','savour'],bg:['subtract','reconnect']};
+let FS=null;
+function frYour(t){return String(t).replace(/^my\b/i,'your').replace(/^My\b/,'Your').toLowerCase()}
+function frActive(){const ss=frData().sessions;for(let i=ss.length-1;i>=0;i--)if(ss[i].active)return ss[i];return null}
+function frPlan(sig){
+  const out=[];
+  for(const k of ['when','bg','compare','missing','meh','buy'])if(sig.includes(k))for(const e of FR_SIGMAP[k])if(!out.includes(e))out.push(e);
+  if(!out.length)out.push('reconnect','savour');
+  if(out.length===1)out.push(out[0]==='savour'?'reconnect':'savour');
+  return out.slice(0,2);
+}
+function frSessStart(){FS={sig:FC?FC.sig.slice():[],score:FC?FC.sig.length:0,topic:'',what:'',queue:[],done:[],reminder:''};renderFS('topic')}
+function renderFS(step,keep=true){
+  FS.at=step;const good=frData().good;
+  if(step==='topic'){
+    const opts=[...good.map(g=>g.text),...FR_TOPICS.filter(t=>!good.some(g=>g.text.toLowerCase()===t.toLowerCase()))];
+    return openSheet(`<div class="tiny muted">✨ This week's focus · 1 of 4</div><h3 style="margin-top:6px">Where are you feeling the slide most?</h3>
+     <div class="small muted" style="margin-top:-8px">Pick just one. You can work on another next week.</div>
+     <div class="chips" style="margin-top:12px">${opts.map(o=>`<button class="chip ${FS.topic===o?'on':''}" data-v="${esc(o)}" onclick="FS.topic=this.dataset.v;renderFS('topic')">${esc(o)}</button>`).join('')}</div>
+     <input class="inp" style="margin-top:10px" placeholder="or type it in your own words" value="${opts.includes(FS.topic)?'':esc(FS.topic)}" oninput="FS.topic=this.value">
+     <div class="btns"><button class="btn" onclick="if(!FS.topic.trim()){toast('Pick one, or type it in');return}FS.topic=FS.topic.trim();renderFS('what')">Next</button><button class="btn ghost" onclick="closeSheet();render()">Not right now</button></div>`,()=>render(),keep);
+  }
+  if(step==='what'){
+    setTimeout(()=>{const e=document.getElementById('fswhat');if(e&&!e.value)e.focus()},250);
+    return openSheet(`<div class="tiny muted">✨ ${esc(FS.topic)} · 2 of 4</div><h3 style="margin-top:6px">What's going on with it?</h3>
+     <div class="small muted" style="margin-top:-8px">What does the slide look like? No need to be fair or polite, just honest.</div>
+     <textarea class="inp" id="fswhat" rows="5" style="margin-top:12px" placeholder="e.g. It feels like a grind lately. I keep thinking something better would fix it." oninput="FS.what=this.value">${esc(FS.what)}</textarea>
+     <div class="btns"><button class="btn" onclick="FS.queue=frPlan(FS.sig);renderFS('plan')">Next</button><button class="btn ghost" onclick="renderFS('topic')">Back</button></div>`,()=>render(),keep);
+  }
+  if(step==='plan'){
+    return openSheet(`<div class="tiny muted">✨ ${esc(FS.topic)} · 3 of 4</div><h3 style="margin-top:6px">Here's the plan</h3>
+     <div class="small muted" style="margin-top:-8px">Two short exercises picked for the signs you ticked, all about <b>${esc(FS.topic)}</b>. About 6 minutes.</div>
+     <div style="margin-top:12px">${FS.queue.map((k,i)=>`<div class="frplan"><span class="frnum">${i+1}</span><span style="font-size:22px">${FR_EX[k].emo}</span><div><b>${FR_EX[k].name}</b><div class="tiny muted">${FR_EX[k].sub}</div></div></div>`).join('')}
+      <div class="frplan" style="opacity:.75"><span class="frnum">3</span><span style="font-size:22px">📌</span><div><b>Your reminder for the week</b><div class="tiny muted">One line that shows on Today every day</div></div></div></div>
+     ${FS.sig.includes('buy')?`<div class="tiny muted" style="margin-top:10px">🛒 Got something you're itching to buy as well? You can pop it on the Want list after this.</div>`:''}
+     <div class="btns"><button class="btn" onclick="frSessRun()">Start</button><button class="btn ghost" onclick="renderFS('what')">Back</button></div>`,()=>render(),keep);
+  }
+  if(step==='reminder'){
+    if(!FS.reminder)FS.reminder=frSuggestReminder();
+    setTimeout(()=>{const e=document.getElementById('fsrem');if(e){e.focus();e.setSelectionRange(e.value.length,e.value.length)}},250);
+    return openSheet(`<div class="tiny muted">✨ ${esc(FS.topic)} · 4 of 4</div><h3 style="margin-top:6px">Your reminder for the week</h3>
+     <div class="small muted" style="margin-top:-8px">Short and in your own words. It'll sit at the top of Today every day until your next check.</div>
+     <textarea class="inp" id="fsrem" rows="3" maxlength="120" style="margin-top:12px" oninput="FS.reminder=this.value">${esc(FS.reminder)}</textarea>
+     <div class="tiny muted">I've started it from your answers. Change it however you like.</div>
+     <div class="btns"><button class="btn" onclick="frSessSave()">Save my focus for the week</button></div>`,()=>render(),keep);
+  }
+}
+function frSessRun(){
+  const k=FS.queue[FS.done.length];if(!k){renderFS('reminder');return}
+  FE={kind:k,step:-1,ans:[FS.topic],subject:FS.topic,feel:0,from:1,sess:true,n:FS.done.length+1,of:FS.queue.length};renderFE();
+}
+function frSuggestReminder(){
+  const es=frData().entries.filter(e=>FS.done.includes(e.id));
+  for(let i=es.length-1;i>=0;i--){const qa=es[i].qa,last=qa[qa.length-1];if(last&&last[1]&&last[1].length<=90)return last[1]}
+  return 'Notice the good in '+frYour(FS.topic)+' today';
+}
+function frSessSave(){
+  const rem=(FS.reminder||'').trim();if(!rem){toast('Write a few words to remind yourself');return}
+  const f=frData();
+  for(const s of f.sessions)if(s.active){s.active=false;frDropFollowTask(s)}
+  const fu=addDays(new Date(),2);
+  const s={id:uid(),at:nowStamp(),topic:FS.topic,what:(FS.what||'').trim(),sig:FS.sig,score:FS.score,entries:FS.done.slice(),reminder:rem,followAt:dk(fu),follow:null,active:true};
+  const t={id:uid(),name:'Fresh eyes follow-up: '+FS.topic.slice(0,40),emoji:'✨',type:'mind',tool:'freshfollow',sess:s.id,repeat:'none',start:dk(fu),days:[fu.getDay()],every:2,until:'',times:['18:00'],notes:'How\'s it going with '+frYour(FS.topic).slice(0,40)+'?',active:true};
+  S.data.tasks.push(t);s.taskId=t.id;f.sessions.push(s);
+  const buy=FS.sig.includes('buy');FS=null;save();closeSheet();S.tab='mind';S.mindView='fresh';render();
+  toast('Saved. It\'s on Today all week, and I\'ll check in on '+DOWL[fu.getDay()]+' ✨');
+  if(buy)setTimeout(()=>openSheet(`<h3>🛒 One more thing?</h3><p class="small">You said you've been itching to buy or upgrade something. Want to put it on a cool-off?</p><div class="btns"><button class="btn" onclick="closeSheet();frWant()">Yes, add it to the Want list</button><button class="btn ghost" onclick="closeSheet()">No thanks</button></div>`),700);
+}
+function frDropFollowTask(s){
+  if(!s.taskId)return;const t=task(s.taskId);if(!t)return;
+  if(!S.data.completions.some(c=>c.taskId===t.id))S.data.tasks=S.data.tasks.filter(x=>x.id!==t.id);
+}
+function frTickTool(tool,sessId){
+  const t=S.data.tasks.find(x=>x.tool===tool&&!x.end&&x.active&&(!sessId||x.sess===sessId));if(!t)return;
+  const o=occFor(todayK()).find(o=>o.task.id===t.id&&!o.comp)||(t.repeat==='none'&&t.start>todayK()?{date:t.start,slot:t.times[0]}:null);if(!o)return;
+  S.data.completions.push({id:uid(),taskId:t.id,date:o.date,slot:o.slot,at:nowStamp()+':00',photoId:null,note:'Fresh eyes',early:o.date>todayK()||undefined});
+}
+/* follow-up */
+let FU=null;
+function frFollow(id){const s=frData().sessions.find(x=>x.id===id);if(!s)return;FU={id,step:0,recall:'',feel:0,caught:'',note:''};renderFU()}
+function renderFU(keep=true){
+  const s=frData().sessions.find(x=>x.id===FU.id);const head=`<div class="tiny muted">✨ Follow-up · ${esc(s.topic)}</div>`;
+  if(FU.step===0)return openSheet(`${head}<h3 style="margin-top:6px">Without peeking, what was your reminder?</h3><div class="small muted" style="margin-top:-8px">Just roughly. This is how we find out if it's sticking.</div>
+    <textarea class="inp" rows="3" style="margin-top:12px" oninput="FU.recall=this.value" placeholder="Have a go...">${esc(FU.recall)}</textarea>
+    <div class="btns"><button class="btn" onclick="FU.step=1;renderFU()">Check it</button><button class="btn ghost" onclick="FU.recall='';FU.step=1;renderFU()">I can't remember</button></div>`,null,keep);
+  if(FU.step===1)return openSheet(`${head}<h3 style="margin-top:6px">${FU.recall.trim()?'Here\'s what you wrote':'No worries, here it is'}</h3>
+    <div class="frpick focus" style="font-size:17px">📌 ${esc(s.reminder)}</div>
+    <label class="f">How have you felt about ${esc(frYour(s.topic))} since?</label>
+    <div class="chips">${[[1,'😕 Worse'],[2,'😐 About the same'],[3,'🙂 A bit better'],[4,'😊 Much better']].map(([v,l])=>`<button class="chip ${FU.feel===v?'on':''}" onclick="FU.feel=${v};renderFU()">${l}</button>`).join('')}</div>
+    <label class="f">Did you catch yourself sliding?</label>
+    <div class="chips">${[['yes','✋ Yes, and I caught it'],['late','🤷 Only afterwards'],['no','🙈 Didn\'t notice'],['none','👌 Didn\'t really slide']].map(([v,l])=>`<button class="chip ${FU.caught===v?'on':''}" onclick="FU.caught='${v}';renderFU()">${l}</button>`).join('')}</div>
+    <div class="btns"><button class="btn" onclick="if(!FU.feel||!FU.caught){toast('Tap one in each');return}FU.step=2;renderFU()">Next</button><button class="btn ghost" onclick="FU.step=0;renderFU()">Back</button></div>`,null,keep);
+  if(FU.step===2)return openSheet(`${head}<h3 style="margin-top:6px">What helped, or what got in the way?</h3><div class="small muted" style="margin-top:-8px">Optional, but future you will thank you.</div>
+    <textarea class="inp" rows="4" style="margin-top:12px" oninput="FU.note=this.value">${esc(FU.note)}</textarea>
+    <div class="btns"><button class="btn" onclick="frFollowSave()">Save</button><button class="btn ghost" onclick="FU.step=1;renderFU()">Back</button></div>`,null,keep);
+}
+function frFollowSave(){
+  const f=frData(),s=f.sessions.find(x=>x.id===FU.id);
+  s.follow={at:nowStamp(),recall:FU.recall.trim(),feel:FU.feel,caught:FU.caught,note:FU.note.trim()};
+  frTickTool('freshfollow',s.id);save();
+  const good=FU.feel>=3,fu=FU;FU=null;
+  openSheet(`<div style="text-align:center;font-size:42px;margin-top:6px">${good?'🌿':'💚'}</div><h3 style="text-align:center">${good?'Nice. It\'s working.':'That\'s OK. Noticing is the first part.'}</h3>
+   <p class="small" style="text-align:center">${good?'Keep the reminder going for the rest of the week.':'Want to do one more quick exercise on '+esc(frYour(s.topic))+' while it\'s on your mind?'}</p>
+   <div class="btns">${good?'':`<button class="btn" onclick="closeSheet();FE={kind:'reconnect',step:-1,ans:[${JSON.stringify(s.topic).replace(/"/g,'&quot;')}],subject:${JSON.stringify(s.topic).replace(/"/g,'&quot;')},feel:0,from:1};renderFE()">💚 Find the good in it again</button>`}<button class="btn ghost" onclick="closeSheet();render()">Done</button></div>`,()=>render(),true);
+}
+function frBanner(){
+  const s=frActive();if(!s)return '';
+  const age=Math.round((parseDk(todayK())-parseDk(s.at.slice(0,10)))/864e5);
+  if(!s.follow&&todayK()>=s.followAt)return `<button class="banner frban" onclick="frFollow('${s.id}')">✨ <span><b>Follow-up:</b> how's ${esc(frYour(s.topic))} going? Takes a minute.</span></button>`;
+  return `<button class="banner frban" onclick="openFresh()">📌 <span><b>This week:</b> ${esc(s.reminder)}${age>=7?' <i class="tiny">· time for a new check</i>':''}</span></button>`;
+}
+function frSessCard(){
+  const s=frActive();if(!s)return '';
+  const fdue=!s.follow&&todayK()>=s.followAt;
+  return `<div class="card" style="background:#ECE9F7"><div class="tiny muted">📌 This week's focus · since ${fmtDate(s.at.slice(0,10))}</div><div class="serif" style="font-size:20px;margin:2px 0 6px">${esc(s.topic)}</div>
+   <div style="margin-bottom:10px">"${esc(s.reminder)}"</div>
+   <div class="tiny muted" style="margin-bottom:10px">${s.follow?`Follow-up done: ${['','😕 worse','😐 about the same','🙂 a bit better','😊 much better'][s.follow.feel]}`:fdue?'Follow-up is ready':`Follow-up on ${DOWL[parseDk(s.followAt).getDay()]}`}</div>
+   <div class="row" style="gap:8px;flex-wrap:wrap">${fdue?`<button class="btn sm" style="width:auto;margin:0" onclick="frFollow('${s.id}')">Do the follow-up</button>`:''}
+    <button class="btn ghost sm" style="width:auto;margin:0" onclick="frSessView('${s.id}')">See the session</button><button class="btn ghost sm" style="width:auto;margin:0" onclick="frEditRem('${s.id}')">Edit reminder</button></div></div>`;
+}
+function frEditRem(id){
+  const s=frData().sessions.find(x=>x.id===id);
+  openSheet(`<h3>Edit your reminder</h3><textarea class="inp" id="fre" rows="3" maxlength="120">${esc(s.reminder)}</textarea>
+   <div class="btns"><button class="btn" onclick="const v=document.getElementById('fre').value.trim();if(v){frData().sessions.find(x=>x.id==='${id}').reminder=v;save()}closeSheet();render()">Save</button><button class="btn ghost" onclick="closeSheet()">Cancel</button>
+   ${s.active?`<button class="btn danger" onclick="frEndSess('${id}')">Stop this week's focus</button>`:''}</div>`);
+}
+function frEndSess(id){const s=frData().sessions.find(x=>x.id===id);s.active=false;frDropFollowTask(s);save();closeSheet();render();toast('Focus stopped. Do a check whenever you\'re ready for a new one')}
+function frSessView(id){
+  const f=frData(),s=f.sessions.find(x=>x.id===id);if(!s)return;
+  const es=f.entries.filter(e=>(s.entries||[]).includes(e.id));
+  openSheet(`<div class="tiny muted">${fmtDate(s.at.slice(0,10))}${s.active?' · this week':''}</div><h3 style="margin-top:4px">✨ ${esc(s.topic)}</h3>
+   ${s.what?`<div class="small muted">What was going on</div><div style="white-space:pre-wrap;margin-bottom:10px">${esc(s.what)}</div>`:''}
+   <div class="frpick focus">📌 ${esc(s.reminder)}</div>
+   ${es.map(e=>`<button class="item" onclick="frView('${e.id}')"><div class="emo">${FR_EX[e.kind].emo}</div><div class="grow"><div class="t1">${FR_EX[e.kind].name}</div><div class="t2">${e.feel?['','Same as before','Bit better','Heaps better'][e.feel]:'Tap to read'}</div></div><span class="muted">›</span></button>`).join('')}
+   ${s.follow?`<div class="card" style="margin-top:8px"><div class="tiny muted">Follow-up · ${fmtDate(s.follow.at.slice(0,10))}</div>
+     <div class="small" style="margin-top:4px">Felt: <b>${['','worse','about the same','a bit better','much better'][s.follow.feel]}</b> · Caught it: <b>${{yes:'yes',late:'only afterwards',no:'didn\'t notice',none:'didn\'t really slide'}[s.follow.caught]||''}</b></div>
+     ${s.follow.recall?`<div class="tiny muted" style="margin-top:6px">You remembered it as: "${esc(s.follow.recall)}"</div>`:'<div class="tiny muted" style="margin-top:6px">Couldn\'t remember the reminder</div>'}
+     ${s.follow.note?`<div class="small" style="margin-top:6px;white-space:pre-wrap">${esc(s.follow.note)}</div>`:''}</div>`:''}
+   <div class="btns"><button class="btn ghost" onclick="closeSheet()">Close</button></div>`);
 }
 let TE=null,TE_EX=false;
 function editTask(id,tplName,dateK){
@@ -1237,7 +2237,7 @@ function editTask(id,tplName,dateK){
 const REPEATS=[['none','Doesn\'t repeat'],['daily','Daily'],['weekly','Weekly'],['fortnightly','Fortnightly'],['monthly','Monthly'],['everyN','Every few days']];
 function renderTE(keep=true){
   const existing=TE_EX,r=TE.repeat,tk=todayK();
-  const ems=['🚶','🗣️','🌬️','🙏','🧘','📞','📵','✍️','🏋️','🏄','🎣','😴','☀️','🌿','💧','✨'];
+  const ems0=['🚶','🗣️','🌬️','🙏','🧘','📞','💼','💻','🔨','🚀','🧾','🏠','📚','🏋️','😴','🌿','💧','✨'];const ems=ems0.includes(TE.emoji)||!TE.emoji?ems0:[TE.emoji,...ems0];
   const sd=parseDk(TE.start||tk);
   let rep='';
   if(r==='weekly'||r==='fortnightly'){
@@ -1253,9 +2253,11 @@ function renderTE(keep=true){
   }
   openSheet(`<h3>${existing?'Edit task':'New task'}</h3>
    <label class="f">Task name</label><input class="inp" value="${esc(TE.name)}" placeholder="e.g. Walk on the beach" oninput="TE.name=this.value">
-   <label class="f">Icon</label><div class="emopick">${ems.map(e=>`<button class="${TE.emoji===e?'on':''}" onclick="TE.emoji='${e}';renderTE()">${e}</button>`).join('')}</div>
-   <label class="f">Type</label><div class="chips">${TYPES.map(([k,l])=>`<button class="chip ${TE.type===k?'on':''}" onclick="TE.type='${k}';renderTE()">${l}</button>`).join('')}</div>
+   <label class="f">Icon</label>${S.moreIcons?ICON_GROUPS.map(([g,list])=>`<div class="tiny muted" style="margin:10px 0 6px">${g}</div><div class="emopick">${list.map(e=>`<button class="${TE.emoji===e?'on':''}" onclick="TE.emoji='${e}';renderTE()">${e}</button>`).join('')}</div>`).join(''):`<div class="emopick">${ems.map(e=>`<button class="${TE.emoji===e?'on':''}" onclick="TE.emoji='${e}';renderTE()">${e}</button>`).join('')}</div>`}
+   <div class="row" style="gap:8px;margin-top:8px"><button class="btn ghost sm" style="width:auto;margin:0;flex:none" onclick="toggleIcons()">${S.moreIcons?'Fewer icons ▴':'More icons ▾'}</button><input class="inp" style="margin:0;flex:1;text-align:center" maxlength="16" placeholder="or type any emoji" onchange="customEmoji(this.value)"></div>
+   <label class="f">Type</label><div class="chips">${TYPES.map(([k,l])=>`<button class="chip ${TE.type===k?'on':''}" onclick="pickType('${k}')">${l}</button>`).join('')}</div>
    ${{exercise:'Gym tasks let you log sets, reps and weights.',mantra:'Shows one of your mantras when you tick it off.',breathe:'Opens a guided breathing circle when you tick it off.'}[TE.type]?`<div class="tiny muted" style="margin-top:6px">${{exercise:'Gym tasks let you log sets, reps and weights.',mantra:'Shows one of your mantras when you tick it off.',breathe:'Opens a guided breathing circle when you tick it off.'}[TE.type]}</div>`:''}
+   ${TE.type==='move'?teStepsCard():''}
    <label class="f">${r==='none'?'Date':'Starts'}</label><input class="inp" type="date" value="${TE.start}" ${existing?'':`min="${tk}"`} onchange="teStart(this.value)">
    <label class="f">Repeats</label><div class="chips">${REPEATS.map(([k,l])=>`<button class="chip ${r===k?'on':''}" onclick="teRepeat('${k}')">${l}</button>`).join('')}</div>
    ${rep}
@@ -1267,6 +2269,7 @@ function renderTE(keep=true){
 Find the paperwork
 Write the first line
 Send it" oninput="TE.stepsText=this.value">${esc(TE.stepsText!=null?TE.stepsText:(TE.steps||[]).join('\n'))}</textarea>`:''}</div>
+   ${(S.data.projects||[]).filter(p=>!p.archived||p.id===TE.project).length?`<label class="f">Part of a project?</label><div class="chips"><button class="chip ${!TE.project?'on':''}" onclick="delete TE.project;renderTE()">No</button>${(S.data.projects||[]).filter(p=>!p.archived||p.id===TE.project).map(p=>`<button class="chip ${TE.project===p.id?'on':''}" onclick="TE.project='${p.id}';renderTE()">${esc(p.emoji)} ${esc(p.name)}</button>`).join('')}</div>`:''}
    <label class="f">Note (shows on the reminder)</label><input class="inp" value="${esc(TE.notes)}" placeholder="e.g. Leave the phone at home" oninput="TE.notes=this.value">
    ${existing?`<div class="row between" style="margin-top:16px"><div><b>Active</b><div class="tiny muted">Pause it without deleting</div></div><button class="toggle ${TE.active?'on':''}" onclick="TE.active=!TE.active;this.classList.toggle('on')"></button></div>`:''}
    <div class="btns"><button class="btn" onclick="saveTask()">Save</button>${existing?`<button class="btn danger" onclick="delTask('${TE.id}')">Delete task</button>`:''}</div>`,null,keep);
@@ -1287,8 +2290,11 @@ function saveTask(){
   if(!TE.times.length){toast('Add a time');return}
   TE.name=TE.name.trim();
   if(TE.repeat==='none'){TE.until=''}
-  if(TE.stepsText!=null){TE.steps=TE.stepsText.split('\n').map(x=>x.trim()).filter(Boolean).slice(0,15);delete TE.stepsText}
+  if(TE.stepsText!=null){TE.steps=TE.stepsText.split('\n').map(x=>x.trim()).filter(Boolean).slice(0,25);delete TE.stepsText}
   if(!TE.tough){delete TE.tough}
+  if(TE.type!=='move'||!TE.stepMode){delete TE.stepMode;delete TE.stepGoal}
+  else if(TE.stepMode==='goal'){const g=parseInt(TE.stepGoal);if(!(g>=100&&g<=100000)){toast('Pick a step goal between 100 and 100,000');return}TE.stepGoal=g}
+  else delete TE.stepGoal;
   if(TE.id){const i=S.data.tasks.findIndex(x=>x.id===TE.id);S.data.tasks[i]=TE}
   else{TE.id=uid();TE.active=true;S.data.tasks.push(TE)}
   save();closeSheet();render();toast('Saved. Reminders are set');
@@ -1298,7 +2304,7 @@ function delTask(id){
   if(!confirmTap('dt'+id,'Tap again to delete'))return;
   const t=task(id);
   if(S.data.completions.some(c=>c.taskId===id)){t.end=todayK();t.active=false}  // keep history
-  else S.data.tasks=S.data.tasks.filter(x=>x.id!==id);
+  else{(t.files||[]).forEach(f=>deletePhoto(f.photoId));dropDocs(t);S.data.tasks=S.data.tasks.filter(x=>x.id!==id)}
   save();closeSheet();render();toast('Deleted');
 }
 
@@ -1320,6 +2326,7 @@ function openSettings(){
      <div class="chips" style="margin-top:8px">${[2,4,6].map(m=>`<button class="chip ${s.nagMax===m?'on':''}" onclick="setS('nagMax',${m})">${m}</button>`).join('')}</div>
      ${perm}${BR?`<button class="btn ghost sm" style="margin-top:12px" onclick="Android.testNotification()">Send a test reminder</button>`:''}</div>
    <div class="card"><h2>📷 Photo proof</h2>${ph}</div>
+   ${stepsSettingsCard()}
    <div class="card"><h2>🌏 Country</h2><div class="small muted" style="margin-bottom:8px">Sets which support lines show in the Mind tab.</div>${countrySelect(country(),"setCountry(this.value)")}</div>
    <div class="card"><h2>🎁 Rewards</h2><label class="f" style="margin-top:0">Someone else gives the rewards? (optional)</label><input class="inp" value="${esc(s.giver||'')}" placeholder="Leave blank to treat yourself" onchange="S.data.settings.giver=this.value.trim();save();render()"></div>
    <div class="card"><h2>💾 Backup</h2><div class="small muted">Everything lives only on this phone, private to you. Save a backup file now and then (Google Drive, email it to yourself, etc.) so nothing's lost if the phone dies.</div>
@@ -1334,7 +2341,7 @@ window.onBackupDone=(kind,ok,msg)=>{
   if(kind==='export'&&ok){S.data.settings.lastBackup=todayK();save();toast('Backup saved ✓');if(S.sheetOpen)openSettings()}
   else if(!ok&&msg)toast(msg);
 };
-function browserExport(){const a=document.createElement('a');a.href='data:application/json,'+encodeURIComponent(JSON.stringify(S.data));a.download='trishas-health-backup.json';a.click();S.data.settings.lastBackup=todayK();save()}
+function browserExport(){const a=document.createElement('a');a.href='data:application/json,'+encodeURIComponent(JSON.stringify(S.data));a.download='steady-backup.json';a.click();S.data.settings.lastBackup=todayK();save()}
 function photoOn(){S.data.settings.photoProof=true;S.data.settings.photoOffFrom=null;save();openSettings();render();toast('Photo proof is on 📷')}
 function photoOffStep1(){
   openSheet(`<h3>Turn off photo proof?</h3>
@@ -1397,14 +2404,15 @@ function obFinish(){
 }
 
 /* ---------- open from notification ---------- */
-window.openFromNotification=(tid,date,slot)=>{if(!S.data.onboarded)return;closeSheet();S.tab='today';render();if(tid&&date&&slot)tapOcc(tid,date,slot)};
+window.openTabFromWidget=(tab,day)=>{if(!S.data.onboarded)return;closeSheet();S.dayOff=day&&/^\d{4}-\d\d-\d\d$/.test(day)?Math.max(-60,Math.min(60,Math.round((parseDk(day)-parseDk(todayK()))/864e5))):0;S.tab=tab;if(tab==='cal'){S.calMonth=null;S.calSel=todayK()}if(tab==='plan')S.proj=null;if(tab==='mind')S.mindView=null;window.scrollTo(0,0);render()};
+window.openFromNotification=(tid,date,slot)=>{if(!S.data.onboarded)return;closeSheet();S.tab='today';S.dayOff=0;render();if(tid&&date&&slot)tapOcc(tid,date,slot)};
 window.reloadData=()=>{for(const k in PHC)delete PHC[k];load();render()};
 
 /* ---------- boot ---------- */
 load();render();
 // keep "due now" labels fresh
 setInterval(()=>{if(!S.sheetOpen)render()},60000);
-document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!S.sheetOpen)render()});
+let HID_AT=0;document.addEventListener('visibilitychange',()=>{if(document.hidden){HID_AT=Date.now();return}if(HID_AT&&Date.now()-HID_AT>15*60e3)S.dayOff=0;if(!S.sheetOpen)render()});
 </script>
 </body>
 </html>

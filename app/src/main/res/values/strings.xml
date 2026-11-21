@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Steady</string>
+    <string name="widget_today_desc">What\'s on today and tomorrow</string>
+    <string name="widget_month_desc">Your month at a glance, like the Calendar tab</string>
+    <string name="widget_today_label">Steady · Today</string>
+    <string name="widget_month_label">Steady · Month</string>
 </resources>

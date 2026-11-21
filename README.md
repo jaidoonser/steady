@@ -9,6 +9,9 @@
 - "Work through it" for rough days: say the problem out loud, narrow it, find one thing to do, then breathe
 - Mood check-ins, mantras, guided breathing, journal
 - A rewards ladder for full weeks
+- Projects: break bigger goals into steps, with notes, screenshots and files
+- Fresh eyes: catch yourself getting used to the good stuff
+- Home screen widgets for today and the month
 - Support lines for your country
 
 **Private by design:** no account, no ads, no tracking, no server. Everything stays on your phone.
