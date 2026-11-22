@@ -135,6 +135,17 @@ nav svg{width:24px;height:24px}
 .frcmp{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:10px 0}
 .frcmp b{display:block;font-size:17px;margin:2px 0 4px}.frarrow{font-size:22px;color:var(--muted)}
 .frdots6{display:flex;gap:4px}.frdots6 i{width:10px;height:10px;border-radius:50%;display:block}
+.frscale{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin:12px 2px 6px}
+.frq{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:8px}
+.frq-t{font-size:15px;line-height:1.35;margin-bottom:8px}
+.frq-s{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.frq-s button{height:36px;border-radius:10px;background:#EEF5F2;font-weight:700;color:var(--ink);font-size:15px}
+.frq-s button.on{background:var(--coral);color:#fff}
+.frbig{text-align:center;margin:6px 0 8px}.frbig span{display:block}.frbig b{font-size:22px}
+.frcmp2{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin:10px 0}
+.frcr{display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--line);font-size:14px}
+.frcr span{flex:1}.frcr b{font-variant-numeric:tabular-nums}.frcr i{width:16px;text-align:center;font-style:normal;font-size:12px;color:var(--muted)}
+.frcr i.up{color:#4E9A78}.frcr i.down{color:#B97A86}
 .frgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
 .frtile{display:flex;align-items:center;gap:9px;background:var(--card);border-radius:14px;padding:11px 12px;text-align:left;box-shadow:0 1px 3px rgba(30,70,62,.07);min-height:52px}
 .frtile span{font-size:20px;flex:none}.frtile b{font-size:14px;font-weight:650;line-height:1.2}.frtool{background:#fff}
@@ -276,11 +287,24 @@ function load(){
   // keep a copy of step history in the data file so it's included in backups
   try{if(BR&&BR.stepsStatus){const i=JSON.parse(BR.stepsStatus());if(i.hist){S.data.stepsHist=S.data.stepsHist||{};let ch=false;for(const k in i.hist){if((S.data.stepsHist[k]||0)<i.hist[k]){S.data.stepsHist[k]=i.hist[k];ch=true}}if(ch)BR.saveData(JSON.stringify(S.data))}}}catch(e){}
   for(const t of S.data.tasks){if(!t.repeat)t.repeat=t.days&&t.days.length===7?'daily':'weekly';if(!t.days)t.days=[];if(!t.start)t.start=todayK()}
+  if(!S.data.settings.odFrom){S.data.settings.odFrom=dk(addDays(new Date(),-1));if(S.data.onboarded)save()}
+  try{LAST_SAVED=BR?BR.loadData():localStorage.getItem('th_data')||''}catch(e){}
 }
+/* re-draw without losing anything typed into the page (used for timers and coming back to the app) */
+function softRender(){
+  const app=document.getElementById('app'),keep={};let foc=null,ss=null,se=null;
+  if(app)app.querySelectorAll('input[id],textarea[id]').forEach(e=>{if(e.value)keep[e.id]=e.value});
+  const a=document.activeElement;if(a&&a.id&&app&&app.contains(a)){foc=a.id;try{ss=a.selectionStart;se=a.selectionEnd}catch(e){}}
+  render();
+  for(const id in keep){const e=document.getElementById(id);if(e&&!e.value)e.value=keep[id]}
+  if(foc){const e=document.getElementById(foc);if(e){e.focus();try{if(ss!=null)e.setSelectionRange(ss,se)}catch(x){}}}
+}
+function typingInPage(){const a=document.activeElement,app=document.getElementById('app');return !!(a&&app&&app.contains(a)&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))}
+let LAST_SAVED='';
 function save(){
   try{syncProjects()}catch(e){}
   const j=JSON.stringify(S.data);
-  try{ if(BR){BR.saveData(j);BR.reschedule()} else localStorage.setItem('th_data',j) }
+  try{ if(BR){BR.saveData(j);BR.reschedule()} else localStorage.setItem('th_data',j);LAST_SAVED=j }
   catch(e){toast('Could not save: '+e)}
 }
 function task(id){return S.data.tasks.find(t=>t.id===id)}
@@ -291,7 +315,26 @@ function photoPending(){const s=S.data.settings;return !s.photoProof&&s.photoOff
 
 /* ---------- schedule maths ---------- */
 function diffDays(a,b){const x=parseDk(a),y=parseDk(b);return Math.round((Date.UTC(y.getFullYear(),y.getMonth(),y.getDate())-Date.UTC(x.getFullYear(),x.getMonth(),x.getDate()))/864e5)}
-function occurs(t,k){
+/* When a repeating task's time, days or on/off changes, the old schedule is kept in t.past for the days
+   before the change, so past ticks, the week grid, streaks and rewards don't get rewritten. */
+function schedAt(t,k){
+  if(t.end&&k>=t.end)return null;
+  for(const v of t.past||[])if(k<v.to)return v.off?null:v;
+  return t.active?t:null;
+}
+function schedOf(t){return {repeat:t.repeat,days:[...(t.days||[])].sort(),every:t.every,start:t.start,until:t.until||'',times:[...(t.times||[])].sort()}}
+function cutDay(t){const tk=todayK();return S.data.completions.some(c=>c.taskId===t.id&&c.date===tk)?dk(addDays(new Date(),1)):tk}
+function keepHistory(old,t,deleting){
+  const cut=cutDay(old);t.past=(old.past||[]).map(v=>Object.assign({},v));
+  const nowOn=!deleting&&t.active,changed=JSON.stringify(schedOf(old))!==JSON.stringify(schedOf(t));
+  const last=t.past[t.past.length-1],add=v=>{if(!last||last.to<v.to)t.past.push(v)};  // an earlier version already covers those days
+  if(old.active&&old.repeat!=='none'&&old.start<cut&&(changed||!nowOn))add(Object.assign(schedOf(old),{to:cut}));
+  else if(!old.active&&nowOn)add({off:true,to:cut});
+  if(!t.past.length)delete t.past;
+  return cut;
+}
+function occurs(t,k){const s=schedAt(t,k);return !!s&&occursS(s,k)}
+function occursS(t,k){
   const st=t.start||k;
   if(k<st)return false;
   if(t.end&&k>=t.end)return false;
@@ -318,14 +361,17 @@ function scheduleSummary(t){
   if(r!=='none'&&t.until)s+=' · until '+fmtDate(t.until,false);
   return s;
 }
-function isFinished(t){const tk=todayK();return (t.repeat==='none'&&t.start<tk)||(t.until&&t.until<tk)}
+function oneDone(t){return S.data.completions.some(c=>c.taskId===t.id)}
+function isFinished(t){const tk=todayK();return (t.repeat==='none'&&t.start<tk&&(oneDone(t)||t.start<(S.data.settings.odFrom||'')))||(t.until&&t.until<tk)}
+/* one-off to-dos that weren't done stay on Today until they are (anything missed before this was added is left alone) */
+function isOverdue(t){return t.repeat==='none'&&t.active&&!t.end&&t.start<todayK()&&t.start>=(S.data.settings.odFrom||'9')&&!oneDone(t)}
 function findComp(tid,date,slot){return S.data.completions.find(c=>c.taskId===tid&&c.date===date&&c.slot===slot)}
 function occFor(k){
   const w=parseDk(k).getDay(),out=[];
   for(const t of S.data.tasks){
-    if(!t.active)continue;
-    if(!occurs(t,k))continue;
-    for(const slot of t.times)out.push({task:t,slot,date:k,comp:findComp(t.id,k,slot)});
+    const sc=schedAt(t,k);
+    if(!sc||!occursS(sc,k))continue;
+    for(const slot of sc.times)out.push({task:t,slot,date:k,comp:findComp(t.id,k,slot)});
   }
   out.sort((a,b)=>a.slot.localeCompare(b.slot));
   return out;
@@ -337,7 +383,7 @@ function status(o){
   if(o.date>t)return 'future';
   return nowMin()>=slotMin(o.slot)?'due':'upcoming';
 }
-function canComplete(o){const y=dk(addDays(new Date(),-1));return !o.comp&&o.date>=y&&o.date<=todayK()}
+function canComplete(o){const y=dk(addDays(new Date(),-1));return !o.comp&&((o.date>=y&&o.date<=todayK())||o.task.repeat==='none')}
 function weekStats(){
   const ws=weekStart(new Date()),days=[];let total=0,done=0,dueSoFar=0;
   for(let i=0;i<7;i++){
@@ -347,7 +393,7 @@ function weekStats(){
   }
   return {ws,days,total,done,dueSoFar};
 }
-function earliestStart(){let e=null;for(const t of S.data.tasks){if(t.start&&(!e||t.start<e))e=t.start}return e}
+function earliestStart(){let e=null;for(const t of S.data.tasks)for(const v of [t,...(t.past||[])]){if(v.start&&(!e||v.start<e))e=v.start}return e}
 function streak(){
   let n=0;const tOcc=occFor(todayK());
   if(tOcc.length&&tOcc.every(o=>o.comp))n++;
@@ -489,7 +535,7 @@ function closeSheet(){
   const f=S.onClose;S.onClose=null;if(f)f();
 }
 document.getElementById('ov').addEventListener('click',closeSheet);
-window.handleBack=()=>{if(DM){closeDocMenu();return true}if(VW){closeViewer();return true}if(S.sheetOpen){closeSheet();return true}if(S.tab==='plan'&&S.proj){S.proj=null;render();return true}if(S.tab==='mind'&&S.mindView){S.mindView=null;render();return true}if(S.data.onboarded&&S.tab!=='today'){go('today');return true}return false};
+window.handleBack=()=>{if(DM){closeDocMenu();return true}if(VW){closeViewer();return true}if(S.sheetOpen){closeSheet();return true}if(S.tab==='today'&&S.dayOff){shiftDay(0);return true}if(S.tab==='plan'&&S.proj){S.proj=null;S.reorder=null;render();return true}if(S.tab==='mind'&&S.mindView){S.mindView=null;render();return true}if(S.data.onboarded&&S.tab!=='today'){go('today');return true}return false};
 
 /* ---------- nav ---------- */
 const ICONS={
@@ -555,7 +601,7 @@ function weekCard(){
 }
 function occItem(o,showDate){
   const s=status(o),t=o.task;
-  const lbl={done:'<span class="pill p-done">Done ✓</span>',due:'<span class="pill p-due">Due now</span>',upcoming:'<span class="pill p-up">'+fmtTime(o.slot)+'</span>',missed:'<span class="pill p-miss">Missed</span>',future:'<span class="pill p-up">'+fmtTime(o.slot)+'</span>'}[s];
+  const lbl={done:'<span class="pill p-done">Done ✓</span>',due:'<span class="pill p-due">Due now</span>',upcoming:'<span class="pill p-up">'+fmtTime(o.slot)+'</span>',missed:'<span class="pill p-miss">'+(t.repeat==='none'?'Not done yet':'Missed')+'</span>',future:'<span class="pill p-up">'+fmtTime(o.slot)+'</span>'}[s];
   const cls=s==='done'?'done':s==='missed'?'missed':'';
   const th=o.comp&&o.comp.photoId?photoSrc(o.comp.photoId):'';
   const tr=t.tough&&!o.comp?S.data.tough[t.id+'|'+o.date+'|'+o.slot]:null;
@@ -601,6 +647,8 @@ function viewToday(){
   if(off<0&&tOcc.length)html+=`<div class="tiny muted" style="text-align:center;margin:4px 0 10px">${doneL.length} of ${tOcc.length} done that day</div>`;
   html+=`</div>`;
   if(off===0&&!s.swiped)html+=`<div class="tiny muted" style="text-align:center;margin:2px 0 6px">Swipe left or right to see other days</div>`;
+  if(off===0){const od=[];S.data.tasks.filter(t=>isOverdue(t)&&t.start<y).sort((a,b)=>a.start.localeCompare(b.start)).forEach(t=>t.times.forEach(sl=>{if(!findComp(t.id,t.start,sl))od.push({task:t,slot:sl,date:t.start,comp:null})}));
+    if(od.length)html+=`<div class="sec">Still to do</div>`+od.map(o=>occItem(o,true)).join('')}
   if(yMiss.length){html+=`<div class="sec">From yesterday · still time if you want</div>`+yMiss.map(o=>occItem(o,true)).join('')}
   if(off===0)html+=`<div style="height:8px"></div>`+stepsTodayCard()+frTodayCard()+todayProjects();
   const ap=upcomingAppts().filter(a=>a.date<=dk(addDays(now,30)));
@@ -805,12 +853,12 @@ function openComplete(o){
 function renderComplete(){
   breathStop();
   const o=CF.o,t=o.task,needPhoto=photoRequired(o.date),isEx=t.type==='exercise';
-  const late=o.date<todayK();
+  const late=o.date<todayK(),early=o.date>todayK();
   const ph=CF.photoId?photoSrc(CF.photoId):'';
   let html=`${editPill(t.id)}<h3>${esc(t.emoji)} ${esc(t.name)}</h3>
-   <div class="muted small" style="margin-top:-8px">${relDay(o.date)} · ${fmtTime(o.slot)}${late?' · late':''}${t.notes?' · '+esc(t.notes):''}</div>`;
+   <div class="muted small" style="margin-top:-8px">${relDay(o.date)} · ${fmtTime(o.slot)}${late?' · late':''}${early?' · ticking it off early':''}${t.notes?' · '+esc(t.notes):''}</div>`;
   if(t.tool==='freshfollow'&&t.sess)html+=`<button class="btn sec2" style="margin-top:14px" onclick="closeSheet();openFresh();frFollow('${t.sess}')">✨ Do the follow-up now</button><div class="tiny muted" style="text-align:center;margin-top:6px">Finishing it ticks this off for you.</div>`;
-  if(t.tool==='fresh'){const a=frActive(),fu=a&&!a.follow;html+=`<button class="btn sec2" style="margin-top:14px" onclick="closeSheet();openFresh();${fu?`frFollow('${a.id}')`:'frCheck(true)'}">✨ ${fu?'Follow up on '+esc(a.topic):'Do the check now'}</button><div class="tiny muted" style="text-align:center;margin-top:6px">${fu?'Same questions as last time, about that topic. ':''}Doing it ticks this off for you.</div>`;}
+  if(t.tool==='fresh'){const a=frActive(),fu=a&&a.nextFU&&a.nextFU<=todayK();html+=`<button class="btn sec2" style="margin-top:14px" onclick="closeSheet();openFresh();${fu?`frFollow('${a.id}')`:a&&a.nextFU?'frCheck()':'frCheck(true)'}">✨ ${fu?'Follow up on '+esc(a.topic):'Do the check now'}</button><div class="tiny muted" style="text-align:center;margin-top:6px">${fu?'Same questions as last time, about that topic. ':''}Doing it ticks this off for you.</div>`;}
   if(t.type==='mantra'){
     const ms=mantraList(),i=((CF.mi??todayMantraIdx())%ms.length+ms.length)%ms.length;CF.mi=i;
     html+=`<div class="card" style="margin-top:14px;padding:6px 10px"><div class="mantra">“${esc(ms[i])}”</div>
@@ -861,7 +909,7 @@ function cfSave(){
   const at=dk(n)+'T'+pad(n.getHours())+':'+pad(n.getMinutes())+':'+pad(n.getSeconds());
   const wk=walkFor(o);let walk;
   if(wk){walk={steps:walkSteps(wk),mins:walkMins(wk)};if(o.task.stepMode==='goal'&&o.task.stepGoal)walk.goal=o.task.stepGoal;delete S.data.walks[walkKey(o)]}
-  S.data.completions.push({id:uid(),taskId:o.task.id,date:o.date,slot:o.slot,at,photoId:CF.photoId,note:CF.note.trim(),workout:w.length?w:undefined,late:o.date<todayK()||undefined,tough:CF.tough||undefined,walk});
+  S.data.completions.push({id:uid(),taskId:o.task.id,date:o.date,slot:o.slot,at,photoId:CF.photoId,note:CF.note.trim(),workout:w.length?w:undefined,late:o.date<todayK()||undefined,early:o.date>todayK()||undefined,tough:CF.tough||undefined,walk});
   const wasTough=!!CF.tough,CF0p=!!(CF.tough&&CF.tough.partial);if(wasTough)delete S.data.tough[o.task.id+'|'+o.date+'|'+o.slot];
   CF.saved=true;save();CF=null;closeSheet();render();
   if(wasTough){toast(CF0p?'Done for today 🌿':'You did the hard thing 💪');return}
@@ -874,12 +922,12 @@ function openDone(o,keep){
   openSheet(`${editPill(t.id)}<h3>${esc(t.emoji)} ${esc(t.name)}</h3>
    <div class="muted small" style="margin-top:-8px">${relDay(o.date)} · planned ${fmtTime(o.slot)} · done ${fmtDate(c.at.slice(0,10))} ${fmtTime(c.at.slice(11,16))}${c.late?' (late)':''}</div>
    ${c.walk?walkDoneCard(c.walk):''}
-   ${ph?`<img class="photo-big" src="${ph}">`:c.walk?'':'<p class="muted">No photo for this one.</p>'}
+   ${ph?`<img class="photo-big" src="${ph}">`:c.walk||!photoRequired(o.date)?'':'<p class="muted">No photo for this one.</p>'}
    ${c.workout?`<div class="card" style="padding:12px">${c.workout.map(w=>`<div class="row between small" style="padding:4px 0"><b>${esc(w.ex)}</b><span class="muted">${esc(w.sets||'-')}×${esc(w.reps||'-')} ${w.kg?'@ '+esc(w.kg)+'kg':''}</span></div>`).join('')}</div>`:''}
    ${c.note?`<p>“${esc(c.note)}”</p>`:''}
    ${stepsBox(t)}${filesBox(t)}
    <div class="btns"><button class="btn ghost" onclick="closeSheet()">Close</button>
-   ${o.date>=dk(addDays(new Date(),-1))?`<button class="btn danger" onclick="undoComp('${c.id}')">Undo – mark not done</button>`:''}</div>`,null,keep);
+   ${o.date>=dk(addDays(new Date(),-1))||t.repeat==='none'?`<button class="btn danger" onclick="undoComp('${c.id}')">Undo – mark not done</button>`:''}</div>`,null,keep);
   STEP_REFRESH=()=>openDone(o,true);
 }
 function undoComp(id){
@@ -1031,7 +1079,7 @@ function evalRewards(){
       const r=rewardFor(w);if(!r)continue;
       const e={id:uid(),week:w,rewardId:r.id,name:r.name,emoji:r.emoji,notes:r.notes||'',earnedAt:todayK(),givenAt:null,photoId:null};
       S.data.rewardsEarned.push(e);changed=true;newly=e;
-    } else if(!perf&&rec&&!rec.givenAt){
+    } else if(!perf&&rec&&!rec.givenAt&&w===cur){
       S.data.rewardsEarned=S.data.rewardsEarned.filter(x=>x!==rec);changed=true;
     }
   }
@@ -1659,7 +1707,7 @@ function viewPlan(){
   const act=live.filter(t=>t.active&&!isFinished(t)),paused=live.filter(t=>!t.active&&!isFinished(t)),fin=live.filter(t=>isFinished(t));
   const rep=act.filter(t=>t.repeat!=='none'),once=act.filter(t=>t.repeat==='none').sort((a,b)=>a.start.localeCompare(b.start));
   const it=t=>`<button class="item" onclick="editTask('${t.id}')" style="${t.active&&!isFinished(t)?'':'opacity:.6'}"><div class="emo">${esc(t.emoji)}</div><div class="grow"><div class="t1">${esc(t.name)}</div>
-    <div class="t2">${scheduleSummary(t).replace(/^One-off · /,'')} · ${t.times.map(fmtTime).join(', ')}</div></div><span class="muted">›</span></button>`;
+    <div class="t2">${scheduleSummary(t).replace(/^One-off · /,'')} · ${t.times.map(fmtTime).join(', ')}${isOverdue(t)?' · <b>not done yet</b>':''}</div></div><span class="muted">›</span></button>`;
   const unused=TEMPLATES.filter(tp=>!live.some(t=>t.name.toLowerCase()===tp.name.toLowerCase()&&!isFinished(t)));
   if(S.planSeg==='projects'&&S.proj&&proj(S.proj))return viewProject(proj(S.proj));
   const seg=`<div class="chips" style="margin:0 0 12px"><button class="chip ${S.planSeg!=='projects'?'on':''}" onclick="S.planSeg='tasks';render()">📋 Tasks</button><button class="chip ${S.planSeg==='projects'?'on':''}" onclick="S.planSeg='projects';S.proj=null;render()">📓 Projects${(S.data.projects||[]).filter(p=>!p.archived).length?' · '+(S.data.projects||[]).filter(p=>!p.archived).length:''}</button></div>`;
@@ -1695,10 +1743,11 @@ function pNext(p){return pSteps(p).find(i=>!i.done)}
 function pPct(p){const s=pSteps(p);return s.length?Math.round(100*s.filter(i=>i.done).length/s.length):0}
 function syncProjects(){
   for(const p of S.data.projects||[])for(const it of p.items){
-    if(it.kind!=='s'||it.done||!it.taskId||it.manualOff)continue;
+    if(it.kind!=='s'||!it.taskId||it.manualOff)continue;
     const c=S.data.completions.filter(c=>c.taskId===it.taskId);
     const t=task(it.taskId);
-    if(c.length&&(!t||t.repeat==='none')){it.done=true;it.doneAt=c[c.length-1].at.slice(0,10)}
+    if(it.done){if(it.auto&&!c.length&&t){it.done=false;delete it.doneAt;delete it.auto}continue}
+    if(c.length&&(!t||t.repeat==='none')){it.done=true;it.auto=true;it.doneAt=c[c.length-1].at.slice(0,10)}
   }
 }
 function openProj(id){S.tab='plan';S.planSeg='projects';S.proj=id;window.scrollTo(0,0);render()}
@@ -1761,7 +1810,7 @@ function viewProject(p){
      <button class="ptext" onclick="openPItem('${p.id}','${it.id}')"><span>${esc(it.text)}</span>${sched||it.note||it.done&&it.doneAt?`<small>${[sched,it.note?'📝 note':'',it.done&&it.doneAt?'Done '+fmtDate(it.doneAt):''].filter(Boolean).join(' · ')}</small>`:''}</button></div>`;
   }).join('');
   const notes=(p.notes||[]).slice().reverse();
-  return `<div class="wrap"><div class="row between" style="margin:4px 0 6px"><button class="backtoday" style="margin:0" onclick="S.proj=null;render()">‹ Projects</button><button class="editpill" style="float:none;margin:0" onclick="editProj('${p.id}')">✏️ Edit</button></div>
+  return `<div class="wrap"><div class="row between" style="margin:4px 0 6px"><button class="backtoday" style="margin:0" onclick="S.proj=null;S.reorder=null;render()">‹ Projects</button><button class="editpill" style="float:none;margin:0" onclick="editProj('${p.id}')">✏️ Edit</button></div>
    <div class="top" style="margin-top:6px"><div><h1>${esc(p.emoji)} ${esc(p.name)}</h1>${p.archived?'<div class="sub">Finished / shelved</div>':''}</div></div>
    ${p.why?`<div class="card" style="background:var(--sunSoft)"><div class="tiny muted">🎯 Why this matters</div><div style="margin-top:4px">${esc(p.why)}</div></div>`:''}
    <div class="card"><div class="row between"><b>${s.length?d+' of '+s.length+' steps done':'Add your first step below'}</b><span class="muted">${s.length?pc+'%':''}</span></div><div class="pbar" style="height:9px"><i style="width:${pc}%"></i></div>
@@ -1797,7 +1846,7 @@ function addPItem(pid,kind){
 function savePHead(pid){const v=(document.getElementById('phd').value||'').trim();if(!v)return;proj(pid).items.push({id:uid(),kind:'h',text:v});save();closeSheet();render()}
 function togglePItem(pid,iid){
   const p=proj(pid),it=p.items.find(i=>i.id===iid);if(!it)return;
-  it.done=!it.done;if(it.done){it.doneAt=todayK();delete it.manualOff}else{delete it.doneAt;if(it.taskId)it.manualOff=true}
+  it.done=!it.done;delete it.auto;if(it.done){it.doneAt=todayK();delete it.manualOff}else{delete it.doneAt;if(it.taskId)it.manualOff=true}
   save();render();
   if(it.done){const nx=pNext(p);toast(nx?'Nice one ✓ Next: '+nx.text:pSteps(p).length?'Every step done 🎉':'Done ✓')}
   if(S.sheetOpen&&PI&&PI.iid===iid)openPItem(pid,iid,true);
@@ -1892,13 +1941,15 @@ const FR_EX={
    ['When will you try it?','','short']]}
 };
 let FE=null;
-function frData(){S.data.fresh=S.data.fresh||{checks:[],entries:[],good:[],wants:[]};const f=S.data.fresh;['checks','entries','good','wants','sessions'].forEach(k=>{if(!Array.isArray(f[k]))f[k]=[]});return f}
+function frData(){S.data.fresh=S.data.fresh||{checks:[],entries:[],good:[],wants:[]};const f=S.data.fresh;['checks','entries','good','wants','sessions'].forEach(k=>{if(!Array.isArray(f[k]))f[k]=[]});for(const x of f.sessions)if(x.nextFU===undefined)x.nextFU=x.active&&!x.follow?(x.followAt||null):null;return f}
 function openFresh(){S.tab='mind';S.mindView='fresh';window.scrollTo(0,0);render()}
 function frDueWants(){return frData().wants.filter(w=>w.status==='waiting'&&dk(addDays(parseDk(w.added),w.days))<=todayK())}
-function frTickTask(){
+function frTickTask(week){
   const t=S.data.tasks.find(x=>x.tool==='fresh'&&!x.end&&x.active);if(!t)return;
-  const o=occFor(todayK()).find(o=>o.task.id===t.id&&!o.comp);if(!o)return;
-  S.data.completions.push({id:uid(),taskId:t.id,date:o.date,slot:o.slot,at:nowStamp()+':00',photoId:null,note:'Fresh eyes'});
+  const tk=todayK(),last=week?dk(addDays(weekStart(new Date()),6)):tk;
+  for(let d=new Date(),i=0;i<7;i++,d=addDays(d,1)){const k=dk(d);if(k>last)break;
+    const oc=occFor(k).filter(o=>o.task.id===t.id);if(oc.some(o=>o.comp))return;const o=oc[0];
+    if(o){S.data.completions.push({id:uid(),taskId:t.id,date:o.date,slot:o.slot,at:nowStamp()+':00',photoId:null,note:'Fresh eyes',early:k>tk||undefined});return}}
 }
 function viewFresh(){
   const f=frData(),last=f.checks[f.checks.length-1],due=frDueWants();
@@ -1911,8 +1962,8 @@ function viewFresh(){
   // the check
   h+=`<div class="card"><div class="row between"><h2 style="margin:0">🔍 Am I sliding?</h2>${last?`<span class="tiny muted">Last: ${relDay(last.at.slice(0,10))}</span>`:''}</div>
    <div class="small muted" style="margin:6px 0 10px">A one-minute check to spot it early.</div>
-   ${last?`<div class="frlast">${frVerdict(last.score).emo} ${frVerdict(last.score).short}${f.checks.length>1?`<span class="frdots">${f.checks.slice(-8).map(c=>`<i style="background:${c.score>=4?'#D9A6B0':c.score>=2?'#E8D7A8':'#A9CDBF'}"></i>`).join('')}</span>`:''}</div>`:''}
-   <button class="btn" style="margin:0" onclick="frCheck()">${frActive()&&!frActive().follow?'Check in on '+esc(frActive().topic):last?'Start a new check':'Start the check'}</button></div>`;
+   ${last?`<div class="frlast">${frVerdict(frFrac(last)).emo} ${frVerdict(frFrac(last)).short}${f.checks.length>1?`<span class="frdots">${f.checks.slice(-8).map(c=>`<i style="background:${frFrac(c)>0.5?'#D9A6B0':frFrac(c)>0.2?'#E8D7A8':'#A9CDBF'}"></i>`).join('')}</span>`:''}</div>`:''}
+   <button class="btn" style="margin:0" onclick="frCheck()">${frActive()&&frActive().nextFU?'Check in on '+esc(frActive().topic):last?'Start a new check':'Start the check'}</button></div>`;
   // cool-off due
   if(due.length)h+=due.map(w=>`<button class="item" style="background:#FFF7E6" onclick="frDecide('${w.id}')"><div class="emo">⏳</div><div class="grow"><div class="t1">Cool-off's up: ${esc(w.text)}</div><div class="t2">Do you still want it? Tap to decide</div></div><span class="muted">›</span></button>`).join('');
   // exercises
@@ -1930,7 +1981,7 @@ function viewFresh(){
    ${letGo.length?`<div class="small" style="margin-top:10px">🙌 You've let <b>${letGo.length}</b> urge${letGo.length===1?'':'s'} pass${saved?` and kept <b>$${saved.toLocaleString()}</b> in your pocket`:''}.</div>`:''}
    ${f.wants.filter(w=>w.status==='kept').length?`<div class="tiny muted" style="margin-top:6px">Still wanted after waiting: ${f.wants.filter(w=>w.status==='kept').map(w=>esc(w.text)).join(', ')}</div>`:''}</div>`;
   const past=f.sessions.filter(x=>!x.active).slice().reverse();
-  if(past.length)h+=`<div class="sec">Past focuses</div>`+past.slice(0,3).map(x=>`<button class="item" onclick="frSessView('${x.id}')"><div class="emo">📌</div><div class="grow"><div class="t1">${esc(x.topic)}</div><div class="t2">${fmtDate(x.at.slice(0,10))}${x.follow?' · follow-up: '+['','worse','same','a bit better','much better'][x.follow.feel]:''}</div></div><span class="muted">›</span></button>`).join('');
+  if(past.length)h+=`<div class="sec">Past focuses</div>`+past.slice(0,3).map(x=>`<button class="item" onclick="frSessView('${x.id}')"><div class="emo">📌</div><div class="grow"><div class="t1">${esc(x.topic)}</div><div class="t2">${fmtDate(x.at.slice(0,10))}${frPastLine(x)?' · '+frPastLine(x):''}</div></div><span class="muted">›</span></button>`).join('');
   // history
   const frRow=e=>{const d=FR_EX[e.kind];return d?`<button class="item" onclick="frView('${e.id}')"><div class="emo">${d.emo}</div><div class="grow"><div class="t1">${d.name}${e.subject?': '+esc(e.subject):''}</div><div class="t2">${fmtDate(e.at.slice(0,10))}${e.feel?' · '+['','Same as before','Bit better','Heaps better'][e.feel]:''}</div></div><span class="muted">›</span></button>`:''};
   if(f.entries.length)h+=`<div class="sec">What you've written</div>`+f.entries.slice().reverse().slice(0,3).map(frRow).join('')+(f.entries.length>3?`<button class="btn ghost sm" style="width:100%;margin:0 0 8px" onclick="frAllEntries()">See all ${f.entries.length}</button>`:'');
@@ -1940,41 +1991,42 @@ function viewFresh(){
    :`<div class="card" style="margin-top:14px"><div class="small">It's easy to miss something you can't feel happening. A weekly nudge helps.</div><button class="btn ghost sm" style="margin:10px 0 0" onclick="frAddTask()">📅 Add a weekly check-in</button></div>`;
   return h+'<div style="height:20px"></div></div>';
 }
-function frVerdict(n){
-  if(n<=1)return {emo:'🟢',short:'Seeing things clearly',long:'You\'re noticing the good stuff. Nice. Keep doing what you\'re doing.'};
-  if(n<=3)return {emo:'🟡',short:'A bit of a slide',long:'A few signs you\'re getting used to the good things. Totally normal. One quick exercise can reset it.'};
-  return {emo:'🔴',short:'Sliding',long:'Lots of signs the good stuff has faded into the background. It\'s not that life got worse, your brain just stopped noticing. Let\'s do one exercise now.'};
+const FR_SCALE_TIP=`<div class="frscale"><span>1 = not at all</span><span>5 = very much</span></div>`;
+function frFrac(c){return c.max?c.score/c.max:c.score/6}
+function frVerdict(f){
+  if(f<=0.2)return {emo:'🟢',short:'Seeing things clearly',long:'You\'re noticing the good stuff. Nice. Keep doing what you\'re doing.'};
+  if(f<=0.5)return {emo:'🟡',short:'A bit of a slide',long:'Some signs you\'re getting used to the good things. Totally normal, and easy to catch early.'};
+  return {emo:'🔴',short:'Sliding',long:'Lots of signs the good stuff has faded into the background. It\'s not that life got worse, your brain just stopped noticing.'};
 }
-function frSuggest(sig){
-  if(sig.includes('buy')||sig.includes('when'))return sig.includes('buy')?'want':'pastme';
-  if(sig.includes('bg'))return 'subtract';
-  if(sig.includes('missing'))return 'savour';
-  if(sig.includes('compare'))return 'pastme';
-  if(sig.includes('meh'))return 'shake';
-  return 'subtract';
+function frRateRow(k,label,val,fn){
+  return `<div class="frq"><div class="frq-t">${label}</div><div class="frq-s">${[1,2,3,4,5].map(v=>`<button class="${val===v?'on':''}" onclick="${fn}('${k}',${v})">${v}</button>`).join('')}</div></div>`;
 }
 let FC=null;
 function frCheck(force){
   const a=frActive();
-  if(a&&!a.follow&&!force)return openSheet(`<h3>✨ Check in on ${esc(a.topic)}?</h3>
+  if(a&&a.nextFU&&!force)return openSheet(`<h3>✨ Check in on ${esc(a.topic)}?</h3>
     <p class="small">You're working on <b>${esc(a.topic)}</b> since ${relDay(a.at.slice(0,10)).toLowerCase()}. The follow-up asks the same questions about it, so you can see if it's helped.</p>
     <div class="btns"><button class="btn" onclick="closeSheet();frFollow('${a.id}')">Follow up on ${esc(a.topic)}</button><button class="btn ghost" onclick="closeSheet();frCheck(true)">Start a new check instead</button></div>`);
-  FC={sig:[]};renderFC()}
+  FC={r:{}};renderFC();
+}
 function renderFC(keep){
-  openSheet(`<h3>🔍 Am I sliding?</h3><div class="small muted" style="margin-top:-6px">Tap any that have been true lately. Be honest, nobody else sees this.</div>
-   <div style="margin-top:12px">${FR_SIGNS.map(([k,l])=>`<button class="frsig ${FC.sig.includes(k)?'on':''}" onclick="frSig('${k}')"><span class="pchk">${FC.sig.includes(k)?'✓':''}</span><span>${l}</span></button>`).join('')}</div>
+  openSheet(`<h3>🔍 Am I sliding?</h3><div class="small muted" style="margin-top:-6px">How true has each of these been lately? Be honest, nobody else sees this.</div>
+   ${FR_SCALE_TIP}${FR_SIGNS.map(([k,l])=>frRateRow(k,l,FC.r[k]||0,'frSig')).join('')}
    <div class="btns"><button class="btn" onclick="frCheckDone()">See what it means</button><button class="btn ghost" onclick="closeSheet()">Cancel</button></div>`,null,keep);
 }
-function frSig(k){const i=FC.sig.indexOf(k);if(i>=0)FC.sig.splice(i,1);else FC.sig.push(k);renderFC(true)}
+function frSig(k,v){FC.r[k]=v;renderFC(true)}
 function frCheckDone(){
-  const f=frData(),n=FC.sig.length;f.checks.push({at:nowStamp(),score:n,sig:FC.sig.slice()});frTickTask();save();
-  const v=frVerdict(n),cur=frActive();
+  if(FR_SIGNS.some(([k])=>!FC.r[k])){toast('Give each one a number, even if it\'s a 1');return}
+  const f=frData(),sum=FR_SIGNS.reduce((a,[k])=>a+FC.r[k]-1,0),fr=sum/24;
+  FC.sig=FR_SIGNS.map(x=>x[0]).filter(k=>FC.r[k]>=3).sort((a,b)=>FC.r[b]-FC.r[a]);
+  f.checks.push({at:nowStamp(),score:sum,max:24,r:Object.assign({},FC.r),sig:FC.sig.slice()});frTickTask(true);save();
+  const v=frVerdict(fr),cur=frActive(),slide=fr>0.2;
   openSheet(`<div style="text-align:center;font-size:44px;margin-top:6px">${v.emo}</div><h3 style="text-align:center">${v.short}</h3>
-   <p class="small" style="text-align:center">${v.long.replace(' Let\'s do one exercise now.','').replace(' One quick exercise can reset it.','')}</p>
-   <div class="card" style="margin-top:12px"><div class="serif" style="font-size:18px">${n?'Let\'s pick one thing to work on this week':'Want to pick a focus for the week anyway?'}</div>
-    <div class="small muted" style="margin:4px 0 12px">Choose the one area you're feeling it most, work through two short exercises on it, and set a reminder that sits on Today all week. I'll check in a couple of days later.${cur?` This replaces your current focus (<b>${esc(cur.topic)}</b>).`:''}</div>
-    <button class="btn" style="margin:0" onclick="frSessStart()">${n?'Let\'s do it (about 10 min)':'Pick a focus'}</button></div>
-   <div class="btns"><button class="btn ghost" onclick="closeSheet();render()">${n?'Not right now':'Done'}</button></div>`,()=>render(),true);
+   <p class="small" style="text-align:center">${v.long}</p>
+   <div class="card" style="margin-top:12px"><div class="serif" style="font-size:18px">${slide?'Let\'s pick one thing to work on this week':'Want to pick a focus for the week anyway?'}</div>
+    <div class="small muted" style="margin:4px 0 12px">Choose the one area you're feeling it most, rate how you see it, work through two short exercises, and set a reminder for Today. A couple of days later you rate it again to see what's shifted.${cur?` This replaces your current focus (<b>${esc(cur.topic)}</b>).`:''}</div>
+    <button class="btn" style="margin:0" onclick="frSessStart()">${slide?'Let\'s do it (about 10 min)':'Pick a focus'}</button></div>
+   <div class="btns"><button class="btn ghost" onclick="closeSheet();render()">${slide?'Not right now':'Done'}</button></div>`,()=>render(),true);
 }
 function frStart(kind,gid){
   const g=gid?frData().good.find(x=>x.id===gid):null;
@@ -2087,25 +2139,38 @@ function frTodayCard(){
   const due=frDueWants();if(!due.length)return '';
   return due.map(w=>`<button class="item" style="background:#FFF7E6" onclick="openFresh();frDecide('${w.id}')"><div class="emo">⏳</div><div class="grow"><div class="t1">Cool-off's up: ${esc(w.text)}</div><div class="t2">Still want it? Tap to decide</div></div></button>`).join('');
 }
-/* ---------- Fresh eyes focus sessions: one topic a week, worked through, reminded daily, followed up ---------- */
+/* ---------- Fresh eyes focus sessions: one topic, rated 1-5 before and after ---------- */
 const FR_TOPICS=['My job / work','My partner','My home','Money & stuff','My health','Mates & family','Free time','Where I live'];
-const FR_SIGMAP={meh:['shake','savour'],when:['pastme'],compare:['pastme','subtract'],buy:['pastme'],missing:['reconnect','savour'],bg:['subtract','reconnect']};
+const FR_TQ=[
+ ['meh',t=>frCap(t)+' feels a bit "meh" lately','Feels "meh"'],
+ ['granted',t=>'I take '+t+' for granted','Take it for granted'],
+ ['wrong',t=>'I mostly notice what\'s wrong with '+t,'Notice what\'s wrong'],
+ ['compare',t=>'I compare '+t+' to what others have','Compare to others'],
+ ['else',t=>'I think I\'d be happier with something different','Want something different'],
+ ['good',t=>'I can see the good in '+t,'See the good',true]];
+const FR_TQMAP={meh:['shake','savour'],granted:['subtract','lasttime'],wrong:['reconnect','savour'],compare:['pastme'],else:['pastme','subtract'],good:['reconnect']};
 let FS=null;
+function frCap(s){s=String(s);return s.charAt(0).toUpperCase()+s.slice(1)}
+function frMy(t){t=String(t);return /^my\b/i.test(t)?'my'+t.slice(2):(FR_TOPICS.includes(t)?t.charAt(0).toLowerCase()+t.slice(1):t)}
 function frYour(t){t=String(t);return /^my\b/i.test(t)?t.replace(/^my\b/i,'your'):(FR_TOPICS.includes(t)?t.charAt(0).toLowerCase()+t.slice(1):t)}
 function frActive(){const ss=frData().sessions;for(let i=ss.length-1;i>=0;i--)if(ss[i].active)return ss[i];return null}
-function frPlan(sig){
-  const out=[];
-  for(const k of ['when','bg','compare','missing','meh','buy'])if(sig.includes(k))for(const e of FR_SIGMAP[k])if(!out.includes(e))out.push(e);
-  if(!out.length)out.push('reconnect','savour');
-  if(out.length===1)out.push(out[0]==='savour'?'reconnect':'savour');
+function frBad(q,v){return q[3]?(5-v):(v-1)}
+function frTPct(tr){let bad=0;for(const q of FR_TQ)bad+=frBad(q,tr[q[0]]||1);return Math.round(100-bad/24*100)}
+function frTRows(topic,tr,fn){return FR_SCALE_TIP+FR_TQ.map(q=>frRateRow(q[0],q[1](frMy(topic)),tr[q[0]]||0,fn)).join('')}
+function frTDone(tr){return FR_TQ.every(q=>tr[q[0]])}
+function frPlanT(tr){
+  const order=FR_TQ.map(q=>[q[0],frBad(q,tr[q[0]]||1)]).filter(x=>x[1]>=2).sort((a,b)=>b[1]-a[1]);
+  const out=[];for(const [k] of order)for(const e of FR_TQMAP[k])if(!out.includes(e))out.push(e);
+  if(!out.length)out.push('reconnect','savour');if(out.length===1)out.push(out[0]==='savour'?'reconnect':'savour');
   return out.slice(0,2);
 }
-function frSessStart(){FS={sig:FC?FC.sig.slice():[],score:FC?FC.sig.length:0,topic:'',what:'',queue:[],done:[],reminder:''};renderFS('topic')}
+function frSessStart(){FS={sig:FC&&FC.sig?FC.sig.slice():[],topic:'',what:'',tr:{},queue:[],done:[],reminder:''};renderFS('topic')}
+function frFsRate(k,v){FS.tr[k]=v;renderFS('rate')}
 function renderFS(step,keep=true){
   FS.at=step;const good=frData().good;
   if(step==='topic'){
     const opts=[...good.map(g=>g.text),...FR_TOPICS.filter(t=>!good.some(g=>g.text.toLowerCase()===t.toLowerCase()))];
-    return openSheet(`<div class="tiny muted">✨ This week's focus · 1 of 4</div><h3 style="margin-top:6px">Where are you feeling the slide most?</h3>
+    return openSheet(`<div class="tiny muted">✨ This week's focus · 1 of 5</div><h3 style="margin-top:6px">Where are you feeling the slide most?</h3>
      <div class="small muted" style="margin-top:-8px">Pick just one. You can work on another next week.</div>
      <div class="chips" style="margin-top:12px">${opts.map(o=>`<button class="chip ${FS.topic===o?'on':''}" data-v="${esc(o)}" onclick="FS.topic=this.dataset.v;renderFS('topic')">${esc(o)}</button>`).join('')}</div>
      <input class="inp" style="margin-top:10px" placeholder="or type it in your own words" value="${opts.includes(FS.topic)?'':esc(FS.topic)}" oninput="FS.topic=this.value">
@@ -2113,23 +2178,29 @@ function renderFS(step,keep=true){
   }
   if(step==='what'){
     setTimeout(()=>{const e=document.getElementById('fswhat');if(e&&!e.value)e.focus()},250);
-    return openSheet(`<div class="tiny muted">✨ ${esc(FS.topic)} · 2 of 4</div><h3 style="margin-top:6px">What's going on with it?</h3>
+    return openSheet(`<div class="tiny muted">✨ ${esc(FS.topic)} · 2 of 5</div><h3 style="margin-top:6px">What's going on with it?</h3>
      <div class="small muted" style="margin-top:-8px">What does the slide look like? No need to be fair or polite, just honest.</div>
      <textarea class="inp" id="fswhat" rows="5" style="margin-top:12px" placeholder="e.g. It feels like a grind lately. I keep thinking something better would fix it." oninput="FS.what=this.value">${esc(FS.what)}</textarea>
-     <div class="btns"><button class="btn" onclick="FS.queue=frPlan(FS.sig);renderFS('plan')">Next</button><button class="btn ghost" onclick="renderFS('topic')">Back</button></div>`,()=>render(),keep);
+     <div class="btns"><button class="btn" onclick="renderFS('rate')">Next</button><button class="btn ghost" onclick="renderFS('topic')">Back</button></div>`,()=>render(),keep);
+  }
+  if(step==='rate'){
+    return openSheet(`<div class="tiny muted">✨ ${esc(FS.topic)} · 3 of 5</div><h3 style="margin-top:6px">How do you see ${esc(frYour(FS.topic))} right now?</h3>
+     <div class="small muted" style="margin-top:-8px">This is your starting point. In a couple of days you'll rate the same things again and see what's shifted.</div>
+     ${frTRows(FS.topic,FS.tr,'frFsRate')}
+     <div class="btns"><button class="btn" onclick="if(!frTDone(FS.tr)){toast('Give each one a number, even if it\\'s a 1');return}FS.queue=frPlanT(FS.tr);renderFS('plan')">Next</button><button class="btn ghost" onclick="renderFS('what')">Back</button></div>`,()=>render(),keep);
   }
   if(step==='plan'){
-    return openSheet(`<div class="tiny muted">✨ ${esc(FS.topic)} · 3 of 4</div><h3 style="margin-top:6px">Here's the plan</h3>
-     <div class="small muted" style="margin-top:-8px">Two short exercises picked for the signs you ticked, all about <b>${esc(FS.topic)}</b>. About 6 minutes.</div>
+    return openSheet(`<div class="tiny muted">✨ ${esc(FS.topic)} · 4 of 5</div><h3 style="margin-top:6px">Here's the plan</h3>
+     <div class="small muted" style="margin-top:-8px">Two short exercises picked from your ratings, all about <b>${esc(FS.topic)}</b>. About 6 minutes.</div>
      <div style="margin-top:12px">${FS.queue.map((k,i)=>`<div class="frplan"><span class="frnum">${i+1}</span><span style="font-size:22px">${FR_EX[k].emo}</span><div><b>${FR_EX[k].name}</b><div class="tiny muted">${FR_EX[k].sub}</div></div></div>`).join('')}
       <div class="frplan" style="opacity:.75"><span class="frnum">3</span><span style="font-size:22px">📌</span><div><b>Your reminder for the week</b><div class="tiny muted">One line that shows on Today every day</div></div></div></div>
      ${FS.sig.includes('buy')?`<div class="tiny muted" style="margin-top:10px">🛒 Got something you're itching to buy as well? You can pop it on the Want list after this.</div>`:''}
-     <div class="btns"><button class="btn" onclick="frSessRun()">Start</button><button class="btn ghost" onclick="renderFS('what')">Back</button></div>`,()=>render(),keep);
+     <div class="btns"><button class="btn" onclick="frSessRun()">Start</button><button class="btn ghost" onclick="renderFS('rate')">Back</button></div>`,()=>render(),keep);
   }
   if(step==='reminder'){
     if(!FS.reminder)FS.reminder=frSuggestReminder();
     setTimeout(()=>{const e=document.getElementById('fsrem');if(e){e.focus();e.setSelectionRange(e.value.length,e.value.length)}},250);
-    return openSheet(`<div class="tiny muted">✨ ${esc(FS.topic)} · 4 of 4</div><h3 style="margin-top:6px">Your reminder for the week</h3>
+    return openSheet(`<div class="tiny muted">✨ ${esc(FS.topic)} · 5 of 5</div><h3 style="margin-top:6px">Your reminder for the week</h3>
      <div class="small muted" style="margin-top:-8px">Short and in your own words. It'll sit at the top of Today every day until your next check.</div>
      <textarea class="inp" id="fsrem" rows="3" maxlength="120" style="margin-top:12px" oninput="FS.reminder=this.value">${esc(FS.reminder)}</textarea>
      <div class="tiny muted">I've started it from your answers. Change it however you like.</div>
@@ -2143,16 +2214,19 @@ function frSessRun(){
 function frSuggestReminder(){
   const es=frData().entries.filter(e=>FS.done.includes(e.id));
   for(let i=es.length-1;i>=0;i--){const qa=es[i].qa,last=qa[qa.length-1];if(last&&last[1]&&last[1].length<=90)return last[1]}
-  return 'Notice the good in '+frYour(FS.topic)+' today';
+  return 'Notice the good in '+frMy(FS.topic)+' today';
+}
+function frFollowTask(s,days){
+  frDropFollowTask(s);const fu=addDays(new Date(),days);
+  const t={id:uid(),name:'Fresh eyes follow-up: '+s.topic.slice(0,40),emoji:'✨',type:'mind',tool:'freshfollow',sess:s.id,repeat:'none',start:dk(fu),days:[fu.getDay()],every:2,until:'',times:['18:00'],notes:'How\'s it going with '+frYour(s.topic).slice(0,40)+'?',active:true};
+  S.data.tasks.push(t);s.taskId=t.id;s.nextFU=dk(fu);s.followAt=s.nextFU;return fu;
 }
 function frSessSave(){
   const rem=(FS.reminder||'').trim();if(!rem){toast('Write a few words to remind yourself');return}
   const f=frData();
-  for(const s of f.sessions)if(s.active){s.active=false;frDropFollowTask(s)}
-  const fu=addDays(new Date(),2);
-  const s={id:uid(),at:nowStamp(),topic:FS.topic,what:(FS.what||'').trim(),sig:FS.sig,score:FS.score,entries:FS.done.slice(),reminder:rem,followAt:dk(fu),follow:null,active:true};
-  const t={id:uid(),name:'Fresh eyes follow-up: '+FS.topic.slice(0,40),emoji:'✨',type:'mind',tool:'freshfollow',sess:s.id,repeat:'none',start:dk(fu),days:[fu.getDay()],every:2,until:'',times:['18:00'],notes:'How\'s it going with '+frYour(FS.topic).slice(0,40)+'?',active:true};
-  S.data.tasks.push(t);s.taskId=t.id;f.sessions.push(s);
+  for(const s of f.sessions)if(s.active){s.active=false;frDropFollowTask(s);s.nextFU=null}
+  const s={id:uid(),at:nowStamp(),topic:FS.topic,what:(FS.what||'').trim(),sig:FS.sig,tr:Object.assign({},FS.tr),fus:[],entries:FS.done.slice(),reminder:rem,active:true};
+  const fu=frFollowTask(s,2);f.sessions.push(s);
   const buy=FS.sig.includes('buy');FS=null;save();closeSheet();S.tab='mind';S.mindView='fresh';render();
   toast('Saved. It\'s on Today all week, and I\'ll check in on '+DOWL[fu.getDay()]+' ✨');
   if(buy)setTimeout(()=>openSheet(`<h3>🛒 One more thing?</h3><p class="small">You said you've been itching to buy or upgrade something. Want to put it on a cool-off?</p><div class="btns"><button class="btn" onclick="closeSheet();frWant()">Yes, add it to the Want list</button><button class="btn ghost" onclick="closeSheet()">No thanks</button></div>`),700);
@@ -2163,18 +2237,22 @@ function frDropFollowTask(s){
 }
 function frTickTool(tool,sessId){
   const t=S.data.tasks.find(x=>x.tool===tool&&!x.end&&x.active&&(!sessId||x.sess===sessId));if(!t)return;
-  const o=occFor(todayK()).find(o=>o.task.id===t.id&&!o.comp)||(t.repeat==='none'&&t.start>todayK()?{date:t.start,slot:t.times[0]}:null);if(!o)return;
-  S.data.completions.push({id:uid(),taskId:t.id,date:o.date,slot:o.slot,at:nowStamp()+':00',photoId:null,note:'Fresh eyes',early:o.date>todayK()||undefined});
+  const tk=todayK();let o;
+  if(t.repeat==='none'){if(oneDone(t))return;o={date:t.start,slot:t.times[0]}}
+  else o=occFor(tk).find(o=>o.task.id===t.id&&!o.comp);
+  if(!o)return;
+  S.data.completions.push({id:uid(),taskId:t.id,date:o.date,slot:o.slot,at:nowStamp()+':00',photoId:null,note:'Fresh eyes',early:o.date>tk||undefined,late:o.date<tk||undefined});
 }
-/* follow-up */
+/* follow-up: same six ratings about the topic, then recall, feelings and a before/after */
 let FU=null;
-function frFollow(id){const s=frData().sessions.find(x=>x.id===id);if(!s)return;FU={id,step:0,sig:[],recall:'',feel:0,caught:'',note:''};renderFU()}
+function frFollow(id){const s=frData().sessions.find(x=>x.id===id);if(!s)return;FU={id,step:0,tr:{},recall:'',feel:0,caught:'',note:'',base:!s.tr};renderFU()}
+function frFuRate(k,v){FU.tr[k]=v;renderFU(true)}
 function renderFU(keep=true){
-  const s=frData().sessions.find(x=>x.id===FU.id);const head=`<div class="tiny muted">✨ Follow-up · ${esc(s.topic)} · ${FU.step+1} of 4</div>`;
+  const s=frData().sessions.find(x=>x.id===FU.id);const head=`<div class="tiny muted">✨ ${FU.base?'Starting point':'Follow-up'} · ${esc(s.topic)}${FU.base?'':' · '+(FU.step+1)+' of 4'}</div>`;
   if(FU.step===0)return openSheet(`${head}<h3 style="margin-top:6px">Thinking about ${esc(frYour(s.topic))} lately…</h3>
-    <div class="small muted" style="margin-top:-8px">Tap any that are still true. Same questions as last time, so you can see what's shifted.</div>
-    <div style="margin-top:12px">${FR_SIGNS.map(([k,l])=>`<button class="frsig ${FU.sig.includes(k)?'on':''}" onclick="frFuSig('${k}')"><span class="pchk">${FU.sig.includes(k)?'✓':''}</span><span>${l}</span></button>`).join('')}</div>
-    <div class="btns"><button class="btn" onclick="FU.step=1;renderFU()">Next</button><button class="btn ghost" onclick="closeSheet()">Not now</button></div>`,null,keep);
+    <div class="small muted" style="margin-top:-8px">${FU.base?'Rate these on the 1 to 5 scale. This becomes your starting point, and the next follow-up shows what\'s shifted.':'The same things you rated when you started, so you can see what\'s shifted.'}</div>
+    ${frTRows(s.topic,FU.tr,'frFuRate')}
+    <div class="btns"><button class="btn" onclick="if(!frTDone(FU.tr)){toast('Give each one a number, even if it\\'s a 1');return}${FU.base?'frBaseSave()':'FU.step=1;renderFU()'}">${FU.base?'Save my starting point':'Next'}</button><button class="btn ghost" onclick="closeSheet()">Not now</button></div>`,null,keep);
   if(FU.step===1){setTimeout(()=>{const e=document.getElementById('furec');if(e&&!e.value)e.focus()},250);
    return openSheet(`${head}<h3 style="margin-top:6px">Without peeking, what was your reminder?</h3><div class="small muted" style="margin-top:-8px">Just roughly. This is how we find out if it's sticking.</div>
     <textarea class="inp" id="furec" rows="3" style="margin-top:12px" oninput="FU.recall=this.value" placeholder="Have a go...">${esc(FU.recall)}</textarea>
@@ -2190,42 +2268,59 @@ function renderFU(keep=true){
     <textarea class="inp" rows="4" style="margin-top:12px" oninput="FU.note=this.value">${esc(FU.note)}</textarea>
     <div class="btns"><button class="btn" onclick="frFollowSave()">See how you went</button><button class="btn ghost" onclick="FU.step=2;renderFU()">Back</button></div>`,null,keep);
 }
-function frFuSig(k){const i=FU.sig.indexOf(k);if(i>=0)FU.sig.splice(i,1);else FU.sig.push(k);renderFU(true)}
-function frDots(n,col){return `<span class="frdots6">${[0,1,2,3,4,5].map(i=>`<i style="background:${i<n?col:'#E4EDEA'}"></i>`).join('')}</span>`}
-function frCompare(s){
-  const b=s.score??(s.sig||[]).length,a=s.follow.score;
-  return `<div class="frcmp"><div><div class="tiny muted">When you started</div><b>${b} of 6</b>${frDots(b,'#D9A6B0')}</div><div class="frarrow">→</div><div><div class="tiny muted">Now</div><b>${a} of 6</b>${frDots(a,a<b?'#7FB59B':a>b?'#D9A6B0':'#E8D7A8')}</div></div>`;
+function frBaseSave(){
+  const s=frData().sessions.find(x=>x.id===FU.id);s.tr=Object.assign({},FU.tr);s.trAt=nowStamp();s.fus=s.fus||[];
+  const ot=s.taskId&&task(s.taskId);if(ot&&ot.start<=todayK())frTickTool('freshfollow',s.id);frTickTask(true);
+  const fu=frFollowTask(s,2);FU=null;save();
+  openSheet(`<div style="text-align:center;font-size:40px;margin-top:6px">📍</div><h3 style="text-align:center">Starting point saved</h3>
+   <div class="frbig"><span class="tiny muted">Seeing the good in ${esc(frYour(s.topic))}</span><b>${frTPct(s.tr)}%</b></div>
+   <p class="small" style="text-align:center">Keep your reminder going. I'll check back in on ${DOWL[fu.getDay()]} with the same questions, so you'll see a proper before and after.</p>
+   <div class="btns"><button class="btn" onclick="closeSheet();render()">Done</button></div>`,()=>render(),true);
+}
+function frCompare(s,i){
+  const fus=s.fus||[];if(!s.tr||!fus.length)return '';
+  const a=fus[i==null?fus.length-1:i].tr,b=s.tr,pb=frTPct(b),pa=frTPct(a);
+  const row=q=>{const bv=b[q[0]]||1,av=a[q[0]]||1,d=frBad(q,bv)-frBad(q,av);return `<div class="frcr"><span>${q[2]}</span><b>${bv} → ${av}</b><i class="${d>0?'up':d<0?'down':''}">${d>0?'✓':d<0?'!':'·'}</i></div>`};
+  return `<div class="frcmp2"><div class="frbig"><span class="tiny muted">Seeing the good</span><b>${pb}% → ${pa}%</b></div>${FR_TQ.map(row).join('')}</div>`;
+}
+function frCompareOld(s){
+  if(!s.follow||s.follow.score==null)return '';const b=s.score??(s.sig||[]).length,a=s.follow.score;
+  return `<div class="frcmp2"><div class="frbig"><span class="tiny muted">Signs ticked (old yes/no check)</span><b>${b} of 6 → ${a} of 6</b></div></div>`;
 }
 function frFollowSave(){
-  const f=frData(),s=f.sessions.find(x=>x.id===FU.id);
-  s.follow={at:nowStamp(),sig:FU.sig.slice(),score:FU.sig.length,recall:FU.recall.trim(),feel:FU.feel,caught:FU.caught,note:FU.note.trim()};
-  frTickTool('freshfollow',s.id);frTickTask();f.checks.push({at:nowStamp(),score:FU.sig.length,sig:FU.sig.slice(),topic:s.topic});save();
-  const b=s.score??(s.sig||[]).length,a=s.follow.score,better=a<b||s.follow.feel>=3,worse=a>b||s.follow.feel===1;
-  const gone=s.sig.filter(k=>!FU.sig.includes(k)).map(k=>FR_SIGNS.find(x=>x[0]===k)[1]);
-  FU=null;
+  const f=frData(),s=f.sessions.find(x=>x.id===FU.id);s.fus=s.fus||[];
+  s.fus.push({at:nowStamp(),tr:Object.assign({},FU.tr),recall:FU.recall.trim(),feel:FU.feel,caught:FU.caught,note:FU.note.trim()});
+  frTickTool('freshfollow',s.id);frTickTask(true);s.nextFU=null;save();
+  const pb=frTPct(s.tr),pa=frTPct(FU.tr),feel=FU.feel,d=pa-pb;
+  const better=d>=8||(d>-8&&feel>=3),worse=d<=-8||feel===1;FU=null;
   openSheet(`<div style="text-align:center;font-size:42px;margin-top:6px">${better&&!worse?'🌿':worse?'💚':'🙂'}</div>
    <h3 style="text-align:center">${better&&!worse?'It\'s shifting. Nice work.':worse?'Still a tough one, and that\'s OK.':'Holding steady.'}</h3>
    ${frCompare(s)}
-   ${gone.length?`<div class="small" style="margin:10px 0 0"><b>No longer true:</b><br>${gone.map(g=>'✓ '+esc(g)).join('<br>')}</div>`:''}
    <p class="small" style="margin-top:12px">${better&&!worse?'Keep your reminder going for the rest of the week. It\'s doing its job.':'Noticing is the first part. One more short exercise on '+esc(frYour(s.topic))+' can help while it\'s on your mind.'}</p>
    <div class="btns">${better&&!worse?'':`<button class="btn" onclick="closeSheet();FE={kind:'reconnect',step:-1,ans:[frActive()?frActive().topic:''],subject:frActive()?frActive().topic:'',feel:0,from:1};renderFE()">💚 Find the good in it again</button>`}
     <button class="btn ${better&&!worse?'':'ghost'}" onclick="closeSheet();render()">Keep this focus for the week</button>
+    <button class="btn ghost" onclick="frAgain('${s.id}')">Check again in 3 days</button>
     <button class="btn ghost" onclick="closeSheet();frCheck(true)">Pick a new focus</button></div>`,()=>render(),true);
 }
+function frAgain(id){const s=frData().sessions.find(x=>x.id===id);const fu=frFollowTask(s,3);save();closeSheet();render();toast('I\'ll check back in on '+DOWL[fu.getDay()]+' ✨')}
 function frBanner(){
   const s=frActive();if(!s)return '';
   const age=Math.round((parseDk(todayK())-parseDk(s.at.slice(0,10)))/864e5);
-  if(!s.follow&&todayK()>=s.followAt)return `<button class="banner frban" onclick="frFollow('${s.id}')">✨ <span><b>Follow-up:</b> how's ${esc(frYour(s.topic))} going? Takes a minute.</span></button>`;
+  if(s.nextFU&&todayK()>=s.nextFU)return `<button class="banner frban" onclick="frFollow('${s.id}')">✨ <span><b>Follow-up:</b> how's ${esc(frYour(s.topic))} going? Takes a minute.</span></button>`;
   return `<button class="banner frban" onclick="openFresh()">📌 <span><b>This week:</b> ${esc(s.reminder)}${age>=7?' <i class="tiny">· time for a new check</i>':''}</span></button>`;
 }
 function frSessCard(){
   const s=frActive();if(!s)return '';
-  const fdue=!s.follow&&todayK()>=s.followAt;
+  const due=s.nextFU&&todayK()>=s.nextFU,fus=s.fus||[];
+  const status=s.nextFU?(due?'Follow-up is ready':`Follow-up on ${DOWL[parseDk(s.nextFU).getDay()]}`):fus.length?`Last follow-up ${relDay(fus[fus.length-1].at.slice(0,10)).toLowerCase()}`:!s.tr?'Rate it on the new 1 to 5 scale to track it properly':'';
+  const btn=s.nextFU?`<button class="btn sm" style="width:auto;margin:0" onclick="frFollow('${s.id}')">${due?'Do the follow-up':'Follow up now'}</button>`
+    :!s.tr?`<button class="btn sm" style="width:auto;margin:0" onclick="frFollow('${s.id}')">Rate it 1 to 5</button>`
+    :`<button class="btn sm" style="width:auto;margin:0" onclick="frFollow('${s.id}')">Rate it again</button>`;
   return `<div class="card" style="background:#ECE9F7"><div class="tiny muted">📌 This week's focus · since ${fmtDate(s.at.slice(0,10))}</div><div class="serif" style="font-size:20px;margin:2px 0 6px">${esc(s.topic)}</div>
    <div style="margin-bottom:10px">"${esc(s.reminder)}"</div>
-   <div class="tiny muted" style="margin-bottom:10px">${s.follow?`Follow-up done: ${['','😕 worse','😐 about the same','🙂 a bit better','😊 much better'][s.follow.feel]}`:fdue?'Follow-up is ready':`Follow-up on ${DOWL[parseDk(s.followAt).getDay()]}`}</div>
-   ${s.follow?frCompare(s):''}
-   <div class="row" style="gap:8px;flex-wrap:wrap">${!s.follow?`<button class="btn sm" style="width:auto;margin:0" onclick="frFollow('${s.id}')">${fdue?'Do the follow-up':'Follow up now'}</button>`:''}
+   ${status?`<div class="tiny muted" style="margin-bottom:10px">${status}</div>`:''}
+   ${frCompare(s)||frCompareOld(s)}
+   <div class="row" style="gap:8px;flex-wrap:wrap">${btn}
     <button class="btn ghost sm" style="width:auto;margin:0" onclick="frSessView('${s.id}')">See the session</button><button class="btn ghost sm" style="width:auto;margin:0" onclick="frEditRem('${s.id}')">Edit reminder</button></div></div>`;
 }
 function frEditRem(id){
@@ -2234,18 +2329,21 @@ function frEditRem(id){
    <div class="btns"><button class="btn" onclick="const v=document.getElementById('fre').value.trim();if(v){frData().sessions.find(x=>x.id==='${id}').reminder=v;save()}closeSheet();render()">Save</button><button class="btn ghost" onclick="closeSheet()">Cancel</button>
    ${s.active?`<button class="btn danger" onclick="frEndSess('${id}')">Stop this week's focus</button>`:''}</div>`);
 }
-function frEndSess(id){const s=frData().sessions.find(x=>x.id===id);s.active=false;frDropFollowTask(s);save();closeSheet();render();toast('Focus stopped. Do a check whenever you\'re ready for a new one')}
+function frEndSess(id){const s=frData().sessions.find(x=>x.id===id);s.active=false;s.nextFU=null;frDropFollowTask(s);save();closeSheet();render();toast('Focus stopped. Do a check whenever you\'re ready for a new one')}
+function frPastLine(x){const fus=x.fus||[];return x.tr&&fus.length?`Seeing the good ${frTPct(x.tr)}% → ${frTPct(fus[fus.length-1].tr)}%`:x.follow?'follow-up: '+['','worse','same','a bit better','much better'][x.follow.feel]:''}
 function frSessView(id){
   const f=frData(),s=f.sessions.find(x=>x.id===id);if(!s)return;
-  const es=f.entries.filter(e=>(s.entries||[]).includes(e.id));
+  const es=f.entries.filter(e=>(s.entries||[]).includes(e.id)),fus=s.fus||[];
   openSheet(`<div class="tiny muted">${fmtDate(s.at.slice(0,10))}${s.active?' · this week':''}</div><h3 style="margin-top:4px">✨ ${esc(s.topic)}</h3>
    ${s.what?`<div class="small muted">What was going on</div><div style="white-space:pre-wrap;margin-bottom:10px">${esc(s.what)}</div>`:''}
    <div class="frpick focus">📌 ${esc(s.reminder)}</div>
+   ${s.tr?`<div class="small muted" style="margin-top:10px">Starting point: seeing the good ${frTPct(s.tr)}%</div>`:''}
    ${es.map(e=>`<button class="item" onclick="frView('${e.id}')"><div class="emo">${FR_EX[e.kind].emo}</div><div class="grow"><div class="t1">${FR_EX[e.kind].name}</div><div class="t2">${e.feel?['','Same as before','Bit better','Heaps better'][e.feel]:'Tap to read'}</div></div><span class="muted">›</span></button>`).join('')}
-   ${s.follow?`<div class="card" style="margin-top:8px"><div class="tiny muted">Follow-up · ${fmtDate(s.follow.at.slice(0,10))}</div>${s.follow.score!=null?frCompare(s):''}
-     <div class="small" style="margin-top:4px">Felt: <b>${['','worse','about the same','a bit better','much better'][s.follow.feel]}</b> · Caught it: <b>${{yes:'yes',late:'only afterwards',no:'didn\'t notice',none:'didn\'t really slide'}[s.follow.caught]||''}</b></div>
-     ${s.follow.recall?`<div class="tiny muted" style="margin-top:6px">You remembered it as: "${esc(s.follow.recall)}"</div>`:'<div class="tiny muted" style="margin-top:6px">Couldn\'t remember the reminder</div>'}
-     ${s.follow.note?`<div class="small" style="margin-top:6px;white-space:pre-wrap">${esc(s.follow.note)}</div>`:''}</div>`:''}
+   ${fus.map((u,i)=>`<div class="card" style="margin-top:8px"><div class="tiny muted">Follow-up ${i+1} · ${fmtDate(u.at.slice(0,10))}</div>${frCompare(s,i)}
+     <div class="small">Felt: <b>${['','worse','about the same','a bit better','much better'][u.feel]}</b> · Caught it: <b>${{yes:'yes',late:'only afterwards',no:'didn\'t notice',none:'didn\'t really slide'}[u.caught]||''}</b></div>
+     ${u.recall?`<div class="tiny muted" style="margin-top:6px">You remembered it as: "${esc(u.recall)}"</div>`:'<div class="tiny muted" style="margin-top:6px">Couldn\'t remember the reminder</div>'}
+     ${u.note?`<div class="small" style="margin-top:6px;white-space:pre-wrap">${esc(u.note)}</div>`:''}</div>`).join('')}
+   ${!fus.length&&s.follow?`<div class="card" style="margin-top:8px"><div class="tiny muted">Follow-up · ${fmtDate(s.follow.at.slice(0,10))}</div>${frCompareOld(s)}<div class="small">Felt: <b>${['','worse','about the same','a bit better','much better'][s.follow.feel]}</b></div></div>`:''}
    <div class="btns"><button class="btn ghost" onclick="closeSheet()">Close</button></div>`);
 }
 let TE=null,TE_EX=false;
@@ -2322,7 +2420,7 @@ function saveTask(){
   if(TE.type!=='move'||!TE.stepMode){delete TE.stepMode;delete TE.stepGoal}
   else if(TE.stepMode==='goal'){const g=parseInt(TE.stepGoal);if(!(g>=100&&g<=100000)){toast('Pick a step goal between 100 and 100,000');return}TE.stepGoal=g}
   else delete TE.stepGoal;
-  if(TE.id){const i=S.data.tasks.findIndex(x=>x.id===TE.id);S.data.tasks[i]=TE}
+  if(TE.id){const i=S.data.tasks.findIndex(x=>x.id===TE.id);keepHistory(S.data.tasks[i],TE);S.data.tasks[i]=TE}
   else{TE.id=uid();TE.active=true;S.data.tasks.push(TE)}
   save();closeSheet();render();toast('Saved. Reminders are set');
   if(window.__afterTask){const f=window.__afterTask;window.__afterTask=null;f()}
@@ -2330,7 +2428,7 @@ function saveTask(){
 function delTask(id){
   if(!confirmTap('dt'+id,'Tap again to delete'))return;
   const t=task(id);
-  if(S.data.completions.some(c=>c.taskId===id)){t.end=todayK();t.active=false}  // keep history
+  if(S.data.completions.some(c=>c.taskId===id)){const cut=keepHistory(t,t,true);t.end=cut;t.active=false}  // keep history
   else{(t.files||[]).forEach(f=>deletePhoto(f.photoId));dropDocs(t);S.data.tasks=S.data.tasks.filter(x=>x.id!==id)}
   save();closeSheet();render();toast('Deleted');
 }
@@ -2433,13 +2531,19 @@ function obFinish(){
 /* ---------- open from notification ---------- */
 window.openTabFromWidget=(tab,day)=>{if(!S.data.onboarded)return;closeSheet();S.dayOff=day&&/^\d{4}-\d\d-\d\d$/.test(day)?Math.max(-60,Math.min(60,Math.round((parseDk(day)-parseDk(todayK()))/864e5))):0;S.tab=tab;if(tab==='cal'){S.calMonth=null;S.calSel=todayK()}if(tab==='plan')S.proj=null;if(tab==='mind')S.mindView=null;window.scrollTo(0,0);render()};
 window.openFromNotification=(tid,date,slot)=>{if(!S.data.onboarded)return;closeSheet();S.tab='today';S.dayOff=0;render();if(tid&&date&&slot)tapOcc(tid,date,slot)};
-window.reloadData=()=>{for(const k in PHC)delete PHC[k];load();render()};
+window.reloadData=()=>{
+  let raw=null;try{raw=BR?BR.loadData():localStorage.getItem('th_data')}catch(e){}
+  if(raw!=null&&raw===LAST_SAVED){if(!typingInPage())softRender();return}
+  for(const k in PHC)delete PHC[k];load();
+  // open sheets point at the old copies of tasks; swap in the fresh ones
+  if(G&&G.o)G.o.task=task(G.o.task.id)||G.o.task;if(CF&&CF.o)CF.o.task=task(CF.o.task.id)||CF.o.task;
+  softRender()};
 
 /* ---------- boot ---------- */
 load();render();
 // keep "due now" labels fresh
-setInterval(()=>{if(!S.sheetOpen)render()},60000);
-let HID_AT=0;document.addEventListener('visibilitychange',()=>{if(document.hidden){HID_AT=Date.now();return}if(HID_AT&&Date.now()-HID_AT>15*60e3)S.dayOff=0;if(!S.sheetOpen)render()});
+setInterval(()=>{if(!S.sheetOpen&&!typingInPage())softRender()},60000);
+let HID_AT=0;document.addEventListener('visibilitychange',()=>{if(document.hidden){HID_AT=Date.now();return}if(HID_AT&&Date.now()-HID_AT>15*60e3)S.dayOff=0;if(!S.sheetOpen&&!typingInPage())softRender()});
 </script>
 </body>
 </html>

@@ -70,13 +70,6 @@ object Widgets {
         if (raw.isBlank()) null else JSONObject(raw)
     } catch (e: Exception) { null }
 
-    private fun occursOn(t: JSONObject, d: LocalDate): Boolean {
-        if (!t.optBoolean("active", true)) return false
-        val end = t.optString("end", "")
-        if (end.isNotEmpty() && d.toString() >= end) return false
-        return Reminders.occurs(t, d, Reminders.ints(t.optJSONArray("days")))
-    }
-
     fun items(root: JSONObject, d: LocalDate): List<Item> {
         val done = Reminders.doneKeys(root)
         val out = ArrayList<Item>()
@@ -84,9 +77,9 @@ object Widgets {
         val tasks = root.optJSONArray("tasks") ?: JSONArray()
         for (i in 0 until tasks.length()) {
             val t = tasks.optJSONObject(i) ?: continue
-            if (!occursOn(t, d)) continue
+            val sc = Reminders.occursOn(t, d) ?: continue
             val id = t.optString("id")
-            for (slot in Reminders.strings(t.optJSONArray("times"))) {
+            for (slot in Reminders.strings(sc.optJSONArray("times"))) {
                 out.add(Item(id, ds, slot, t.optString("name"), t.optString("emoji", "✨"), "$id|$ds|$slot" in done, t.optBoolean("tough", false)))
             }
         }

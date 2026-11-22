@@ -91,7 +91,39 @@ object Reminders {
         return done
     }
 
-    /** Same rules as occurs() in index.html. */
+    /**
+     * Which schedule applies on a day: the task itself, an older version kept in "past"
+     * (so editing a task doesn't rewrite its history), or null. Same as schedAt() in index.html.
+     */
+    internal fun schedAt(t: JSONObject, ds: String): JSONObject? {
+        val end = t.optString("end", "")
+        if (end.isNotEmpty() && ds >= end) return null
+        val past = t.optJSONArray("past")
+        if (past != null) for (i in 0 until past.length()) {
+            val v = past.optJSONObject(i) ?: continue
+            if (ds < v.optString("to", "")) return if (v.optBoolean("off", false)) null else v
+        }
+        return if (t.optBoolean("active", true)) t else null
+    }
+
+    /** Is the task on that day, using whichever schedule applied then. */
+    internal fun occursOn(t: JSONObject, d: LocalDate): JSONObject? {
+        val s = schedAt(t, d.toString()) ?: return null
+        return if (occurs(s, d, ints(s.optJSONArray("days")))) s else null
+    }
+
+    /** Next step that isn't ticked off yet (steps are ticked by their text, like in index.html). */
+    internal fun nextStep(t: JSONObject): String {
+        val steps = t.optJSONArray("steps") ?: return ""
+        val done = t.optJSONObject("stepDone")
+        for (i in 0 until steps.length()) {
+            val st = steps.optString(i, "")
+            if (st.isNotBlank() && (done == null || !done.optBoolean(st, false))) return st
+        }
+        return ""
+    }
+
+    /** Same rules as occursS() in index.html. */
     internal fun occurs(t: JSONObject, d: LocalDate, days: Set<Int>): Boolean {
         val ds = d.toString()
         val start = t.optString("start", "")
@@ -170,15 +202,16 @@ object Reminders {
             if (!t.optBoolean("active", true)) continue
             if (t.optString("end", "").isNotEmpty()) continue
             val id = t.optString("id")
-            val start = t.optString("start", "")
-            val days = ints(t.optJSONArray("days"))
-            for (slot in strings(t.optJSONArray("times"))) {
+            // today's or yesterday's times can still be the old ones if the task was just changed
+            val slots = LinkedHashSet<String>(strings(t.optJSONArray("times")))
+            for (off in -1..0) schedAt(t, today.plusDays(off.toLong()).toString())?.let { slots.addAll(strings(it.optJSONArray("times"))) }
+            for (slot in slots) {
                 val lt = parseTime(slot) ?: continue
                 for (off in -1..45) {
                     val d = today.plusDays(off.toLong())
                     val ds = d.toString()
-                    if (start.isNotEmpty() && ds < start) continue
-                    if (!occurs(t, d, days)) continue
+                    val sc = occursOn(t, d) ?: continue
+                    if (slot !in strings(sc.optJSONArray("times"))) continue
                     val key = "$id|$ds|$slot"
                     val base = d.atTime(lt).atZone(zone).toInstant().toEpochMilli()
                     if (key in done) {
@@ -290,11 +323,11 @@ object Reminders {
         val emoji = t.optString("emoji", "")
         val notes = t.optString("notes", "")
         val tough = t.optBoolean("tough", false)
-        val firstStep = t.optJSONArray("steps")?.optString(0, "") ?: ""
+        val firstStep = nextStep(t)
         val text = if (tough) {
             when {
                 nag == -1 -> "Snooze is over. Just the first step, then decide."
-                nag == 0 -> "😬 Tough one. Just do 10 minutes, then you can stop." + (if (firstStep.isNotBlank()) " First step: $firstStep" else "")
+                nag == 0 -> "😬 Tough one. Just do 10 minutes, then you can stop." + (if (firstStep.isNotBlank()) " Next step: $firstStep" else "")
                 nag >= nagMax -> "Last nudge. Even 5 minutes on it counts."
                 else -> listOf(
                     "Start the 10 minute timer. You're allowed to stop after.",
