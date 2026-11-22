@@ -132,6 +132,9 @@ nav svg{width:24px;height:24px}
 .frplan{display:flex;gap:12px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:#fff;margin-bottom:8px}
 .frnum{width:24px;height:24px;border-radius:50%;background:var(--coral);color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;flex:none}
 .banner.frban{background:#ECE9F7;color:var(--ink)}
+.frcmp{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:10px 0}
+.frcmp b{display:block;font-size:17px;margin:2px 0 4px}.frarrow{font-size:22px;color:var(--muted)}
+.frdots6{display:flex;gap:4px}.frdots6 i{width:10px;height:10px;border-radius:50%;display:block}
 .frgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
 .frtile{display:flex;align-items:center;gap:9px;background:var(--card);border-radius:14px;padding:11px 12px;text-align:left;box-shadow:0 1px 3px rgba(30,70,62,.07);min-height:52px}
 .frtile span{font-size:20px;flex:none}.frtile b{font-size:14px;font-weight:650;line-height:1.2}.frtool{background:#fff}
@@ -548,7 +551,7 @@ function weekCard(){
   return `<div class="card"><div class="week">${ringSvg(pct)}<div><div class="small muted">This week</div><div class="wkmsg">${msg}</div><div class="small muted" style="margin-top:3px">${sub}</div>
     ${st>0?`<div class="small" style="margin-top:6px;font-weight:650">🔥 ${st}-day streak</div>`:''}
     ${(()=>{const nx=rewardFor(dk(w.ws)),got=S.data.rewardsEarned.find(e=>e.week===dk(w.ws));return got?`<div class="small" style="margin-top:6px">🎁 Earned: <b>${esc(got.name)}</b></div>`:nx&&dk(w.ws)>=S.data.rewardsFrom?`<button class="small" style="margin-top:6px;text-align:left;padding:0" onclick="go('rewards')">🎁 Hit 100% to unlock: <b>${esc(nx.name)}</b></button>`:''})()}</div></div>
-    ${rows?(S.data.settings.weekGrid?`<div class="track"><div class="trow"><div></div>${heads}</div>${rows}</div><button class="foldbtn" onclick="S.data.settings.weekGrid=false;save();render()">Hide each task ▴</button>`:`<button class="foldbtn" onclick="S.data.settings.weekGrid=true;save();render()">See each task this week ▾</button>`):''}</div>`;
+    ${rows?(S.data.settings.weekGrid!==false?`<div class="track"><div class="trow"><div></div>${heads}</div>${rows}</div><button class="foldbtn" onclick="S.data.settings.weekGrid=false;save();render()">Hide each task ▴</button>`:`<button class="foldbtn" onclick="S.data.settings.weekGrid=true;save();render()">See each task this week ▾</button>`):''}</div>`;
 }
 function occItem(o,showDate){
   const s=status(o),t=o.task;
@@ -582,7 +585,7 @@ function viewToday(){
   if(S.data.completions.length>10&&(!lb||(Date.now()-parseDk(lb).getTime())>30*864e5))html+=`<button class="banner sun" onclick="openSettings()">💾 <span>${lb?'It\'s been a month since your last backup.':'You haven\'t made a backup yet.'} Tap to save one.</span></button>`;
   const pend=S.data.rewardsEarned.filter(e=>!e.givenAt);
   if(pend.length)html+=`<button class="banner sun" onclick="go('rewards')">🎁 <span><b>You've earned ${pend.length===1?esc(pend[0].name):pend.length+' rewards'}!</b> Go treat yourself.</span></button>`;
-  html+=moodCard();
+  html+=moodCard()+weekCard();
   // yesterday's missed ones can still be done
   const off=S.dayOff||0,dK=dk(addDays(now,off)),dd=parseDk(dK);
   const y=dk(addDays(now,-1));
@@ -599,7 +602,7 @@ function viewToday(){
   html+=`</div>`;
   if(off===0&&!s.swiped)html+=`<div class="tiny muted" style="text-align:center;margin:2px 0 6px">Swipe left or right to see other days</div>`;
   if(yMiss.length){html+=`<div class="sec">From yesterday · still time if you want</div>`+yMiss.map(o=>occItem(o,true)).join('')}
-  if(off===0)html+=`<div class="sec">This week</div>`+weekCard()+stepsTodayCard()+frTodayCard()+todayProjects();
+  if(off===0)html+=`<div style="height:8px"></div>`+stepsTodayCard()+frTodayCard()+todayProjects();
   const ap=upcomingAppts().filter(a=>a.date<=dk(addDays(now,30)));
   if(ap.length){html+=`<div class="sec">Coming up</div>`+ap.slice(0,3).map(apptItem).join('')}
   return html+'</div>';
@@ -807,7 +810,7 @@ function renderComplete(){
   let html=`${editPill(t.id)}<h3>${esc(t.emoji)} ${esc(t.name)}</h3>
    <div class="muted small" style="margin-top:-8px">${relDay(o.date)} · ${fmtTime(o.slot)}${late?' · late':''}${t.notes?' · '+esc(t.notes):''}</div>`;
   if(t.tool==='freshfollow'&&t.sess)html+=`<button class="btn sec2" style="margin-top:14px" onclick="closeSheet();openFresh();frFollow('${t.sess}')">✨ Do the follow-up now</button><div class="tiny muted" style="text-align:center;margin-top:6px">Finishing it ticks this off for you.</div>`;
-  if(t.tool==='fresh')html+=`<button class="btn sec2" style="margin-top:14px" onclick="closeSheet();openFresh();frCheck()">✨ Do the check now</button><div class="tiny muted" style="text-align:center;margin-top:6px">Doing the check ticks this off for you.</div>`;
+  if(t.tool==='fresh'){const a=frActive(),fu=a&&!a.follow;html+=`<button class="btn sec2" style="margin-top:14px" onclick="closeSheet();openFresh();${fu?`frFollow('${a.id}')`:'frCheck(true)'}">✨ ${fu?'Follow up on '+esc(a.topic):'Do the check now'}</button><div class="tiny muted" style="text-align:center;margin-top:6px">${fu?'Same questions as last time, about that topic. ':''}Doing it ticks this off for you.</div>`;}
   if(t.type==='mantra'){
     const ms=mantraList(),i=((CF.mi??todayMantraIdx())%ms.length+ms.length)%ms.length;CF.mi=i;
     html+=`<div class="card" style="margin-top:14px;padding:6px 10px"><div class="mantra">“${esc(ms[i])}”</div>
@@ -1909,12 +1912,12 @@ function viewFresh(){
   h+=`<div class="card"><div class="row between"><h2 style="margin:0">🔍 Am I sliding?</h2>${last?`<span class="tiny muted">Last: ${relDay(last.at.slice(0,10))}</span>`:''}</div>
    <div class="small muted" style="margin:6px 0 10px">A one-minute check to spot it early.</div>
    ${last?`<div class="frlast">${frVerdict(last.score).emo} ${frVerdict(last.score).short}${f.checks.length>1?`<span class="frdots">${f.checks.slice(-8).map(c=>`<i style="background:${c.score>=4?'#D9A6B0':c.score>=2?'#E8D7A8':'#A9CDBF'}"></i>`).join('')}</span>`:''}</div>`:''}
-   <button class="btn" style="margin:0" onclick="frCheck()">${last?'Check in again':'Start the check'}</button></div>`;
+   <button class="btn" style="margin:0" onclick="frCheck()">${frActive()&&!frActive().follow?'Check in on '+esc(frActive().topic):last?'Start a new check':'Start the check'}</button></div>`;
   // cool-off due
   if(due.length)h+=due.map(w=>`<button class="item" style="background:#FFF7E6" onclick="frDecide('${w.id}')"><div class="emo">⏳</div><div class="grow"><div class="t1">Cool-off's up: ${esc(w.text)}</div><div class="t2">Do you still want it? Tap to decide</div></div><span class="muted">›</span></button>`).join('');
   // exercises
   h+=`<div class="sec">See it fresh again</div><div class="frgrid">${Object.entries(FR_EX).map(([k,e])=>`<button class="frtile" onclick="frStart('${k}')"><span>${e.emo}</span><b>${e.name}</b></button>`).join('')}
-   <button class="frtile" onclick="frWant()"><span>🛒</span><b>Want it? Wait.</b></button></div>`;
+   <button class="frtile" style="grid-column:1/-1" onclick="frWant()"><span>🛒</span><b>Want it? Wait.</b></button></div>`;
   // good stuff
   h+=`<div class="card"><div class="row between"><h2 style="margin:0">💚 Don't take for granted</h2><button class="btn sm sec2" style="margin:0" onclick="frGood(null)">+ Add</button></div>
    ${pick?`<div class="frpick ${focus?'focus':''}"><div class="tiny muted">${focus?'📌 On your mind':'Today, notice'}</div><div class="serif" style="font-size:20px;margin:2px 0 10px">${esc(pick.text)}</div>
@@ -1951,7 +1954,12 @@ function frSuggest(sig){
   return 'subtract';
 }
 let FC=null;
-function frCheck(){FC={sig:[]};renderFC()}
+function frCheck(force){
+  const a=frActive();
+  if(a&&!a.follow&&!force)return openSheet(`<h3>✨ Check in on ${esc(a.topic)}?</h3>
+    <p class="small">You're working on <b>${esc(a.topic)}</b> since ${relDay(a.at.slice(0,10)).toLowerCase()}. The follow-up asks the same questions about it, so you can see if it's helped.</p>
+    <div class="btns"><button class="btn" onclick="closeSheet();frFollow('${a.id}')">Follow up on ${esc(a.topic)}</button><button class="btn ghost" onclick="closeSheet();frCheck(true)">Start a new check instead</button></div>`);
+  FC={sig:[]};renderFC()}
 function renderFC(keep){
   openSheet(`<h3>🔍 Am I sliding?</h3><div class="small muted" style="margin-top:-6px">Tap any that have been true lately. Be honest, nobody else sees this.</div>
    <div style="margin-top:12px">${FR_SIGNS.map(([k,l])=>`<button class="frsig ${FC.sig.includes(k)?'on':''}" onclick="frSig('${k}')"><span class="pchk">${FC.sig.includes(k)?'✓':''}</span><span>${l}</span></button>`).join('')}</div>
@@ -2083,7 +2091,7 @@ function frTodayCard(){
 const FR_TOPICS=['My job / work','My partner','My home','Money & stuff','My health','Mates & family','Free time','Where I live'];
 const FR_SIGMAP={meh:['shake','savour'],when:['pastme'],compare:['pastme','subtract'],buy:['pastme'],missing:['reconnect','savour'],bg:['subtract','reconnect']};
 let FS=null;
-function frYour(t){return String(t).replace(/^my\b/i,'your').replace(/^My\b/,'Your').toLowerCase()}
+function frYour(t){t=String(t);return /^my\b/i.test(t)?t.replace(/^my\b/i,'your'):(FR_TOPICS.includes(t)?t.charAt(0).toLowerCase()+t.slice(1):t)}
 function frActive(){const ss=frData().sessions;for(let i=ss.length-1;i>=0;i--)if(ss[i].active)return ss[i];return null}
 function frPlan(sig){
   const out=[];
@@ -2160,31 +2168,49 @@ function frTickTool(tool,sessId){
 }
 /* follow-up */
 let FU=null;
-function frFollow(id){const s=frData().sessions.find(x=>x.id===id);if(!s)return;FU={id,step:0,recall:'',feel:0,caught:'',note:''};renderFU()}
+function frFollow(id){const s=frData().sessions.find(x=>x.id===id);if(!s)return;FU={id,step:0,sig:[],recall:'',feel:0,caught:'',note:''};renderFU()}
 function renderFU(keep=true){
-  const s=frData().sessions.find(x=>x.id===FU.id);const head=`<div class="tiny muted">✨ Follow-up · ${esc(s.topic)}</div>`;
-  if(FU.step===0)return openSheet(`${head}<h3 style="margin-top:6px">Without peeking, what was your reminder?</h3><div class="small muted" style="margin-top:-8px">Just roughly. This is how we find out if it's sticking.</div>
-    <textarea class="inp" rows="3" style="margin-top:12px" oninput="FU.recall=this.value" placeholder="Have a go...">${esc(FU.recall)}</textarea>
-    <div class="btns"><button class="btn" onclick="FU.step=1;renderFU()">Check it</button><button class="btn ghost" onclick="FU.recall='';FU.step=1;renderFU()">I can't remember</button></div>`,null,keep);
-  if(FU.step===1)return openSheet(`${head}<h3 style="margin-top:6px">${FU.recall.trim()?'Here\'s what you wrote':'No worries, here it is'}</h3>
+  const s=frData().sessions.find(x=>x.id===FU.id);const head=`<div class="tiny muted">✨ Follow-up · ${esc(s.topic)} · ${FU.step+1} of 4</div>`;
+  if(FU.step===0)return openSheet(`${head}<h3 style="margin-top:6px">Thinking about ${esc(frYour(s.topic))} lately…</h3>
+    <div class="small muted" style="margin-top:-8px">Tap any that are still true. Same questions as last time, so you can see what's shifted.</div>
+    <div style="margin-top:12px">${FR_SIGNS.map(([k,l])=>`<button class="frsig ${FU.sig.includes(k)?'on':''}" onclick="frFuSig('${k}')"><span class="pchk">${FU.sig.includes(k)?'✓':''}</span><span>${l}</span></button>`).join('')}</div>
+    <div class="btns"><button class="btn" onclick="FU.step=1;renderFU()">Next</button><button class="btn ghost" onclick="closeSheet()">Not now</button></div>`,null,keep);
+  if(FU.step===1){setTimeout(()=>{const e=document.getElementById('furec');if(e&&!e.value)e.focus()},250);
+   return openSheet(`${head}<h3 style="margin-top:6px">Without peeking, what was your reminder?</h3><div class="small muted" style="margin-top:-8px">Just roughly. This is how we find out if it's sticking.</div>
+    <textarea class="inp" id="furec" rows="3" style="margin-top:12px" oninput="FU.recall=this.value" placeholder="Have a go...">${esc(FU.recall)}</textarea>
+    <div class="btns"><button class="btn" onclick="FU.step=2;renderFU()">Check it</button><button class="btn ghost" onclick="FU.recall='';FU.step=2;renderFU()">I can't remember</button><button class="btn ghost" onclick="FU.step=0;renderFU()">Back</button></div>`,null,keep);}
+  if(FU.step===2)return openSheet(`${head}<h3 style="margin-top:6px">${FU.recall.trim()?'Here\'s what you wrote':'No worries, here it is'}</h3>
     <div class="frpick focus" style="font-size:17px">📌 ${esc(s.reminder)}</div>
     <label class="f">How have you felt about ${esc(frYour(s.topic))} since?</label>
     <div class="chips">${[[1,'😕 Worse'],[2,'😐 About the same'],[3,'🙂 A bit better'],[4,'😊 Much better']].map(([v,l])=>`<button class="chip ${FU.feel===v?'on':''}" onclick="FU.feel=${v};renderFU()">${l}</button>`).join('')}</div>
     <label class="f">Did you catch yourself sliding?</label>
     <div class="chips">${[['yes','✋ Yes, and I caught it'],['late','🤷 Only afterwards'],['no','🙈 Didn\'t notice'],['none','👌 Didn\'t really slide']].map(([v,l])=>`<button class="chip ${FU.caught===v?'on':''}" onclick="FU.caught='${v}';renderFU()">${l}</button>`).join('')}</div>
-    <div class="btns"><button class="btn" onclick="if(!FU.feel||!FU.caught){toast('Tap one in each');return}FU.step=2;renderFU()">Next</button><button class="btn ghost" onclick="FU.step=0;renderFU()">Back</button></div>`,null,keep);
-  if(FU.step===2)return openSheet(`${head}<h3 style="margin-top:6px">What helped, or what got in the way?</h3><div class="small muted" style="margin-top:-8px">Optional, but future you will thank you.</div>
+    <div class="btns"><button class="btn" onclick="if(!FU.feel||!FU.caught){toast('Tap one in each');return}FU.step=3;renderFU()">Next</button><button class="btn ghost" onclick="FU.step=1;renderFU()">Back</button></div>`,null,keep);
+  if(FU.step===3)return openSheet(`${head}<h3 style="margin-top:6px">What helped, or what got in the way?</h3><div class="small muted" style="margin-top:-8px">Optional, but future you will thank you.</div>
     <textarea class="inp" rows="4" style="margin-top:12px" oninput="FU.note=this.value">${esc(FU.note)}</textarea>
-    <div class="btns"><button class="btn" onclick="frFollowSave()">Save</button><button class="btn ghost" onclick="FU.step=1;renderFU()">Back</button></div>`,null,keep);
+    <div class="btns"><button class="btn" onclick="frFollowSave()">See how you went</button><button class="btn ghost" onclick="FU.step=2;renderFU()">Back</button></div>`,null,keep);
+}
+function frFuSig(k){const i=FU.sig.indexOf(k);if(i>=0)FU.sig.splice(i,1);else FU.sig.push(k);renderFU(true)}
+function frDots(n,col){return `<span class="frdots6">${[0,1,2,3,4,5].map(i=>`<i style="background:${i<n?col:'#E4EDEA'}"></i>`).join('')}</span>`}
+function frCompare(s){
+  const b=s.score??(s.sig||[]).length,a=s.follow.score;
+  return `<div class="frcmp"><div><div class="tiny muted">When you started</div><b>${b} of 6</b>${frDots(b,'#D9A6B0')}</div><div class="frarrow">→</div><div><div class="tiny muted">Now</div><b>${a} of 6</b>${frDots(a,a<b?'#7FB59B':a>b?'#D9A6B0':'#E8D7A8')}</div></div>`;
 }
 function frFollowSave(){
   const f=frData(),s=f.sessions.find(x=>x.id===FU.id);
-  s.follow={at:nowStamp(),recall:FU.recall.trim(),feel:FU.feel,caught:FU.caught,note:FU.note.trim()};
-  frTickTool('freshfollow',s.id);save();
-  const good=FU.feel>=3,fu=FU;FU=null;
-  openSheet(`<div style="text-align:center;font-size:42px;margin-top:6px">${good?'🌿':'💚'}</div><h3 style="text-align:center">${good?'Nice. It\'s working.':'That\'s OK. Noticing is the first part.'}</h3>
-   <p class="small" style="text-align:center">${good?'Keep the reminder going for the rest of the week.':'Want to do one more quick exercise on '+esc(frYour(s.topic))+' while it\'s on your mind?'}</p>
-   <div class="btns">${good?'':`<button class="btn" onclick="closeSheet();FE={kind:'reconnect',step:-1,ans:[${JSON.stringify(s.topic).replace(/"/g,'&quot;')}],subject:${JSON.stringify(s.topic).replace(/"/g,'&quot;')},feel:0,from:1};renderFE()">💚 Find the good in it again</button>`}<button class="btn ghost" onclick="closeSheet();render()">Done</button></div>`,()=>render(),true);
+  s.follow={at:nowStamp(),sig:FU.sig.slice(),score:FU.sig.length,recall:FU.recall.trim(),feel:FU.feel,caught:FU.caught,note:FU.note.trim()};
+  frTickTool('freshfollow',s.id);frTickTask();f.checks.push({at:nowStamp(),score:FU.sig.length,sig:FU.sig.slice(),topic:s.topic});save();
+  const b=s.score??(s.sig||[]).length,a=s.follow.score,better=a<b||s.follow.feel>=3,worse=a>b||s.follow.feel===1;
+  const gone=s.sig.filter(k=>!FU.sig.includes(k)).map(k=>FR_SIGNS.find(x=>x[0]===k)[1]);
+  FU=null;
+  openSheet(`<div style="text-align:center;font-size:42px;margin-top:6px">${better&&!worse?'🌿':worse?'💚':'🙂'}</div>
+   <h3 style="text-align:center">${better&&!worse?'It\'s shifting. Nice work.':worse?'Still a tough one, and that\'s OK.':'Holding steady.'}</h3>
+   ${frCompare(s)}
+   ${gone.length?`<div class="small" style="margin:10px 0 0"><b>No longer true:</b><br>${gone.map(g=>'✓ '+esc(g)).join('<br>')}</div>`:''}
+   <p class="small" style="margin-top:12px">${better&&!worse?'Keep your reminder going for the rest of the week. It\'s doing its job.':'Noticing is the first part. One more short exercise on '+esc(frYour(s.topic))+' can help while it\'s on your mind.'}</p>
+   <div class="btns">${better&&!worse?'':`<button class="btn" onclick="closeSheet();FE={kind:'reconnect',step:-1,ans:[frActive()?frActive().topic:''],subject:frActive()?frActive().topic:'',feel:0,from:1};renderFE()">💚 Find the good in it again</button>`}
+    <button class="btn ${better&&!worse?'':'ghost'}" onclick="closeSheet();render()">Keep this focus for the week</button>
+    <button class="btn ghost" onclick="closeSheet();frCheck(true)">Pick a new focus</button></div>`,()=>render(),true);
 }
 function frBanner(){
   const s=frActive();if(!s)return '';
@@ -2198,7 +2224,8 @@ function frSessCard(){
   return `<div class="card" style="background:#ECE9F7"><div class="tiny muted">📌 This week's focus · since ${fmtDate(s.at.slice(0,10))}</div><div class="serif" style="font-size:20px;margin:2px 0 6px">${esc(s.topic)}</div>
    <div style="margin-bottom:10px">"${esc(s.reminder)}"</div>
    <div class="tiny muted" style="margin-bottom:10px">${s.follow?`Follow-up done: ${['','😕 worse','😐 about the same','🙂 a bit better','😊 much better'][s.follow.feel]}`:fdue?'Follow-up is ready':`Follow-up on ${DOWL[parseDk(s.followAt).getDay()]}`}</div>
-   <div class="row" style="gap:8px;flex-wrap:wrap">${fdue?`<button class="btn sm" style="width:auto;margin:0" onclick="frFollow('${s.id}')">Do the follow-up</button>`:''}
+   ${s.follow?frCompare(s):''}
+   <div class="row" style="gap:8px;flex-wrap:wrap">${!s.follow?`<button class="btn sm" style="width:auto;margin:0" onclick="frFollow('${s.id}')">${fdue?'Do the follow-up':'Follow up now'}</button>`:''}
     <button class="btn ghost sm" style="width:auto;margin:0" onclick="frSessView('${s.id}')">See the session</button><button class="btn ghost sm" style="width:auto;margin:0" onclick="frEditRem('${s.id}')">Edit reminder</button></div></div>`;
 }
 function frEditRem(id){
@@ -2215,7 +2242,7 @@ function frSessView(id){
    ${s.what?`<div class="small muted">What was going on</div><div style="white-space:pre-wrap;margin-bottom:10px">${esc(s.what)}</div>`:''}
    <div class="frpick focus">📌 ${esc(s.reminder)}</div>
    ${es.map(e=>`<button class="item" onclick="frView('${e.id}')"><div class="emo">${FR_EX[e.kind].emo}</div><div class="grow"><div class="t1">${FR_EX[e.kind].name}</div><div class="t2">${e.feel?['','Same as before','Bit better','Heaps better'][e.feel]:'Tap to read'}</div></div><span class="muted">›</span></button>`).join('')}
-   ${s.follow?`<div class="card" style="margin-top:8px"><div class="tiny muted">Follow-up · ${fmtDate(s.follow.at.slice(0,10))}</div>
+   ${s.follow?`<div class="card" style="margin-top:8px"><div class="tiny muted">Follow-up · ${fmtDate(s.follow.at.slice(0,10))}</div>${s.follow.score!=null?frCompare(s):''}
      <div class="small" style="margin-top:4px">Felt: <b>${['','worse','about the same','a bit better','much better'][s.follow.feel]}</b> · Caught it: <b>${{yes:'yes',late:'only afterwards',no:'didn\'t notice',none:'didn\'t really slide'}[s.follow.caught]||''}</b></div>
      ${s.follow.recall?`<div class="tiny muted" style="margin-top:6px">You remembered it as: "${esc(s.follow.recall)}"</div>`:'<div class="tiny muted" style="margin-top:6px">Couldn\'t remember the reminder</div>'}
      ${s.follow.note?`<div class="small" style="margin-top:6px;white-space:pre-wrap">${esc(s.follow.note)}</div>`:''}</div>`:''}

@@ -7,12 +7,12 @@ val vCode = (project.findProperty("versionCode") as String?)?.toIntOrNull() ?: 1
 
 android {
     namespace = "com.jaiden.steady"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.jaiden.steady"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 36
         versionCode = vCode
         versionName = "1.0.$vCode"
     }

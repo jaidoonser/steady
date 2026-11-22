@@ -24,7 +24,14 @@ import android.provider.Settings
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.LinearLayout
 import android.widget.Toast
+import android.view.View
+import android.window.OnBackInvokedDispatcher
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.content.FileProvider
 import org.json.JSONObject
 import java.io.File
@@ -104,7 +111,36 @@ class MainActivity : Activity() {
                 return true
             }
         }
-        setContentView(web)
+        // Edge-to-edge (required when targeting Android 15+): the page sits between two
+        // strips sized to the status bar and the nav bar / keyboard, so the layout is unchanged.
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowInsetsControllerCompat(window, window.decorView).apply {
+            isAppearanceLightStatusBars = true
+            isAppearanceLightNavigationBars = true
+        }
+        val topStrip = View(this).apply { setBackgroundColor(Color.parseColor("#DCEBE6")) }
+        val bottomStrip = View(this).apply { setBackgroundColor(Color.WHITE) }
+        val root = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setBackgroundColor(Color.parseColor("#F2F6F4"))
+            addView(topStrip, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0))
+            addView(web, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1f))
+            addView(bottomStrip, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0))
+        }
+        ViewCompat.setOnApplyWindowInsetsListener(root) { v, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+            val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+            v.setPadding(bars.left, 0, bars.right, 0)
+            topStrip.layoutParams = (topStrip.layoutParams as LinearLayout.LayoutParams).apply { height = bars.top }
+            bottomStrip.layoutParams = (bottomStrip.layoutParams as LinearLayout.LayoutParams).apply { height = maxOf(bars.bottom, ime.bottom) }
+            WindowInsetsCompat.CONSUMED
+        }
+        setContentView(root)
+
+        // Back gesture: Android 16 apps no longer get onBackPressed, so listen the new way.
+        if (Build.VERSION.SDK_INT >= 33) {
+            onBackInvokedDispatcher.registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT) { handleBack() }
+        }
 
         if (savedInstanceState != null) {
             pendingPhotoReq = savedInstanceState.getString("photoReq")
@@ -248,8 +284,14 @@ class MainActivity : Activity() {
         p.release()
     }
 
+    private var exactWas: Boolean? = null
+
     override fun onResume() {
         super.onResume()
+        // If "Alarms & reminders" was just allowed, move reminders back onto exact times.
+        val ex = Reminders.exactAllowed(this)
+        if (exactWas != null && exactWas != ex) Reminders.rescheduleAll(applicationContext)
+        exactWas = ex
         if (pageReady) js("window.reloadData && window.reloadData()")
         Steps.sample(this) { js("window.onSteps && window.onSteps()") }
         Steps.startLive(this) { js("window.onSteps && window.onSteps()") }
@@ -278,6 +320,10 @@ class MainActivity : Activity() {
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
+        handleBack()
+    }
+
+    private fun handleBack() {
         web.evaluateJavascript("window.handleBack ? window.handleBack() : false") { r ->
             if (r != "true") moveTaskToBack(true)
         }
